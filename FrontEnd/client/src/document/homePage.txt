@@ -1,0 +1,4 @@
+- Trang chủ chứa các component:
+    . Banner
+    . ListProducts (best seller)
+    . (Feedback)

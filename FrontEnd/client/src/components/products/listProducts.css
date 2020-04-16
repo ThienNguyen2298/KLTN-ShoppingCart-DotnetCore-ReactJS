@@ -1,0 +1,10 @@
+.listProduct{
+    margin: 0 auto;
+    display: grid; 
+    grid-template-columns: repeat(4,1fr); 
+    list-style: none;
+    grid-row-gap: 2rem;
+    max-width: 1100px;
+    grid-column-gap: 1.5rem;
+    
+}

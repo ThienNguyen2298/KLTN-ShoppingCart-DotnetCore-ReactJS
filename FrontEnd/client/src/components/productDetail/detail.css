@@ -1,0 +1,33 @@
+.detail-product{
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 0;
+}
+.img-detail-product{
+    display: flex;
+}
+.sub-img-product{
+    display: flex;
+    flex-direction: column;
+    padding: 0 5px ;
+    justify-content: space-between;
+}
+.sub-img-detail-product{
+    width: 70px;
+    height: 70px;
+    border: 1px solid rgb(223, 224, 224);
+}
+.sub-img-detail-product:hover{
+    border: 1px solid gray;
+}
+.main-img-product{
+    border: 1px solid rgb(223, 224, 224);
+}
+.main-img-detail-product{
+    width: 370px;
+    height: 370px;
+}
+/*----------------info----------------*/
+.info-detail-product{
+
+}
