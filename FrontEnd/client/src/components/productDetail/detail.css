@@ -15,7 +15,7 @@
 .sub-img-detail-product{
     width: 70px;
     height: 70px;
-    border: 1px solid rgb(223, 224, 224);
+    border: 1px solid ;
 }
 .sub-img-detail-product:hover{
     border: 1px solid gray;
@@ -29,5 +29,56 @@
 }
 /*----------------info----------------*/
 .info-detail-product{
-
+    background: #fafafa; 
+    width: 35%;
+}
+.body-info-detail-product{
+    padding: 8px 15px; 
+    height: 370px;
+}
+.title-detail-item{
+    /*--------từng dòng-------*/
+    display: flex;
+    padding: 8px 0;
+}
+.title-detail{
+    width: 35%;
+}
+.mount-item{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+}
+.mount-item:hover{
+    cursor: pointer;
+}
+/**/
+.add-cart-detail-page{
+    display: flex;
+    padding: 8px 0;
+}
+.add-cart-btn-detail-page{
+    border: 2px solid #f5222d;
+    background: #f5222d; 
+    padding: 10px 25px; 
+    font-weight: bold;
+    color: white;
+    outline: none;
+}
+.add-cart-btn-detail-page:hover{
+    color: #f5222d;
+    background: white;
+    cursor: pointer;
+    
+}
+.alert-description-item{
+    margin-bottom: 5px;
+}
+/**/
+.info-description-detail-product{
+    padding: 4px;
+    width: 20%;
+    height: 370px;
+    border: 1px solid gray;
 }
