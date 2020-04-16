@@ -174,9 +174,9 @@ h6 {
   height: 200px;
 }
 .count-item{
-  color: black;
-  background-color: yellow;
-  padding: 2px 4px;
+  color: white;
+  background-color: #f5222d;
+  padding: 2px 6px;
 }
 @media screen and (min-width: 768px){
   .nav-links {
