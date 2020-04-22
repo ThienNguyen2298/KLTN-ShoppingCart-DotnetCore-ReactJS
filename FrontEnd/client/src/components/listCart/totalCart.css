@@ -1,0 +1,40 @@
+@media screen and (min-width: 320px) and (max-width: 480px){
+
+}
+@media screen and (min-width: 1024px){
+    /* container của total cart (giá total + nút đặt hàng)*/
+    .container-total-cart{
+        width: 25%;
+        margin: 15px 0;
+    }
+    /*phần giá total*/
+    .container-total{
+        background: #f5f5f5;
+        margin-bottom: 15px;
+    }
+    /*phần chung bao ngoài 2 cái giá (cái trên thêm border bottom)*/
+    .price-total{
+        padding: 15px;
+        display: flex;
+        justify-content: space-between;
+    }
+    /*thêm cái border dưới*/
+    .price-temp{
+        border-bottom: 5px solid white;
+    }
+    /*nút đặt hàng*/
+    .book-cart-btn{
+        width: 100%;
+        padding: 10px 0;
+        font-weight: bold;
+        color: white;
+        background: #f5222d;
+        border: 2px solid #f5222d;
+        border-radius: 3px;
+        outline: none;
+    }
+    .book-cart-btn:hover{
+        background: white;
+        color: #f5222d;
+    }
+}

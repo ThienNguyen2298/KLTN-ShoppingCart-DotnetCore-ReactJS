@@ -1,0 +1,1 @@
+export const descriptionRating = ['Khủng khiếp', 'tệ', 'bình thường', 'tốt', 'tuyệt vời'];

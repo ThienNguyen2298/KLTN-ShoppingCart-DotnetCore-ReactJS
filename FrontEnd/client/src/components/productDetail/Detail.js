@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import img1 from '../../images/item1.jpg';
 import img2 from '../../images/banner/empty_banner.jpg';
 import './detail.css';
-import {Tag, Alert, notification} from 'antd';
+import {Tag, notification} from 'antd';
 import {PlusOutlined, MinusOutlined, CheckCircleOutlined} from '@ant-design/icons';
 
 
@@ -10,6 +10,7 @@ export default class Detail extends Component {
     constructor(props){
         super(props);
         this.state={
+            countItem: 1,
             mainImage: img1
         }
         
@@ -19,10 +20,26 @@ export default class Detail extends Component {
         this.setState({
             mainImage: e.target.src
         })
+    }
+    handleAddCartBtn(){
         notification.open({
-            message: 'Notification Title',
-            duration: 5,
+            message: 'Thêm giỏ hàng thành công!',
+            duration: 3,
             icon: <CheckCircleOutlined style={{ color: '#5cb85c' }} />,
+        })
+    }
+    handleDecreasingBtn(){
+        const tempCountItem = this.state.countItem;
+        if(tempCountItem >= 2){
+            this.setState({
+                countItem: tempCountItem - 1,
+            })
+        }
+    }
+    handleIncreasingBtn(){
+        const tempCountItem = this.state.countItem;
+        this.setState({
+            countItem: tempCountItem + 1,
         })
     }
     render() {
@@ -78,11 +95,13 @@ export default class Detail extends Component {
                         <div className="title-detail-item">
                             <span className="title-detail"><b>Số lượng:</b></span> 
                             <div style={{border: '2px solid gray', display: 'flex', fontWeight: 'bold'}}>
-                                    <div className="mount-item" style={{width: '32px', borderRight: '2px solid gray'}}>
+                                    <div className="mount-item"  onClick={() => this.handleDecreasingBtn()}
+                                    style={{width: '32px', borderRight: '2px solid gray'}}>
                                         <MinusOutlined></MinusOutlined>
                                         </div>
-                                    <div className="mount-item" style={{width: '30px'}}>0</div>
-                                    <div className="mount-item" style={{width: '32px', borderLeft: '2px solid gray'}}>
+                                    <div className="mount-item" style={{width: '30px'}}><span>{this.state.countItem}</span></div>
+                                    <div className="mount-item" onClick={() => this.handleIncreasingBtn()}
+                                    style={{width: '32px', borderLeft: '2px solid gray'}}>
                                         <PlusOutlined></PlusOutlined>
                                     </div>
                                 </div>
@@ -94,13 +113,7 @@ export default class Detail extends Component {
                         </div>
                     </div>
                 </div>
-                <div className="info-description-detail-product">
-                    <h6 style={{color: 'red'}}>Liên hệ: 84 33 697 0895 - (7:30-22:00)</h6>
-                    <Alert className="alert-description-item" message="Hàng chất lượng chính hãng" type="success" showIcon />
-                    <Alert className="alert-description-item" message="Kiểm tra kỹ trước khi nhận hàng" type="success" showIcon />
-                    <Alert className="alert-description-item" message="30 ngày đổi trả dễ dàng" type="success" showIcon />
-                    
-                </div>
+                
             </article>
         )
     }

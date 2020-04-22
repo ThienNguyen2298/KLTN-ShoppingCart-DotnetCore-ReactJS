@@ -1,10 +1,12 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Banner from '../components/banner/Banner';
 
-import { Link } from 'react-router-dom';
 import ListProducts from '../components/products/ListProducts';
 
 export default function Home() {
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
     return (
         <div style={{background: '#ebebeb'}}>
             <Banner></Banner>

@@ -2,7 +2,7 @@ import React from 'react';
 import {Breadcrumb} from 'antd';
 import { HomeOutlined, UserOutlined } from '@ant-design/icons';
 
-export default function BreadScrumb({}) {
+export default function BreadScrumb({title}) {
     return (
         <div style={{background: '#f7f7f7', padding: '.5rem'}}>
             <Breadcrumb >
@@ -12,7 +12,7 @@ export default function BreadScrumb({}) {
                 </Breadcrumb.Item>
                 <Breadcrumb.Item style={{color: '#af9a7d'}}>
                 <UserOutlined />
-                <span><b>Chi tiết sản phẩm</b></span>
+                    <span><b>{title}</b></span>
                 </Breadcrumb.Item>
             </Breadcrumb>
         </div>
