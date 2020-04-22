@@ -1,0 +1,54 @@
+@media screen and (min-width: 320px) and (max-width: 480px){
+
+}
+@media screen and (min-width: 1024px){
+    /*container*/
+    .container-cart-item{
+        display: flex; 
+        border: 1px solid rgb(223, 224, 224);
+        justify-content: space-between;
+        margin: 15px 0;
+    }
+    /*phần thông tin của cart item bên phải cái ảnh*/
+    .info-cart-item{
+        width: 80%;
+        display: flex; 
+        justify-content: space-between;
+        padding: 10px;
+        
+    }
+    /*giá của cart item */
+    .price-info-cart-item{
+        display: block;
+        font-size: 20px;
+        color: #f5222d;
+    }
+    /*phần nút xóa và tăng giảm*/
+    .remove-inc-dec-cart-item{
+        width: 20%;
+        display: flex; 
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    /*phần nút tăng giảm*/
+    .inc-dec-cart-item{
+        box-sizing: border-box;
+        border: 2px solid gray;
+        text-align: center;
+        margin:0 auto;
+        display: flex;
+        font-weight: bold;
+        border-radius: 3px;
+    }
+    /*nút tăng giảm*/
+    .mount-item{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 30px;
+    }
+    .inc-dec-btn:hover {
+        background: gray;
+        color: white;
+    }
+}

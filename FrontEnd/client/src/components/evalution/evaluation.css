@@ -1,0 +1,39 @@
+.body-display-evaluation{
+    border: 1px solid rgb(223, 224, 224);
+    display: flex; 
+    justify-content: space-around; 
+    padding: 1rem;
+}
+.body-active-rating-btn{
+    text-align: center; 
+    display: flex;
+    flex-direction: column; 
+    justify-content: center;
+}
+.active-rating-btn{
+    padding: 8px 5px; 
+    border-radius: 5px; 
+    outline: none;
+    border: 1px solid #fadb14;
+    background: #fadb14;
+    color: black;
+}
+/*form evaluation*/
+.evaluation-container{
+    width: 100%;
+    border: 1px solid rgb(223, 224, 224);
+    display: none;
+    padding: 15px;
+}
+.show-evaluation-container{
+    display: block;
+}
+.send-evaluation-btn{
+    padding: 8px 15px; 
+    border-radius: 3px;
+    outline: none;
+    border: 1px solid #fadb14;
+    background: #fadb14;
+    color: black;
+    margin: 6px 0;
+}

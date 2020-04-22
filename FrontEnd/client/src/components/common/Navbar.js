@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import logo from '../../images/logodoan.png';
 //import logo from '../images/logo.svg';
-import {FaAlignRight, FaUserAlt, FaShoppingCart, FaBell, FaSearch, FaAngleDown, FaSignOutAlt} from 'react-icons/fa';
+import {FaAlignRight, FaUserAlt, FaShoppingCart, FaBell, FaAngleDown, FaSignOutAlt} from 'react-icons/fa';
 import {Link, Redirect} from 'react-router-dom';
 //test.css
 import "./userInfomation.css";
@@ -9,7 +9,8 @@ import ModalUI from '../AuthModal/ModalUI';
 //antd
 import {Input,AutoComplete} from 'antd'
 import SubNavbar from './SubNavbar';
-
+//gọi connect
+import {connect} from 'react-redux';
 
 
 function getRandomInt(max, min = 0) {
@@ -49,7 +50,7 @@ const searchResult = query =>
       };
     });
 
-export default class Navbar extends Component {
+ class Navbar extends Component {
     state = {
         isOpen: false,
         showModal: false,
@@ -58,6 +59,7 @@ export default class Navbar extends Component {
         
         
     }
+    
     handleToggle = () => {
         //click nút toggle
         this.setState({
@@ -98,6 +100,8 @@ export default class Navbar extends Component {
     }
     
     render() {
+        
+        
         return (
             <>
             {
@@ -133,7 +137,7 @@ export default class Navbar extends Component {
                             <Link to="/Persional/1"><FaBell style={{color: 'red'}}></FaBell> Thông báo</Link>
                         </li>
                         <li>
-                            <Link to="/" onClick={this.handleShowAuthModal}><FaUserAlt ></FaUserAlt> Đăng nhập</Link>
+                            <Link to="#" onClick={this.handleShowAuthModal}><FaUserAlt ></FaUserAlt> Đăng nhập</Link>
                         </li>
                         <ModalUI visible={this.state.showModal}
                         onOKAuthModal = {this.handleOnOKAuthModal}
@@ -154,10 +158,11 @@ export default class Navbar extends Component {
                             </div>
                         </li>
                         <li>
-                            <Link to="/Cart"><FaShoppingCart></FaShoppingCart> Giỏ hàng <span className="count-item">0</span></Link>
+                            <Link to="/Cart"><FaShoppingCart></FaShoppingCart> Giỏ hàng <span className="count-item">
+                                {this.props.count}
+                            </span></Link>
                         </li>
                     </ul>
-                    
                 </div>
                 <SubNavbar></SubNavbar>
             </nav>
@@ -166,4 +171,9 @@ export default class Navbar extends Component {
         )
     }
 }
-
+const mapStateToProps = (state) => {
+    return{
+        count: state.carts.count,
+    }
+}
+export default connect(mapStateToProps,null)(Navbar);

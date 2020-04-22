@@ -6,10 +6,10 @@ import 'antd/dist/antd.css';
 import Navbar from './components/common/Navbar';
 import Home from './pages/Home';
 import ProductDetail from './pages/ProductDetail';
-import Footer from './components/common/Footer';
+
 import Cart from './pages/Cart';
 import Persional from './pages/Persional';
-import SubNavbar from './components/common/SubNavbar';
+
 
 
 function App() {
@@ -23,7 +23,7 @@ function App() {
         <Route exact path="/Cart" component={Cart} />
         <Route exact path="/Persional/:userId" component={Persional} />
       </Switch>
-      <Footer></Footer>
+      
     </>
       
     
