@@ -36,11 +36,13 @@ namespace server.Services
                 rating = 5,
                 importPrice = request.importPrice,
                 price = request.price,
+                Images = request.Images,
                 categoryId = request.categoryId,
                 providerId = request.providerId
             };
             _context.products.Add(product);
-            return await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
+            return product.id;
         }
         public async Task<int> Update(ProductUpdateRequest request)
         {
@@ -59,6 +61,7 @@ namespace server.Services
                 categoryId = request.categoryId,
                 providerId = request.providerId
             };
+            
             _context.Entry(product).State = EntityState.Modified;
             return await _context.SaveChangesAsync();
 
@@ -70,7 +73,9 @@ namespace server.Services
             {
                 throw new ShopException($"Cannot find any product to this product id {productId}!");
             }
-            _context.products.Remove(product);
+            //đổi cờ ko xóa
+            product.status = ActionStatus.Deleted;
+            _context.Entry(product).State = EntityState.Modified;
             return await _context.SaveChangesAsync();
         }
 
@@ -149,8 +154,31 @@ namespace server.Services
             return pagedResult;
         }
 
-        
-
-
+        public async Task<ProductViewModel> getProductById(int productId)
+        {
+            var product = await _context.products.Include(eva => eva.Evaluations)
+                .Include(img => img.Images)
+                .Select(ele => new ProductViewModel() {
+                    id = ele.id,
+                    name = ele.name,
+                    category = ele.category,
+                    categoryId = ele.categoryId,
+                    color = ele.color,
+                    description = ele.description,
+                    Evaluations = ele.Evaluations.Where(e => e.status == EvaluationStatus.Confirm).ToList(),
+                    Images = ele.Images.Where(i => i.status == ActionStatus.Display).ToList(),
+                    importPrice = ele.importPrice,
+                    price = ele.price,
+                    provider = ele.provider,
+                    providerId = ele.providerId,
+                    rating = ele.rating,
+                    sale = ele.sale,
+                    size = ele.size,
+                    status = ele.status
+                })
+                .FirstOrDefaultAsync(x => x.id == productId);
+            var temp = product;
+            return temp;
+        }
     }
 }

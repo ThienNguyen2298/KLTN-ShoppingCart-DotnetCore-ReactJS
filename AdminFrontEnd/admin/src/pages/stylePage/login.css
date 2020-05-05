@@ -1,0 +1,54 @@
+body{
+    margin: 0;
+    padding: 0;
+    background-image: url('../../images/Background-image.png');
+    background-size: cover;
+    -webkit-background-size: cover;
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.wrapper{
+    width: 400px;
+    height: 380px;
+    color: white;
+    padding: 60px 30px;
+    box-sizing: border-box;
+    box-shadow: 8px 8px 50px #000;
+    
+}
+h1{
+    margin: 0;
+    padding: 0;
+    font-weight: bold;
+    font-size: 22px;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 30px;
+}
+.wrapper input, .wrapper button{
+    width: 100%;
+    margin-bottom: 20px;
+}
+.wrapper input[type=text], .wrapper input[type=password] {
+    border: none;
+    border-bottom: 1px solid #ddd;
+    background: transparent;
+    outline: none;
+    height: 30px;
+    font-size: 16px;
+    opacity: 1;
+    color: #ccc;
+}
+.wrapper button[type=submit]{
+    border: none;
+    outline: none;
+    height: 40px;
+    background: #002d31;
+    font-size: 14px;
+}
+.wrapper button[type=submit]:hover{
+    background-color: #195934;
+    cursor: pointer;
+}

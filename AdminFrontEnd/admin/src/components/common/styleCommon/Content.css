@@ -1,0 +1,12 @@
+
+.content{
+	background: #ffffff;
+	width: calc(100% - 256px);
+	position: fixed;
+	top: 60px;
+	left: 256px;
+	height: 100%;
+}
+
+
+

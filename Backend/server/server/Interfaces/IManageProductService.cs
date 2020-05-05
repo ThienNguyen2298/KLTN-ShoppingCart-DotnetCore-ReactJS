@@ -13,6 +13,7 @@ namespace server.Interfaces
         Task<int> Create(ProductCreateRequest product);
         Task<int> Update(ProductUpdateRequest product);
         Task<int> Delete(int productId);
+        Task<ProductViewModel> getProductById(int productId);
         Task<List<ProductViewModel>> GetAll();
         //page view model (list , total record)
         Task<PagedResult<ProductViewModel>> GetAllPaging(GetProductPagingRequest request);

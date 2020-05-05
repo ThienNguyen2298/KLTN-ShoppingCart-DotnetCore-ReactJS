@@ -150,7 +150,7 @@ namespace server.Migrations
                         new
                         {
                             Id = new Guid("078269d8-1a12-4592-b92e-7ff1a876a5f2"),
-                            ConcurrencyStamp = "fafc6dfa-b264-42cf-b7f0-3d9026ad28fe",
+                            ConcurrencyStamp = "f4e1f4df-2213-45e2-abaa-958037cd47b8",
                             CreationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Administrator role",
                             Name = "Admin",
@@ -159,7 +159,7 @@ namespace server.Migrations
                         new
                         {
                             Id = new Guid("6d9186ba-2cd6-4b6c-b729-4e605de1019f"),
-                            ConcurrencyStamp = "02e4a05f-32e6-4123-a967-0610ea4a14d1",
+                            ConcurrencyStamp = "04ef2168-228e-4b8d-97c4-b3c4bd5e7248",
                             CreationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "User role",
                             Name = "User",
@@ -215,6 +215,9 @@ namespace server.Migrations
                     b.Property<string>("UserName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("avatar")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("birthDay")
                         .HasColumnType("datetime2");
 
@@ -240,13 +243,13 @@ namespace server.Migrations
                         {
                             Id = new Guid("4557893f-1f56-4b6f-bb3b-caefd62c8c49"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "cf5b27b4-59dd-4d62-a2c6-d7a9d026cbc4",
+                            ConcurrencyStamp = "0b9b6c41-507d-4f8f-b8b2-d0dd6ce8ed5f",
                             Email = "16110472@student.hcmute.deu.vn",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "some-admin-email@nonce.fake",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPp/5g+vlRWvw4wFbmxLHt9KK7xOp06A1USxI3lxLLtaPgFUwxIgyacO6C09n/lapw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKkjcGZnfFH3aiPQkUmg0G4VQTEmqymx7R4aNyvn6GuM093+yvPSuSctV/ZYIbLKBA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
