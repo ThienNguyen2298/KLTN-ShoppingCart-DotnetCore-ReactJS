@@ -4,8 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using server.Helper.product;
 using server.Interfaces;
-using server.ViewModel;
 
 namespace server.Controllers
 {
@@ -13,17 +13,17 @@ namespace server.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        public readonly IManageProductService _manageProductService;
-        public ProductController(IManageProductService manageProductService)
+        private readonly IProductService _productService;
+        public ProductController(IProductService productService)
         {
-            _manageProductService = manageProductService;
+            _productService = productService;
         }
-        [HttpGet]
-        public async Task<List<ProductViewModel>> getAll()
-        
+        //http://localhost:port/product/products-paging
+        [HttpGet("products-paging")]
+        public async Task<IActionResult> getProductByCategoryId([FromQuery]GetProductPagingRequest request)
         {
-            var data = await _manageProductService.GetAll();
-            return data;
+            var products = await _productService.GetAllByCategoryId(request);
+            return Ok(products);
         }
     }
 }
