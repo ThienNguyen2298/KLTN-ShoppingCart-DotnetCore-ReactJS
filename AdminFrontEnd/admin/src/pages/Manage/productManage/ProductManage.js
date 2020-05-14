@@ -142,7 +142,7 @@ export default class ProductManage extends Component {
                         
                         <Table style={{margin: '10px'}} columns={columns} dataSource={datas}
                         pagination={{ position: ["bottomCenter", "bottomCenter"],
-                      defaultPageSize: 10 }} 
+                      defaultPageSize: 5 }} 
                         >
                         </Table>
                         {/* ---modal add or update */}

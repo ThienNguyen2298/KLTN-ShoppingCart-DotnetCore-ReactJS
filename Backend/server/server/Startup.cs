@@ -59,6 +59,7 @@ namespace server
             services.AddTransient<RoleManager<AppRole>, RoleManager<AppRole>>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IManageCategoryService, ManageCategoryService>();
+            services.AddTransient<IManageProviderService, ManageProviderService>();
             //
             services.AddSwaggerGen(c =>
             {

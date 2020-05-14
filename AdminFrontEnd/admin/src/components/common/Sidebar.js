@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './styleCommon/SideBar.css';
 import { Menu } from 'antd';
-import { ShoppingOutlined, AppstoreOutlined, SettingOutlined, SkinOutlined, TeamOutlined } from '@ant-design/icons';
+import { ShoppingOutlined, AppstoreOutlined, AreaChartOutlined, SkinOutlined, TeamOutlined, RadarChartOutlined } from '@ant-design/icons';
 import {Link} from 'react-router-dom';
 
 const { SubMenu } = Menu;
@@ -20,7 +20,7 @@ export default class SideBar extends Component {
       };
     
       handleClick = e => {
-        console.log('click ', e);
+        
         this.setState({
           current: e.key,
         });
@@ -70,7 +70,7 @@ export default class SideBar extends Component {
                                 key="sub3"
                                 title={
                                 <span>
-                                    <AppstoreOutlined />
+                                    <RadarChartOutlined />
                                     <span>Quản lý Nguồn cung</span>
                                 </span>
                                 }
@@ -105,7 +105,7 @@ export default class SideBar extends Component {
                                 key="sub6"
                                 title={
                                 <span>
-                                    <SettingOutlined />
+                                    <AreaChartOutlined />
                                     <span>Thống kê</span>
                                 </span>
                                 }

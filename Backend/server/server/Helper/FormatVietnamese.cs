@@ -9,6 +9,14 @@ namespace server.Helper
 {
     public static class FormatVietnamese
     {
+        public static bool compareSearch(string parent, string child)
+        {
+            if(convertToUnSign(parent).Contains(convertToUnSign(child)))
+            {
+                return true;
+            }
+            return false;
+        }
         public static string convertToUnSign(string s)
         {
             Regex regex = new Regex("\\p{IsCombiningDiacriticalMarks}+");

@@ -1,29 +1,29 @@
 import React, { Component } from 'react';
-import {Modal} from 'antd';
+import { Modal } from 'antd';
 
 export default class ModalProduct extends Component {
-    
-    
-    handleOk(){
+
+
+    handleOk() {
         this.props.onOk(false)
     }
-    handleCancel(){
+    handleCancel() {
         this.props.onCancel(false)
     }
     render() {
-        const {data, visible} = this.props;
-        console.log("data modal: ", data);
+        const { data, visible } = this.props;
+        
         return (
             <Modal
                 width={800}
-                title={data.id ? "Cập nhập sản phẩm":"Thêm sản phẩm"}
+                title={data.id ? "Cập nhập sản phẩm" : "Thêm sản phẩm"}
                 visible={visible}
-                onOk={this.handleOk.bind(this)}      
+                onOk={this.handleOk.bind(this)}
                 onCancel={this.handleCancel.bind(this)}
-                >
+            >
                 <div>
                     <div>
-                    Modal
+                        Modal
                     </div>
                 </div>
             </Modal>

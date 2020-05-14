@@ -11,8 +11,10 @@ namespace server.Interfaces
     {
         Task<int> Create(CategoryCreateRequest request);
         Task<int> Update(CategoryUpdateRequest request);
-        Task<int> Delete(int categoryId);
-        Task<CategoryViewModel> getCategoryById(int categoryId);
+        Task<int> Delete(int providerId);
+        Task<CategoryViewModel> getCategoryById(int providerId);
         Task<List<CategoryViewModel>> GetAll();
+        Task<List<CategoryViewModel>> Search(string search);
+
     }
 }

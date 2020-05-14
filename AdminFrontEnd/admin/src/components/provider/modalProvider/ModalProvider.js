@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { Modal, Input, Button } from 'antd';
 
 
-export default class ModalCategory extends Component {
+export default class ModalProvider extends Component {
     handleSubmit(e) {
         e.preventDefault();
         const {data} = this.props;
-        this.props.onSubmitForm({id: data.id, name: e.target.name.value, generalityName: e.target.generalityName.value});
+        this.props.onSubmitForm({id: data.id, name: e.target.name.value});
     }
     handleCancel() {
         this.props.onCancel(false)
@@ -21,7 +21,7 @@ export default class ModalCategory extends Component {
         return (
             <Modal
 
-                title={data.id ? "Cập nhập danh mục" : "Thêm danh mục"}
+                title={data.id ? "Cập nhập nhà cung cấp" : "Thêm nhà cung cấp"}
                 visible={visible}
                 
                 onCancel={this.handleCancel.bind(this)}
@@ -29,16 +29,11 @@ export default class ModalCategory extends Component {
             >
                 <div>
                     <form onSubmit={(e) => this.handleSubmit(e)}>
-                        <Input allowClear size="large" type="text" name="generalityName" onChange={(e) => this.handleChangeInput(e)}
-                            value={data.generalityName} placeholder="Tên chung (Quần áo, ...)"
-                        >
-                        </Input>
-                        <br />
-                        <br />
                         <Input allowClear size="large" type="text" name="name" onChange={(e) => this.handleChangeInput(e)}
-                            value={data.name} placeholder="Tên chi tiết (Áo sơ mi, Quần Jeans,...)"
+                            value={data.name} placeholder="Tên nhà cung cấp (Cty A, ...)"
                         >
                         </Input>
+                        
                         <br />
                         <br />
                         <div style={{ textAlign: 'end'}}>
