@@ -4,7 +4,7 @@ import './App.css';
 import {
   Switch,
   Route,
-  Redirect
+  
 } from "react-router-dom";
 import AdminRoute from './route/AdminRoute';
 import LoginRoute from './route/LoginRoute';

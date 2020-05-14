@@ -67,7 +67,7 @@ const authReducer = (state = initialState, action) => {
             let userInfo = jwtDecode(token);
             if(userInfo.role === "Admin")
             {
-                console.log(userInfo);
+                //console.log(userInfo);
                 //let now = new Date().getTime();
                 const item = {
                     value: token,

@@ -2,6 +2,7 @@
 using server.Data;
 using server.enums;
 using server.Exceptions;
+using server.Helper;
 using server.Helper.category;
 using server.Interfaces;
 using server.Models;
@@ -9,6 +10,8 @@ using server.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace server.Services
@@ -34,29 +37,19 @@ namespace server.Services
             return category.id;
         }
 
-        public async Task<int> Delete(int categoryId)
-        {
-            var category = await _context.categories.FindAsync(categoryId);
-            if (category == null)
-            {
-                throw new ShopException($"Cannot find any product to this category id {categoryId}!");
-            }
-            _context.categories.Remove(category);
-            return await _context.SaveChangesAsync();
-        }
+        
 
         public async Task<List<CategoryViewModel>> GetAll()
         {
-            var data = _context.categories.Where(i => i.status == ActionStatus.Display)
-                .Select(rs => new CategoryViewModel
-                {
-                    id = rs.id,
-                    name = rs.name,
-                    generalityName= rs.generalityName,
-                    status = rs.status,
-                    Products = rs.Products.Where(p => p.status == ActionStatus.Display).ToList()
-                });
-            return await data.ToListAsync();
+
+            return await _context.categories.Where(i => i.status == ActionStatus.Display).Select(rs => new CategoryViewModel
+            {
+                id = rs.id,
+                name = rs.name,
+                generalityName = rs.generalityName,
+                status = rs.status,
+                Products = rs.Products.Where(p => p.status == ActionStatus.Display).ToList()
+            }).ToListAsync();
         }
 
         public async Task<CategoryViewModel> getCategoryById(int categoryId)
@@ -88,7 +81,7 @@ namespace server.Services
             _context.Entry(category).State = EntityState.Modified;
             return await _context.SaveChangesAsync();
         }
-        public async Task<int> delete(int categoryId)
+        public async Task<int> Delete(int categoryId)
         {
             var category = await _context.categories.FindAsync(categoryId);
             if (category == null)
@@ -99,6 +92,29 @@ namespace server.Services
             category.status = ActionStatus.Deleted;
             _context.Entry(category).State = EntityState.Modified;
             return await _context.SaveChangesAsync();
+        }
+        //
+        
+        
+
+        public async Task<List<CategoryViewModel>> Search(string search)
+        {
+            var data = await _context.categories.ToListAsync();
+
+            data = data.Where(ele => FormatVietnamese.convertToUnSign(ele.name.ToLower())
+           .Contains(FormatVietnamese.convertToUnSign(search.ToLower())) ||
+           FormatVietnamese.convertToUnSign(ele.generalityName.ToLower())
+           .Contains(FormatVietnamese.convertToUnSign(search.ToLower()))
+           ).ToList();
+
+            return data.Where(i => i.status == ActionStatus.Display).Select(rs => new CategoryViewModel
+            {
+                id = rs.id,
+                name = rs.name,
+                generalityName = rs.generalityName,
+                status = rs.status,
+                Products = rs.Products.Where(p => p.status == ActionStatus.Display).ToList()
+            }).ToList();
         }
     }
 }

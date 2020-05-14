@@ -14,6 +14,7 @@ namespace server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Admin")]
     public class ManageProductController : ControllerBase
     {
         public readonly IManageProductService _manageProductService;
@@ -21,7 +22,7 @@ namespace server.Controllers
         {
             _manageProductService = manageProductService;
         }
-        [Authorize(Roles = "Admin")]
+        
         [HttpGet]
         public async Task<List<ProductViewModel>> getAll()
         
