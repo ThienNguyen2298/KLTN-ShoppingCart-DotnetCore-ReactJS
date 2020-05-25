@@ -15,6 +15,6 @@ namespace server.ViewModel
         [DefaultValue(ActionStatus.Display)]
         public ActionStatus status { get; set; }
         public int? productId { get; set; }
-        public Product product { get; set; }
+        
     }
 }

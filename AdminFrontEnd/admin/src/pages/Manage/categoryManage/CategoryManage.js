@@ -61,13 +61,13 @@ export default class CategoryManage extends Component {
     handleSubmit(value) {
         if (value.id) {
             const {data } = this.state;
-            let tempdata = [...data].filter(ele => ele.id !== value.id);
+            let tempData = [...data].filter(ele => ele.id !== value.id);
             this.setState({ isLoading: true });
             axiosInstance('ManageCategory','PUT',value)
             .then(res => {
                 message.success(`${res.data.message}`, 2)
                 this.setState({ 
-                    data: [...tempdata, value],
+                    data: [...tempData, value],
                     isLoading: false,
                     visible: false,
                 });
@@ -98,14 +98,14 @@ export default class CategoryManage extends Component {
     }
     confirmDelete(record){
         const {data } = this.state;
-        let tempdata = [...data].filter(ele => ele.id !== record.id);
+        let tempData = [...data].filter(ele => ele.id !== record.id);
         this.setState({ isLoading: true });
         
         axiosInstance(`ManageCategory/${record.id}`, 'DELETE')
         .then(res => {
             message.success(`${res.data.message}`, 2)
             this.setState({
-                data: [...tempdata],
+                data: [...tempData],
                 isLoading: false,
             })
         })
@@ -148,7 +148,7 @@ export default class CategoryManage extends Component {
     }
     render() {
         const { data, item, visible, isLoading } = this.state;
-        // colums
+        // columns
         const columns = [
             {
                 title: 'Tên chung',

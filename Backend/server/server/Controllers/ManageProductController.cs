@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -8,13 +9,15 @@ using Microsoft.AspNetCore.Mvc;
 using server.Helper;
 using server.Helper.product;
 using server.Interfaces;
+using server.Models;
 using server.ViewModel;
+
 
 namespace server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
+    
     public class ManageProductController : ControllerBase
     {
         public readonly IManageProductService _manageProductService;
@@ -24,6 +27,7 @@ namespace server.Controllers
         }
         
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<List<ProductViewModel>> getAll()
         
         {
@@ -31,14 +35,18 @@ namespace server.Controllers
             return data;
         }
         [HttpGet("getProductById")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> getProductById(int productId)
         {
             var product = await _manageProductService.getProductById(productId);
             return Ok(product);
         }
         [HttpPost]
-        public async Task<IActionResult> create([FromBody]ProductCreateRequest request)
+        //[Authorize(Roles = "Admin")]
+        
+        public async Task<IActionResult> create([FromForm]ProductCreateRequest request)
         {
+           
             var productId = await _manageProductService.Create(request);
             if(productId == 0)
             {
@@ -48,16 +56,21 @@ namespace server.Controllers
             return CreatedAtAction(nameof(getProductById),new { id = productId}, product);
         }
         [HttpPut]
-        public async Task<IActionResult> update([FromBody]ProductUpdateRequest request)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> update([FromForm]ProductUpdateRequest request)
         {
-            var result = await _manageProductService.Update(request);
-            if(result > 0)
+            
+            var productId = await _manageProductService.Update(request);
+            if(productId == 0)
             {
-                return Ok(new { message = "Cập nhập sản phẩm thành công!" });
+                return BadRequest();
+                
             }
-            return BadRequest();
+            var product = await _manageProductService.getProductById(productId);
+            return Ok(new { message = "Cập nhập sản phẩm thành công!", product});
         }
-        [HttpDelete]
+        [HttpDelete("{productId}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> delete(int productId)
         {
             var result = await _manageProductService.Delete(productId);
@@ -65,8 +78,41 @@ namespace server.Controllers
             {
                 return Ok(new { message = "Xóa sản phẩm thành công!" });
             }
-            return BadRequest();
+            return BadRequest("Xóa sản phẩm thất bại!");
         }
+        [HttpPost("search")]
+        public async Task<IActionResult> search([FromBody]ProductSearchRequest request)
+        {
+            var data = await _manageProductService.searchProduct(request);
+            return Ok(data);
+        }
+        [HttpPost("uploadImage")]
         
+        public async Task<IActionResult> uploadImage(IFormFile file)
+        {
+            var urlImage = await _manageProductService.SaveFile(file);
+            if(urlImage == null)
+            {
+                return BadRequest("Upload ko thành công!");
+            }
+            return Ok( new
+            {
+                name = "image",
+                status = "done",
+                url = urlImage
+            });
+        }
+        [HttpPost("image")]
+
+        public IActionResult upload()
+        {
+            return Ok(new
+            {
+                name = "image",
+                status = "done",
+                url = "hihi"
+            });
+        }
+
     }
 }

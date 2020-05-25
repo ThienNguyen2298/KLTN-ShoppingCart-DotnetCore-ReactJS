@@ -1,4 +1,5 @@
-﻿using server.Helper;
+﻿using Microsoft.AspNetCore.Http;
+using server.Helper;
 using server.Helper.product;
 using server.ViewModel;
 using System;
@@ -17,6 +18,9 @@ namespace server.Interfaces
         Task<List<ProductViewModel>> GetAll();
         //page view model (list , total record)
         Task<PagedResult<ProductViewModel>> GetAllPaging(GetProductPagingRequest request);
+        Task<List<ProductViewModel>> searchProduct(ProductSearchRequest request);
+        Task<string> SaveFile(IFormFile file);
+        
 
     }
 }
