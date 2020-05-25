@@ -1,5 +1,7 @@
-﻿using server.enums;
+﻿using Microsoft.AspNetCore.Http;
+using server.enums;
 using server.Models;
+using server.ViewModel;
 using System;
 using System.Collections.Generic;
 
@@ -21,7 +23,8 @@ namespace server.Helper.product
         public ActionStatus status { get; set; }
         public Size? size { get; set; }
         public Color? color { get; set; }
-        public List<Image> Images { get; set; }
+        public IEnumerable<int> images { get; set; }
+        public IEnumerable<IFormFile> files { get; set; }
         //foreign key
         public int? categoryId { get; set; }
         //

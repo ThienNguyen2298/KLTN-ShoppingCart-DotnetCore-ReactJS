@@ -1,4 +1,5 @@
-﻿using server.enums;
+﻿using Microsoft.AspNetCore.Http;
+using server.enums;
 using server.Helper.image;
 using server.Models;
 using server.ViewModel;
@@ -24,7 +25,8 @@ namespace server.Helper
         public Size? size { get; set; }
         public Color? color { get; set; }
         //
-        public List<Image> Images { get; set; }
+        
+        public IEnumerable<IFormFile> images { get; set; }
         //foreign key
         public int? categoryId { get; set; }
         //

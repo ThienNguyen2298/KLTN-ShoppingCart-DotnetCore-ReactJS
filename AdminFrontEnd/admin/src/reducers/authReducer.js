@@ -98,7 +98,7 @@ const authReducer = (state = initialState, action) => {
             
         }
         case types.LOGIN_ERROR:{
-            //console.log(action.payload);
+            console.log(action.payload);
             message.warning(`${action.payload}`, 5)
             return {
                 ...state,
