@@ -24,6 +24,8 @@ namespace server.ViewModel
         public ActionStatus status { get; set; }
         public Size? size { get; set; }
         public Color? color { get; set; }
+        public int amount { get; set; }
+        public int viewCount { get; set; }
         //foreign key
         public int? categoryId { get; set; }
         public Category category { get; set; }

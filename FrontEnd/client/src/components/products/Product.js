@@ -4,6 +4,7 @@ import * as parsePriceForSale from '../../helper/parsePriceForSale';
 import {descriptionRating} from '../../helper/descriptionRating'
 import {Link} from 'react-router-dom';
 import {Rate} from 'antd';
+import empty from '../../images/empty.jpg'
 
 
 export default class Product extends Component {
@@ -19,10 +20,10 @@ export default class Product extends Component {
             <>
                 <article className="product">
                     <div className="img-container">
-                        <img src={product.images[0] || '#'}
+                        <img src={product.images[0] ? product.images[0].urlImage : empty}
                         alt="single product" height='250'/>
                         <div className="price-top">
-                            <h6>-{product.sale}%</h6>
+                            <h6>{product.sale}%</h6>
                             <p>sale</p>
                         </div>
                         <Link to='#' onClick={() => this.handleClickAddToCart(product)} className="btn-primary product-link">
@@ -31,11 +32,12 @@ export default class Product extends Component {
                     </div>
                     <div className="product-info">
                         <p className="product-name"><Link to={`/product-detail/${product.id}`}>{product.name}</Link></p>
-                        <p><span style={{color: '#f5222d'}}>{parsePriceForSale.parsePriceSale(product.realPrice, product.sale)} <b>đ</b>
-                         </span><span style={{textDecoration: 'line-through', color: '#af9a7d'}}>{parsePriceForSale.parsePrice(product.realPrice)}
+                        <p><span style={{color: '#f5222d', marginRight: '10px'}}>{parsePriceForSale.parsePriceSale(product.price, product.sale) || 0} <b>đ</b>
+                         </span><span style={{textDecoration: 'line-through', color: '#af9a7d'}}>{parsePriceForSale.parsePrice(product.price) || 0}
                           <b>đ</b> </span></p>
+                        <div>{product.provider.name || ""}</div>
                         <span>
-                            <Rate disabled tooltips={descriptionRating} value={product.rating} />
+                            <Rate disabled tooltips={descriptionRating} value={product.rating || 5} />
                         </span>
                     </div>
                 </article>

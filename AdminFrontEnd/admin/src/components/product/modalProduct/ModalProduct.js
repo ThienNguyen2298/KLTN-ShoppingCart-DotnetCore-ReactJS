@@ -4,7 +4,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import axiosInstance from '../../../utils/axiosInstance';
 import { colors } from '../../../utils/colors';
 import { sizes } from '../../../utils/sizes';
-const {TextArea} = Input;
+const { TextArea } = Input;
 const { Option } = Select;
 
 const config = {
@@ -30,14 +30,15 @@ export default class ModalProduct extends Component {
         }
     }
     componentDidMount() {
-        const {images} = this.props.data;
-        
+        const { images } = this.props.data;
+
         this.setState({
-            imageList: images ? images.map(ele => { 
-                return {uid: ele.id, url: ele.urlImage, status: ele.status, productId: ele.productId}}) : [],
+            imageList: images ? images.map(ele => {
+                return { uid: ele.id, url: ele.urlImage, status: ele.status, productId: ele.productId }
+            }) : [],
         })
-        
-        
+
+
         const tempColors = Object.keys(colors).map(function (key) {
             return { id: Number(key), value: colors[key] };
         });
@@ -72,7 +73,7 @@ export default class ModalProduct extends Component {
                 })
             })
     }
-    componentWillUnmount(){
+    componentWillUnmount() {
         this.setState({
             categories: [],
             providers: [],
@@ -85,8 +86,8 @@ export default class ModalProduct extends Component {
         this.props.onCancel(false)
     }
     handleChange({ fileList }) {
-        
-        
+
+
         this.setState({ imageList: fileList })
 
     }
@@ -97,22 +98,23 @@ export default class ModalProduct extends Component {
             upload
         )
     }
-    handleSubmitForm(values){
-        const {imageList} = this.state;
-        const {data} = this.props;
-        this.props.onSubmitForm({id: data.id, ...values, images: [...imageList]})
-        
-        
+    handleSubmitForm(values) {
+        const { imageList } = this.state;
+        const { data } = this.props;
+        console.log(values);
+        this.props.onSubmitForm({ id: data.id, ...values, images: [...imageList] })
+
+
     }
     handleRemoveImage = file => {
         console.log(file);
-        
+
     }
     render() {
         const { categories, providers, colors, sizes } = this.state;
         const { data, visible } = this.props;
-        
-        
+
+
         const uploadButton = (
             <div>
                 <PlusOutlined />
@@ -136,20 +138,22 @@ export default class ModalProduct extends Component {
                             importPrice: data.importPrice,
                             price: data.price,
                             sale: data.sale,
-                            color:data.color,
+                            color: data.color,
                             size: data.size,
                             categoryId: data.categoryId,
                             providerId: data.providerId,
-                            description: data.description
+                            description: data.description,
+                            amount: data.amount,
+                            viewCount: data.viewCount,
                         }
                     }>
                         <Row>
                             <Col span={18} offset={3}>
                                 <Form.Item>
-                                    <Upload onChange={this.handleChange.bind(this)} listType="picture-card" 
-                                    fileList={this.state.imageList}
-                                    action={this.handleUpload.bind(this)}
-                                    onRemove={this.handleRemoveImage.bind(this)}
+                                    <Upload onChange={this.handleChange.bind(this)} listType="picture-card"
+                                        fileList={this.state.imageList}
+                                        action={this.handleUpload.bind(this)}
+                                        onRemove={this.handleRemoveImage.bind(this)}
                                     >
                                         {this.state.imageList.length >= 5 ? null : uploadButton}
                                     </Upload>
@@ -165,17 +169,23 @@ export default class ModalProduct extends Component {
                                     <Input type="text" placeholder="Giá nhập" ></Input>
                                 </Form.Item>
                                 <Form.Item name="price" label="Giá bán (VNĐ)" {...config}>
-                                    <Input type="text"  placeholder="Giá bán"></Input>
+                                    <Input type="text" placeholder="Giá bán"></Input>
                                 </Form.Item>
                                 <Form.Item name="sale" label="Giảm giá (%)" {...config}>
-                                    <Input type="text"  placeholder="Giảm giá"></Input>
+                                    <Input type="text" placeholder="Giảm giá"></Input>
+                                </Form.Item>
+                                <Form.Item name="viewCount" label="Lượng xem" {...config}>
+                                    <Input disabled type="text" placeholder="lượng xem"></Input>
                                 </Form.Item>
                             </Col>
                             <Col className="gutter-row" span={12}>
+                                <Form.Item name="amount" label="Số lượng" {...config}>
+                                    <Input type="text" placeholder="số lượng"></Input>
+                                </Form.Item>
                                 <Form.Item name="categoryId" label="Danh mục" {...config}>
                                     <Select
-                                        //defaultValue={data.categoryId}
-                                        
+                                    //defaultValue={data.categoryId}
+                                    placeholder="danh mục"
                                     >
                                         {
                                             categories.map((ele) => {
@@ -186,8 +196,8 @@ export default class ModalProduct extends Component {
                                 </Form.Item>
                                 <Form.Item name="providerId" label="Nhà cung cấp" {...config}>
                                     <Select
-                                        //defaultValue={data.providerId}
-                                        
+                                    //defaultValue={data.providerId}
+                                    placeholder="nhà cung cấp"
                                     >
                                         {
                                             providers.map((ele) => {
@@ -198,8 +208,8 @@ export default class ModalProduct extends Component {
                                 </Form.Item>
                                 <Form.Item name="size" label="Size" {...config}>
                                     <Select
-                                        //defaultValue={data.size}
-                                        
+                                    //defaultValue={data.size}
+                                    placeholder="size"
                                     >
                                         {
                                             sizes.map((ele) => {
@@ -209,9 +219,9 @@ export default class ModalProduct extends Component {
                                     </Select>
                                 </Form.Item>
                                 <Form.Item name="color" label="Color" {...config}>
-                                    <Select 
-                                        //defaultValue={data.color}
-                                        
+                                    <Select
+                                    //defaultValue={data.color}
+                                    placeholder="màu sắc"
                                     >
                                         {
                                             colors.map((ele) => {
@@ -223,8 +233,9 @@ export default class ModalProduct extends Component {
 
                             </Col>
                         </Row>
+
                         <Form.Item name="description" label="Mô tả" labelCol={{ span: 4 }} wrapperCol={{ span: 20 }}>
-                            <TextArea placeholder="Mô tả"/>
+                            <TextArea placeholder="Mô tả" />
                         </Form.Item>
                         <Row>
                             <Col span={12} offset={6}>

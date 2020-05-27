@@ -24,6 +24,7 @@ namespace server.Helper
         public ActionStatus status { get; set; }
         public Size? size { get; set; }
         public Color? color { get; set; }
+        public int amount { get; set; }
         //
         
         public IEnumerable<IFormFile> images { get; set; }

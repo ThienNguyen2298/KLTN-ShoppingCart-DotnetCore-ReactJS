@@ -91,6 +91,8 @@ export default class ProductManage extends Component {
       size: values.size,
       color: values.color,
       description: values.description,
+      amount: values.amount,
+      viewCount: values.viewCount,
     }
 
     if (!values.id) {
@@ -103,6 +105,7 @@ export default class ProductManage extends Component {
       productCreate.set("providerId", data.providerId);
       productCreate.set("size", data.size);
       productCreate.set("color", data.color);
+      productCreate.set("amount", data.amount);
       productCreate.set("description", data.description)
       values.images.forEach((element, index) => {
         productCreate.append(`images`, element.originFileObj);
@@ -127,6 +130,8 @@ export default class ProductManage extends Component {
       productUpdate.set("size", data.size);
       productUpdate.set("color", data.color);
       productUpdate.set("description", data.description);
+      productUpdate.set("amount", data.amount);
+      productUpdate.set("viewCount", data.viewCount);
       //let images = [];
       values.images.forEach((element, index) => {
         if (element.originFileObj) {

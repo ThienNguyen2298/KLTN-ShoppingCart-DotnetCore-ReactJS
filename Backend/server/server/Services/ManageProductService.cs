@@ -46,6 +46,7 @@ namespace server.Services
                 sale = request.sale,
                 status = enums.ActionStatus.Display,
                 rating = 5,
+                amount = request.amount,
                 importPrice = request.importPrice,
                 price = request.price,
                 Images = tempImages,
@@ -134,6 +135,8 @@ namespace server.Services
                 importPrice = request.importPrice,
                 rating = request.rating,
                 sale = request.sale,
+                amount= request.amount,
+                viewCount = request.viewCount,
                 Images = null,
                 status = request.status,
                 categoryId = request.categoryId,
@@ -171,6 +174,8 @@ namespace server.Services
                     category = rs.category,
                     color = rs.color,
                     size = rs.size,
+                    amount = rs.amount,
+                    viewCount = rs.viewCount,
                     description = rs.description,
                     Evaluations = rs.Evaluations,
                     Images = rs.Images.Where(p => p.status == ActionStatus.Display).ToList(),
@@ -252,9 +257,12 @@ namespace server.Services
                     rating = ele.rating,
                     sale = ele.sale,
                     size = ele.size,
-                    status = ele.status
+                    status = ele.status,
+                    amount = ele.amount,
+                    viewCount = ele.viewCount,
                 })
                 .FirstOrDefaultAsync(x => x.id == productId);
+            
             var temp = product;
             return temp;
         }
