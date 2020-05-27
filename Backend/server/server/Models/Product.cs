@@ -30,6 +30,11 @@ namespace server.Models
         public ActionStatus status { get; set; }
         public Size? size { get; set; }
         public Color? color { get; set; }
+        [DefaultValue(1)]
+        public int amount { get; set; }
+        [DefaultValue(0)]
+        public int viewCount { get; set; }
+
         //foreign key
         public int? categoryId { get; set; }
         public Category category { get; set; }

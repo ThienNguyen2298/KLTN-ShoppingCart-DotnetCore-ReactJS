@@ -25,5 +25,23 @@ namespace server.Controllers
             var products = await _productService.GetAllByCategoryId(request);
             return Ok(products);
         }
+        [HttpGet("get-all-products/{itemCount}")]
+        public async Task<IActionResult> getAllProduct(int itemCount)
+        {
+            var products = await _productService.GetAllProduct(itemCount);
+            return Ok(products);
+        }
+        [HttpGet("products-top-view-count/{all}")]
+        public async Task<IActionResult> getTopViewCountProduct(bool all = false)
+        {
+            var products = await _productService.GetTopViewCountProduct(all);
+            return Ok(products);
+        }
+        [HttpGet("get-product-by-id/{productId}")]
+        public async Task<IActionResult> getProductById(int productId)
+        {
+            var product = await _productService.getProductById(productId);
+            return Ok(product);
+        }
     }
 }

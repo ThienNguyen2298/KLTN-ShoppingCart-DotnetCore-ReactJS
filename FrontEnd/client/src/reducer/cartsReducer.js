@@ -13,7 +13,7 @@ function SaveCartsToLocalStorage(carts){
 function returnTotal(){
     let tempCarts = getCartsFromLocalStorage();
     return tempCarts.reduce((total, ele) => {
-        return total += (ele.realPrice * ele.quantity*(1-(ele.sale/100)))
+        return total += (ele.price * ele.quantity*(1-(ele.sale/100)))
     }, 0) || 0;
 }
 const initState = {
@@ -41,7 +41,7 @@ const cartsReducer= (state = initState,action)=>{
 
                 return{
                     ...state,
-                    total: state.total + ParsePrice.priceAfterSaleNotParseToMoney(existed_item.realPrice, existed_item.sale)
+                    total: state.total + ParsePrice.priceAfterSaleNotParseToMoney(existed_item.price, existed_item.sale)
                 }
             }
             else{
@@ -52,7 +52,7 @@ const cartsReducer= (state = initState,action)=>{
                 SaveCartsToLocalStorage(tempCarts);
                 return {
                     carts: [...state.carts, newCart],
-                    total: state.total + ParsePrice.priceAfterSaleNotParseToMoney(newCart.realPrice, newCart.sale),
+                    total: state.total + ParsePrice.priceAfterSaleNotParseToMoney(newCart.price, newCart.sale),
                     count: state.count + 1,
                 }
             }
@@ -66,7 +66,7 @@ const cartsReducer= (state = initState,action)=>{
             //lấy ra danh sách khi ko còn item đang xóa dùng filter
             let new_items = state.carts.filter(item => action.payload !== item.id);
             //cập nhập lại total
-            let newTotal = state.total - ParsePrice.priceAfterSaleNotParseToMoney((itemRemove.quantity * itemRemove.realPrice), itemRemove.sale);
+            let newTotal = state.total - ParsePrice.priceAfterSaleNotParseToMoney((itemRemove.quantity * itemRemove.price), itemRemove.sale);
             //lưa local storage
             SaveCartsToLocalStorage(new_items);
             //state mới trả ra
@@ -84,7 +84,7 @@ const cartsReducer= (state = initState,action)=>{
             
             incItem.quantity += 1;
             
-            let newTotal = state.total + ParsePrice.priceAfterSaleNotParseToMoney(incItem.realPrice, incItem.sale);
+            let newTotal = state.total + ParsePrice.priceAfterSaleNotParseToMoney(incItem.price, incItem.sale);
             //clone cái carts
             let tempCarts = [...state.carts];
             SaveCartsToLocalStorage(tempCarts)
@@ -98,7 +98,7 @@ const cartsReducer= (state = initState,action)=>{
         {
             let decItem = state.carts.find(item => item.id === action.payload);
             decItem.quantity -= 1;
-            let newTotal = state.total - ParsePrice.priceAfterSaleNotParseToMoney(decItem.realPrice, decItem.sale);
+            let newTotal = state.total - ParsePrice.priceAfterSaleNotParseToMoney(decItem.price, decItem.sale);
             //
             let tempCarts = [...state.carts];
             SaveCartsToLocalStorage(tempCarts);
