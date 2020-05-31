@@ -34,25 +34,25 @@ const cartsReducer= (state = initState,action)=>{
             let existed_item = state.carts.find(item=> action.payload.id === item.id)
             //TH1: cái item này đã tồn tại
             if(existed_item){
-                existed_item.quantity += 1;
+                existed_item.quantity += action.payload.quantity;
                 //clone nó ra và lưu local storage
                 let tempCarts = [...state.carts];
                 SaveCartsToLocalStorage(tempCarts);
 
                 return{
                     ...state,
-                    total: state.total + ParsePrice.priceAfterSaleNotParseToMoney(existed_item.price, existed_item.sale)
+                    total: state.total + ParsePrice.priceAfterSaleNotParseToMoney(existed_item.price * action.payload.quantity, existed_item.sale)
                 }
             }
             else{
                 let newCart = {...action.payload}
-                newCart.quantity = 1;
+                //newCart.quantity = 1;
                 let tempCarts = [...state.carts];
                 tempCarts.push(newCart)
                 SaveCartsToLocalStorage(tempCarts);
                 return {
                     carts: [...state.carts, newCart],
-                    total: state.total + ParsePrice.priceAfterSaleNotParseToMoney(newCart.price, newCart.sale),
+                    total: state.total + ParsePrice.priceAfterSaleNotParseToMoney(newCart.price * action.payload.quantity, newCart.sale),
                     count: state.count + 1,
                 }
             }

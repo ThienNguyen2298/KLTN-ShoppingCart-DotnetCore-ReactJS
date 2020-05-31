@@ -5,7 +5,7 @@ import {UserOutlined} from '@ant-design/icons';
 export default class DisplayReply extends Component {
     render() {
         return (
-            <div style={{display: 'flex'}}>
+            <div style={{display: 'flex', margin: '10px 0'}}>
                 <div>
                     <Avatar size="large" icon={<UserOutlined />} style={{ margin: '8px 15px 0 0'}}/>
                 </div>
