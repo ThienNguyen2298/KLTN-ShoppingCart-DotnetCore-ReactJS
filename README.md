@@ -3,6 +3,7 @@ KHÓA LUẬN TỐT NGHIỆP: WEBSITE BÁN HÀNG (Quần áo) sử dụng .NET CO
 
 Sinh viên thực hiện:          
                               Võ Văn Thiên          -     16110469
+                              
                               Nguyễn Hữu Thiện      -     16110472
 1. Cài đặt source code:
 - Server: .NET Core (port: 5001)
