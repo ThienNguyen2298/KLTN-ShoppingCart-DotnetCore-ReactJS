@@ -9,8 +9,8 @@ export default class ReplyEvaluation extends Component {
             <>
                 <DisplayReply></DisplayReply>
                 <DisplayReply></DisplayReply>
-                <DisplayReply></DisplayReply>
-                <div style={{padding: '10px 0'}}>
+                
+                <div>
                     <form>
                         <TextArea style={{margin: '10px 0'}} autoSize={{ minRows: 3, maxRows: 5 }}></TextArea>
                         <Button htmlType="submit" style={{background: '#1890ff', border: '1px solid #1890ff', color: 'white'}}>Nhận xét</Button>

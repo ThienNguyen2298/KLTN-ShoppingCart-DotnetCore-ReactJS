@@ -20,7 +20,7 @@ export default class DisplayEvaluation extends Component {
     }
     render() {
         return (
-            <div style={{border: '1px solid rgb(223, 224, 224)', display: 'flex', padding: '20px 10px'}}>
+            <div style={{border: '1px solid rgb(223, 224, 224)', display: 'flex', margin: '10px 0', padding: '20px 10px'}}>
                 <div style={{textAlign: 'center', width: '25%', padding: '10px'}}>
                     <Avatar size={64} src={this.props.avatar} icon={<UserOutlined />} />
                     <h6>{this.props.fullname || "User"}</h6>

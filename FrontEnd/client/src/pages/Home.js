@@ -12,20 +12,46 @@ class Home extends Component {
         this.state = {
             topViewProducts: [],
             mainProducts: [],
-            itemCount: 8,
+            itemCount: 3,
+            isLoadingTopViewProduct: true,
+            isLoadingMainProduct: true,
         }
     }
     componentDidMount(){
         window.scrollTo(0, 0);
         axiosInstance('Product/products-top-view-count/false')
-        .then(res => this.setState({
-            topViewProducts: [...res.data],
-        }))
+        .then(res => {
+            this.setState({
+                topViewProducts: [...res.data],
+                isLoadingTopViewProduct: false,
+            })
+        })
         .catch(err => console.log(err + ''));
         axiosInstance(`Product/get-all-products/${this.state.itemCount}`)
-        .then(res => this.setState({
-            mainProducts: [...res.data],
-        }))
+        .then(res => {
+            this.setState({
+                mainProducts: [...res.data],
+                isLoadingMainProduct: false,
+            })
+        })
+        .catch(err => console.log(err + ''))
+        
+    }
+    handleClickViewMore(value){
+        console.log(value)
+    }
+    async handleClickViewMoreForMainProduct(value){
+        this.setState({
+            
+            isLoadingMainProduct: true,
+        })
+        axiosInstance(`Product/get-all-products/${this.state.itemCount * 2}`)
+        .then(res => {
+            this.setState({
+                mainProducts: [...res.data],
+                isLoadingMainProduct: false,
+            })
+        })
         .catch(err => console.log(err + ''))
     }
     //{/*style={{background: '#ebebeb'}}*/}
@@ -35,9 +61,9 @@ class Home extends Component {
             <div>
                 <Banner></Banner>
                 
-                <ListProducts title="NHỮNG SẢN PHẨM XEM NHIỀU" products={this.state.topViewProducts}></ListProducts>
+                <ListProducts title="NHỮNG SẢN PHẨM XEM NHIỀU" onClickViewMore={this.handleClickViewMore.bind(this)} loading={this.state.isLoadingTopViewProduct} products={this.state.topViewProducts}></ListProducts>
                 
-                <ListProducts title="NHỮNG SẢN PHẨM" products={this.state.mainProducts}></ListProducts>
+                <ListProducts title="NHỮNG SẢN PHẨM KHÁC" onClickViewMore={this.handleClickViewMoreForMainProduct.bind(this)} loading={this.state.isLoadingMainProduct} products={this.state.mainProducts}></ListProducts>
                 <br></br>
             </div>
         )

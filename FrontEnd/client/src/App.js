@@ -9,9 +9,20 @@ import ProductDetail from './pages/ProductDetail';
 
 import Cart from './pages/Cart';
 import Persional from './pages/Persional';
+import { BackTop } from 'antd';
+import {ArrowUpOutlined} from '@ant-design/icons'
 
-
-
+const style = {
+  height: 40,
+  width: 40,
+  lineHeight: '40px',
+  borderRadius: 4,
+  textAlign: 'center',
+  fontSize: 14,
+  backgroundColor: '#389e0d',
+  color: '#fff',
+  
+};
 function App() {
   return (
     <>
@@ -23,7 +34,9 @@ function App() {
         <Route exact path="/Cart" component={Cart} />
         <Route exact path="/Persional/:userId" component={Persional} />
       </Switch>
-      
+      <BackTop>
+        <div style={style}><ArrowUpOutlined style={{ fontSize: '16px'}}/></div>
+      </BackTop>
     </>
       
     
