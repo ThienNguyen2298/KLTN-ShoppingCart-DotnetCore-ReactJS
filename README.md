@@ -1,6 +1,8 @@
 # KLTN-ShoppingCart-DotnetCore-ReactJS
 KHÓA LUẬN TỐT NGHIỆP: WEBSITE BÁN HÀNG (Quần áo) sử dụng .NET CORE WEB API & REACT JS
-Sinh viên thực hiện:          Võ Văn Thiên          -     16110469
+
+Sinh viên thực hiện:          
+                              Võ Văn Thiên          -     16110469
                               Nguyễn Hữu Thiện      -     16110472
 1. Cài đặt source code:
 - Server: .NET Core (port: 5001)
