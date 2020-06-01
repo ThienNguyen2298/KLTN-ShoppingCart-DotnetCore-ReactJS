@@ -12,11 +12,12 @@ class ProductDetail extends Component{
     render(){
         return (
             <>
-                <div style={{width: '72%', margin: '0 auto'}}>
+                <div style={{width: '75%', margin: '0 auto'}}>
                     <BreadScrumb title="Chi tiết sản phẩm"></BreadScrumb>
                     <Detail productId={this.props.match.params.productId}></Detail>
-                    <Evalution></Evalution>
-                    <ListEvaluation></ListEvaluation>
+                    
+                    <Evalution productId={this.props.match.params.productId}></Evalution>
+                    <ListEvaluation productId={this.props.match.params.productId}></ListEvaluation>
                 </div>
             </>
         )

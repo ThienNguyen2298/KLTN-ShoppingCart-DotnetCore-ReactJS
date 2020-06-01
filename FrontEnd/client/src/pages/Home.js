@@ -38,9 +38,20 @@ class Home extends Component {
         
     }
     handleClickViewMore(value){
-        console.log(value)
+        this.setState({
+            
+            isLoadingTopViewProduct: true,
+        })
+        axiosInstance('Product/products-top-view-count/true')
+        .then(res => {
+            this.setState({
+                topViewProducts: [...res.data],
+                isLoadingTopViewProduct: false,
+            })
+        })
+        .catch(err => console.log(err + ''))
     }
-    async handleClickViewMoreForMainProduct(value){
+    handleClickViewMoreForMainProduct(value){
         this.setState({
             
             isLoadingMainProduct: true,

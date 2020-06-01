@@ -72,6 +72,7 @@ export default class Evaluation extends Component {
                             </button>
                         </div>
                 </div>
+                <br></br>
             </div>
         )
     }

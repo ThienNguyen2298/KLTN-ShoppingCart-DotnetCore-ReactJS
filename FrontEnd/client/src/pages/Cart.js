@@ -17,10 +17,10 @@ export default class Cart extends Component {
         
         return (
             <div>
-                <div style={{maxWidth: '1100px', margin: '0 auto'}}>
+                <div style={{maxWidth: '75%', margin: '0 auto'}}>
                     <BreadScrumb title="Giỏ hàng"></BreadScrumb>
                 </div>
-                <div style={{display: 'flex', justifyContent: 'space-between', maxWidth: '1100px', margin: '0 auto'}}>
+                <div style={{display: 'flex', justifyContent: 'space-between', maxWidth: '75%', margin: '0 auto'}}>
                     <ListCart carts={carts}></ListCart>
                     <TotalCart></TotalCart>
                 </div>

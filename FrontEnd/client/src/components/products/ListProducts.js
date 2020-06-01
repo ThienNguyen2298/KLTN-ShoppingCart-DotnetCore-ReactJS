@@ -31,7 +31,7 @@ class ListProducts extends Component {
         const {products, loading} = this.props;
         
         return (<>
-            <h3 style={{maxWidth: '1100px', margin: '20px auto'}}>{this.props.title}</h3>
+            <h3 style={{maxWidth: '75%', margin: '20px auto'}}>{this.props.title}</h3>
             
             <div className="listProduct">
                 {
