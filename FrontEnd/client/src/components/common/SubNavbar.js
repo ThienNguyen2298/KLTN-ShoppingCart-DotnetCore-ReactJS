@@ -69,7 +69,7 @@ export default class SubNavbar extends Component {
           );
         return (
             
-                <div style={{paddingTop: 5,  maxWidth: '1100px', margin: '0 auto', display: 'flex', justifyContent: 'space-between'}}>
+                <div style={{paddingTop: 5,  maxWidth: '75%', margin: '0 auto', display: 'flex', justifyContent: 'space-between'}}>
                         <Dropdown overlay={menu}>
                             <Link className="ant-dropdown-link" to="#" >
                                 <h5 style={{color: '#af9a7d'}}><BarsOutlined style={{color: 'black'}}></BarsOutlined>&nbsp;DANH MỤC SẢN PHẨM</h5>

@@ -7,10 +7,13 @@ import {Link, Redirect} from 'react-router-dom';
 import "./userInfomation.css";
 import ModalUI from '../AuthModal/ModalUI';
 //antd
-import {Input,AutoComplete} from 'antd'
+import {Input,AutoComplete, Avatar} from 'antd'
 import SubNavbar from './SubNavbar';
 //gọi connect
 import {connect} from 'react-redux';
+import {change_visible_button, logout} from '../../action/authAction';
+//
+import {convertNameUser} from '../../helper/convertNameUser';
 
 
 function getRandomInt(max, min = 0) {
@@ -53,7 +56,7 @@ const searchResult = query =>
  class Navbar extends Component {
     state = {
         isOpen: false,
-        showModal: false,
+        //showModal: false,
         options: [],
         wordSearch: '',
         
@@ -72,18 +75,19 @@ const searchResult = query =>
     }
     handleShowAuthModal = () =>{
         
-        
-        this.setState({
-            showModal: true
-        })
+        this.props.change_visible_btn(true);
+        //this.setState({
+        //    showModal: true
+        //})
     }
     handleOnOKAuthModal = () => {
 
     }
     handleOnCancelAuthModal = () => {
-        this.setState({
-            showModal: false,
-          });
+        this.props.change_visible_btn(false);
+        //this.setState({
+        //    showModal: false,
+        //  });
     }
     handleSearch = (value) => {
         this.setState({
@@ -98,7 +102,10 @@ const searchResult = query =>
         }
         
     }
-    
+    handleLogout(){
+        localStorage.removeItem("access_token");
+        this.props.logout();
+    }
     render() {
         
         
@@ -116,7 +123,7 @@ const searchResult = query =>
                         </button>
                     </div>
                     <ul className={this.state.isOpen?"nav-links show-nav":"nav-links"}>
-                        <li>
+                        <li className="li-item">
                             <div className="search-body">
                                 <AutoComplete
                                 dropdownMatchSelectWidth={252}
@@ -133,31 +140,36 @@ const searchResult = query =>
                                 </AutoComplete>
                             </div>
                         </li>
-                        <li>
+                        <li className="li-item">
                             <Link to="/Persional/1"><FaBell style={{color: 'red'}}></FaBell> Thông báo</Link>
                         </li>
-                        <li>
+                        <li className="li-item" style={{display: this.props.isAuthenticated?'none':'block'}}>
                             <Link to="#" onClick={this.handleShowAuthModal}><FaUserAlt ></FaUserAlt> Đăng nhập</Link>
                         </li>
-                        <ModalUI visible={this.state.showModal}
-                        onOKAuthModal = {this.handleOnOKAuthModal}
-                        onCancelAuthModal = {this.handleOnCancelAuthModal}
-                        ></ModalUI>
-                        <li className="right"  style={{border: '1px solid red', display: 'none'}}>
+                        {
+                            this.props.isVisible ? <ModalUI visible={this.props.isVisible}
+                            onOKAuthModal = {this.handleOnOKAuthModal}
+                            onCancelAuthModal = {this.handleOnCancelAuthModal}
+                            ></ModalUI> : ""
+                        }
+                        
+                        <li className="right"  style={{display: this.props.isAuthenticated?'block':'none'}}>
                             <div>
                                 
-                                <span className="name-user">Hữu Thiện<p>User</p></span>
-                                <img src="https://img1a.flixcart.com/www/linchpin/fk-cp-zion/img/profile-pic-male_2fd3e8.svg" alt="user" width="30"></img>
-                                <FaAngleDown></FaAngleDown>
+                                <span className="name-user">Chào {convertNameUser(this.props.nameUser) ||'Bạn'}...</span>
+                                <Avatar alt="user" src={this.props.avatar ||"https://img1a.flixcart.com/www/linchpin/fk-cp-zion/img/profile-pic-male_2fd3e8.svg"} />
+                                
                                 <div className="dropdown">
                                     <ul>
-                                        <li><Link to="/hihi"><FaUserAlt></FaUserAlt> <small>Cá nhân</small></Link></li>
-                                        <li><Link to="#"><FaSignOutAlt></FaSignOutAlt> <small>Đăng xuất</small></Link></li>
+                                        <li><Link to="/hihi"><FaUserAlt style={{fontSize: '12px'}}></FaUserAlt> <span>Thông tin Cá nhân</span></Link></li>
+                                        <li><Link to="#" onClick={this.handleLogout.bind(this)}>
+                                            <FaSignOutAlt style={{fontSize: '12px'}}></FaSignOutAlt> <span>Đăng xuất</span>
+                                            </Link></li>
                                     </ul>
                                 </div>
                             </div>
                         </li>
-                        <li>
+                        <li className="li-item">
                             <Link to="/Cart"><FaShoppingCart></FaShoppingCart> Giỏ hàng <span className="count-item">
                                 {this.props.count}
                             </span></Link>
@@ -173,7 +185,17 @@ const searchResult = query =>
 }
 const mapStateToProps = (state) => {
     return{
+        nameUser: state.auth.nameUser,
+        avatar: state.auth.avatar,
+        isVisible: state.auth.isVisible,
+        isAuthenticated: state.auth.isAuthenticated,
         count: state.carts.count,
     }
 }
-export default connect(mapStateToProps,null)(Navbar);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        change_visible_btn: (data) => {dispatch(change_visible_button(data))}, 
+        logout: () => {dispatch(logout())},
+    }
+}
+export default connect(mapStateToProps,mapDispatchToProps)(Navbar);

@@ -162,7 +162,7 @@ namespace server.Services
 
         public async Task<List<ProductViewModel>> GetAll()
         {
-            var data = _context.products.Include(ev => ev.Evaluations).Include(img => img.Images).Where(x => x.status == ActionStatus.Display)
+            var data = _context.products.Include(img => img.Images).Where(x => x.status == ActionStatus.Display)
                 .Select(rs => new ProductViewModel
                 {
                     id = rs.id,
@@ -177,7 +177,7 @@ namespace server.Services
                     amount = rs.amount,
                     viewCount = rs.viewCount,
                     description = rs.description,
-                    Evaluations = rs.Evaluations,
+                    
                     Images = rs.Images.Where(p => p.status == ActionStatus.Display).ToList(),
                     rating = Convert.ToInt32(rs.Evaluations.Average(ave => ave.rating)),
                     provider = rs.provider,
@@ -306,7 +306,7 @@ namespace server.Services
                 color = rs.color,
                 size = rs.size,
                 description = rs.description,
-                Evaluations = rs.Evaluations,
+                
                 Images = rs.Images.Where(p => p.status == ActionStatus.Display).ToList(),
                 rating = Convert.ToInt32(rs.Evaluations.Average(ave => ave.rating)),
                 provider = rs.provider,

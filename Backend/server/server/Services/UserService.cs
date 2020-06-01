@@ -65,18 +65,22 @@ namespace server.Services
 
         public async Task<bool> Register(RegisterRequest request)
         {
-            var user = new AppUser()
+            var testUserExist = _context.Users.FirstOrDefault(u => u.Email == request.email);
+            if (testUserExist == null)
             {
-                displayname = request.displayname,
-                Email = request.email,
-                UserName = request.email
-            };
-            var result = await _userManager.CreateAsync(user, request.password);
-            if (result.Succeeded)
-            {
-                var userRole = _context.Roles.FirstOrDefault(x => x.Name == "User");
-                await _userManager.AddToRoleAsync(user, userRole.Name);
-                return true;
+                var user = new AppUser()
+                {
+                    displayname = request.displayname,
+                    Email = request.email,
+                    UserName = request.email
+                };
+                var result = await _userManager.CreateAsync(user, request.password);
+                if (result.Succeeded)
+                {
+                    var userRole = _context.Roles.FirstOrDefault(x => x.Name == "User");
+                    await _userManager.AddToRoleAsync(user, userRole.Name);
+                    return true;
+                }
             }
             return false;
         }

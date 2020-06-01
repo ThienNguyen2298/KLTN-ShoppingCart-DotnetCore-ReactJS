@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import {Form, Input, Button} from 'antd';
+import {Form, Input, Button, Spin} from 'antd';
 import FormBuilder from 'antd-form-builder';
+import {connect} from 'react-redux';
 
 const formItemLayout = {
     labelCol: {
@@ -20,15 +21,19 @@ const formItemLayout = {
       },
     },
   };
-export default class SignUp extends Component {
+class SignUp extends Component {
     formRegister = FormBuilder.createForm()
     onFinishRegister(values){
-        console.log("Các giá trị: ", values);
-        
+        this.props.onSignUp({displayname: values.fullname, email: values.email, password: values.password});
+        this.formRegister.resetFields();
+    }
+    componentWillUnmount(){
+      this.formRegister.resetFields();
     }
     render() {
         return (
             <>
+            <Spin spinning={this.props.isLoading} tip="ĐĂNG KÝ" size="large">
                <Form
                name="register"
                form={this.formRegister}
@@ -75,8 +80,8 @@ export default class SignUp extends Component {
                           message: 'Xin vui lòng nhập mật khẩu!',
                         },
                         {
-                            min: 8,
-                            message: 'Mật khẩu phải có tối thiểu 8 ký tự!'
+                            min: 10,
+                            message: 'Mật khẩu phải có tối thiểu 10 ký tự!'
                         }
                     ]}
                     hasFeedback
@@ -110,13 +115,20 @@ export default class SignUp extends Component {
                    >
                        <Input.Password/>
                    </Form.Item>
-                   <Form.Item>
-                        <Button type="primary" style={{height: '40px', border: '1px solid #fadb14', backgroundColor: '#fadb14'}} htmlType="submit" className="login-form-button">
-                            Đăng ký
+                   
+                        <Button type="primary" style={{height: '40px', border: '1px solid #fadb14', backgroundColor: '#fadb14'}} htmlType="submit" block>
+                            ĐĂNG KÝ
                         </Button>
-                    </Form.Item>
+                    
                </Form>
+               </Spin>
             </>
         )
     }
 }
+const mapStateToProps = (state) => {
+  return {
+      isLoading: state.auth.isLoadingRegister,
+  }
+}
+export default connect(mapStateToProps, null)(SignUp);

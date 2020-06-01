@@ -1,6 +1,6 @@
 
 .right{
-    top: 3px;
+    
     position: relative;
   }
    
@@ -9,21 +9,21 @@
     color: #644def;
   }
    .right div{
-    padding: 0 6px;
+    padding: 6px 0 ;
     display: flex;
     align-items: center;
-    
+    justify-content: center;
   }
   
     
-    .right img{
+    .right .ant-avatar-image{
     margin: 0 10px;
   }
   
     .right div .name-user{
+        box-sizing: border-box;
         
-        
-        font-size: 14px;
+        font-size: 16px;
         font-weight: bold;
     }
     .right div p{
@@ -36,9 +36,9 @@
   
    .right .dropdown{
     position: absolute;
-    width: 200px;
+    width: 220px;
     top: 45px;
-    right: 0px;
+    right: -15px;
     background: yellow;
     padding: 10px 25px;
     border-radius: 5px;
@@ -48,13 +48,22 @@
   
   .right .dropdown li{
       list-style-type: none;
+      padding: 2px;
+      
   }
+  .right .dropdown li a{
+    list-style-type: none;
+    padding: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.65);
+}
   
    .right .dropdown:before{
     content: "";
     position: absolute;
     top: -20px;
-    left: 60px;
+    left: 50%;
     transform: translateX(-50%);
     border: 10px solid;
     border-color: transparent transparent yellow transparent;

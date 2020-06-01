@@ -102,6 +102,7 @@ h6 {
 
 .nav-header {
   display: flex;
+  
   justify-content: space-between;
   
 }
@@ -154,7 +155,7 @@ h6 {
   
 }
 
-.nav-links a {
+.nav-links li.li-item a {
   
   display: block;
   text-decoration: none;
@@ -183,7 +184,7 @@ h6 {
     width: 60%;
     
   }
-  .nav-links a{
+  .nav-links li.li-item a{
     font-size: .9rem;
   }
 }
@@ -192,21 +193,28 @@ h6 {
     display: none;
   }
   .nav-center {
-    max-width: 1170px;
+    max-width: 75%;
     
     margin: 0 auto;
     
     display: flex;
   }
+  .nav-header {
+    display: flex;
+    width: 25%;
+    justify-content: space-between;
+    
+  }
   .nav-links {
     height: auto;
-    width: 100%;
+    width: 75%;
     display: flex;
-    margin-left: 2rem;
+    justify-content: space-between;
+    
     overflow: visible;
   }
   .search-body{
-    width: 400px;
+    width: 350px;
     min-height: 30px;
     
     text-align: center;
@@ -231,10 +239,13 @@ h6 {
     border-radius: 5px;
   }
   
-  .nav-links a {
+  .nav-links li.li-item a {
     font-size: 1rem;
     margin: 0 1rem;
     padding: 0.5rem 0;
+  }
+  .nav-links li:nth-child(5){
+    border: 2px solid white;
   }
   .nav-links li:nth-child(6){
     border: 2px solid white;

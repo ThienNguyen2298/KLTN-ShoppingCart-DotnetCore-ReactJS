@@ -1,25 +1,26 @@
 import React, { Component } from 'react';
-import {Form, Input, Button, Checkbox } from 'antd';
+import {Form, Input, Button, Checkbox, Spin } from 'antd';
 import FormBuilder from 'antd-form-builder';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import {Link} from 'react-router-dom';
 import {FaFacebookF, FaGoogle} from 'react-icons/fa';
+import {connect} from 'react-redux';
 
  class SignIn extends Component {
     constructor(){
         super();
         this.onFinish=this.onFinish.bind(this);
-       
-        
     }
     //khai báo this form
     formLogin = FormBuilder.createForm(this)
     handleSignInNow(value){
         this.props.onSignInNowClick(value)
     }
+    //
     
     onFinish = (values) => {
-        console.log('Received values of form: ',values);
+        //console.log('Received values of form: ',values);
+        this.props.onSignIn(values);
         this.formLogin.resetFields();
     };
     
@@ -29,6 +30,7 @@ import {FaFacebookF, FaGoogle} from 'react-icons/fa';
         
         return (
             <>
+            <Spin spinning={this.props.isLoading} tip="ĐĂNG NHẬP" size="large">
                 <Form
                     form={this.formLogin}
                     name="normal_login"
@@ -49,10 +51,7 @@ import {FaFacebookF, FaGoogle} from 'react-icons/fa';
                             message: 'Xin vui lòng nhập tài khoản!',
                             
                         },
-                        {
-                            min: 10,
-                            message: "Tài khoản phải có 8 ký tự trở lên!"
-                        },
+                        
                         {
                             whitespace: true,
                             message: 'Tài khoản toàn là dấu cách!'
@@ -80,7 +79,7 @@ import {FaFacebookF, FaGoogle} from 'react-icons/fa';
                         },
                         {
                             min: 10,
-                            message: "Mật khẩu phải có 8 ký tự trở lên!"
+                            message: "Mật khẩu phải có 10 ký tự trở lên!"
                         },
                         {
                             whitespace: true,
@@ -110,24 +109,29 @@ import {FaFacebookF, FaGoogle} from 'react-icons/fa';
 
                     <Form.Item>
                         <Button type="primary" style={{height: '40px', border: '1px solid #fadb14', backgroundColor: '#fadb14'}} htmlType="submit" className="login-form-button">
-                            Đăng nhập
+                            ĐĂNG NHẬP
                         </Button>
                     </Form.Item>
                     <div>
                         <Button type="primary" icon={<FaFacebookF></FaFacebookF>} style={{height: '40px', border: '1px solid #0050b3', backgroundColor: '#0050b3'}} className="login-form-button">
-                            &nbsp;Đăng nhập bằng facebook
+                            &nbsp;ĐĂNG NHẬP BẰNG FACEBOOK
                         </Button>
                     </div>
                     <br></br>
                     <div>
                         <Button type="primary" icon={<FaGoogle></FaGoogle>} style={{height: '40px', border: '1px solid #f5222d', backgroundColor: '#f5222d'}} className="login-form-button">
-                            &nbsp;Đăng nhập bằng google
+                            &nbsp;ĐĂNG NHẬP BẰNG GOOGLE
                         </Button>
                     </div>
                 </Form>
+                </Spin>
             </>
         )
     }
 }
-
- export default SignIn;
+const mapStateToProps = (state) => {
+    return {
+        isLoading: state.auth.isLoadingLogin
+    }
+}
+export default connect(mapStateToProps, null)(SignIn);

@@ -36,7 +36,7 @@ namespace server.Controllers
         }
         [HttpPost("register")]
         [AllowAnonymous]
-        public async Task<IActionResult> Register([FromForm]RegisterRequest request)
+        public async Task<IActionResult> Register([FromBody]RegisterRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -45,9 +45,9 @@ namespace server.Controllers
             var result = await _userService.Register(request);
             if (!result)
             {
-                return BadRequest("đăng ký tài khoản thất bại!");
+                return BadRequest("Email này đã tồn tại!");
             }
-            return Ok();
+            return Ok("Đăng ký tài khoản thành công!");
         }
     }
 }
