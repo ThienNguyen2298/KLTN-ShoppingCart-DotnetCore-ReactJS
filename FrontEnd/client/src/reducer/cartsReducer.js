@@ -1,7 +1,9 @@
 //action of carts
-import {ADD_TO_CART, REMOVE_ITEM, ADD_QUANTITY, SUB_QUANTITY} from '../action/action-types/carts-actions';
+import {ADD_TO_CART, REMOVE_ITEM, ADD_QUANTITY, SUB_QUANTITY, CREATE_ORDER_ERROR, CREATE_ORDER_LOADING, CREATE_ORDER_SUCCESS} 
+from '../action/action-types/carts-actions';
 //
 import * as ParsePrice from '../helper/parsePriceForSale';
+import { message } from 'antd';
 
 //local storage
 function getCartsFromLocalStorage(){
@@ -21,7 +23,7 @@ const initState = {
     carts: getCartsFromLocalStorage(),
     total: returnTotal(),
     count: getCartsFromLocalStorage().length,
-
+    isLoading: false,
 }
 const cartsReducer= (state = initState,action)=>{
    
@@ -51,6 +53,7 @@ const cartsReducer= (state = initState,action)=>{
                 tempCarts.push(newCart)
                 SaveCartsToLocalStorage(tempCarts);
                 return {
+                    ...state,
                     carts: [...state.carts, newCart],
                     total: state.total + ParsePrice.priceAfterSaleNotParseToMoney(newCart.price * action.payload.quantity, newCart.sale),
                     count: state.count + 1,
@@ -71,6 +74,7 @@ const cartsReducer= (state = initState,action)=>{
             SaveCartsToLocalStorage(new_items);
             //state mới trả ra
             return{
+                ...state,
                 carts: new_items,
                 total: newTotal,
                 count: state.count - 1,
@@ -106,6 +110,30 @@ const cartsReducer= (state = initState,action)=>{
                 ...state,
                 carts: [...tempCarts],
                 total: newTotal,
+            }
+        }
+        case CREATE_ORDER_LOADING: {
+            return {
+                ...state,
+                isLoading: true,
+            }
+        }
+        case CREATE_ORDER_SUCCESS: {
+            
+            message.success(`${action.payload}`,5)
+            localStorage.removeItem('carts')
+            return {
+                carts: [],
+                total: 0,
+                count: 0,
+                isLoading: false,
+            }
+        }
+        case CREATE_ORDER_ERROR: {
+            
+            return {
+                ...state,
+                isLoading: false,
             }
         }
         default:

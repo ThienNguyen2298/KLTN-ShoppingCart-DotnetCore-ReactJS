@@ -63,6 +63,9 @@ namespace server
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IManageCategoryService, ManageCategoryService>();
             services.AddTransient<IManageProviderService, ManageProviderService>();
+            services.AddTransient<IEvaluationService, EvaluationService>();
+            services.AddTransient<IReplyService, ReplyService>();
+            services.AddTransient<IOrderService, OrderService>();
             services.AddTransient<IStorageService, StorageService>();
             //
             services.AddSwaggerGen(c =>

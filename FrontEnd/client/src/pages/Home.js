@@ -12,7 +12,7 @@ class Home extends Component {
         this.state = {
             topViewProducts: [],
             mainProducts: [],
-            itemCount: 3,
+            itemCount: 5,
             isLoadingTopViewProduct: true,
             isLoadingMainProduct: true,
         }
@@ -56,7 +56,7 @@ class Home extends Component {
             
             isLoadingMainProduct: true,
         })
-        axiosInstance(`Product/get-all-products/${this.state.itemCount * 2}`)
+        axiosInstance(`Product/get-all-products/${this.state.itemCount + 5}`)
         .then(res => {
             this.setState({
                 mainProducts: [...res.data],

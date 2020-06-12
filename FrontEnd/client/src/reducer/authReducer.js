@@ -138,6 +138,14 @@ const authReducer = (state = initState, action) => {
                 isLoadingLogin: false,
             }
         }
+        case types.UPDATE_USER: {
+            
+            return {
+                ...state,
+                nameUser: action.payload.displayname,
+                avatar: action.payload.avatar,
+            }
+        }
         default:
             return state;
     }

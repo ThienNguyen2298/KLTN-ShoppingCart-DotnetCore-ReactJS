@@ -7,7 +7,7 @@ import ListEvaluation from '../components/listEvaluation/ListEvaluation';
 class ProductDetail extends Component{
     
     componentDidMount(){
-        window.scrollTo(0, 0)
+        //window.scrollTo(0, 0)
     }
     render(){
         return (

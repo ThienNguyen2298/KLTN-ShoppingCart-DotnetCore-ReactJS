@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { Avatar, Rate, } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
-import PropTypes from 'prop-types';
+import { UserOutlined , CheckCircleOutlined} from '@ant-design/icons';
 import ReplyEvaluation from './reply/ReplyEvaluation';
+import Moment from 'react-moment';
+import 'moment/locale/vi';
+
 
 
 const desc = ['Khủng khiếp', 'tệ', 'bình thường', 'tốt', 'tuyệt vời'];
@@ -19,30 +21,29 @@ export default class DisplayEvaluation extends Component {
         })
     }
     render() {
+        const {item} = this.props;
+        console.log("evaluation: ",item)
         return (
-            <div style={{border: '1px solid rgb(223, 224, 224)', display: 'flex', margin: '10px 0', padding: '20px 10px'}}>
-                <div style={{textAlign: 'center', width: '25%', padding: '10px'}}>
-                    <Avatar size={64} src={this.props.avatar} icon={<UserOutlined />} />
-                    <h6>{this.props.fullname || "User"}</h6>
-                    <p>Khoảng 1 tháng trước</p>
+            <div style={{border: '1px solid rgb(223, 224, 224)', display: 'flex', margin: '10px 0', padding: '20px 10px', 
+             borderRadius: '5px'}}>
+                <div style={{textAlign: 'center', width: '25%', padding: '5px'}}>
+                    <Avatar size={64} src={item.user.avatar} icon={<UserOutlined />} />
+                    <h6>{item.user.displayname || "User"} {item.user.displayname === 'Admin'? (<CheckCircleOutlined style={{color: 'green'}}/>): ""}</h6>
+                    <p><Moment locale="vi" interval={30000} fromNow>{item.createDate}</Moment></p>
                 </div>
-                <div style={{ width: '75%', padding: '10px'}}>
-                    <Rate disabled tooltips={desc} value={this.props.star}></Rate> <b>Hàng Ok nha shop</b>
-                    <p>
+                <div style={{ width: '75%', padding: '10px', }}>
+                    <Rate disabled tooltips={desc} value={item.rating}></Rate> <b>{item.title}</b>
+                    <p style={{padding: '10px', border: '1px solid #f1f1f1', borderRadius: '5px'}}>
                         {
-                            this.props.evaluation || ""
+                            item.content
                         }
                     </p>
-                    <span onClick={() => this.handleClickActiveReply()} style={{color: '#1890ff', cursor: 'pointer'}}>Trả lời</span> <span> (1 trả lời)</span>
-                    {(this.state.activeReply ? <ReplyEvaluation></ReplyEvaluation> :"")}
+                    <span onClick={() => this.handleClickActiveReply()} style={{color: '#1890ff', cursor: 'pointer'}}>{this.state.activeReply?"Đóng":"Trả lời"}</span> 
+                    <span> ({item.replies.length} trả lời)</span>
+                    {(<ReplyEvaluation showReply={this.state.activeReply} evaluation={item}></ReplyEvaluation>)}
                 </div>
             </div>
         )
     }
 }
-DisplayEvaluation.propTypes={
-    avatar: PropTypes.string,
-    fullname: PropTypes.string,
-    star:PropTypes.number,
-    evaluation: PropTypes.string.isRequired,
-}
+

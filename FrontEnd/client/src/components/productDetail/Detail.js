@@ -33,7 +33,7 @@ class Detail extends Component {
 
     }
     handleClickSubImage(e) {
-        console.log(e.target.src);
+       
         this.setState({
             mainImage: e.target.src
         })
@@ -74,7 +74,7 @@ class Detail extends Component {
             return emptyImage;
         }
         //
-        console.log(product)
+        
         if (isMounted) {
             return <><article className="detail-product">
                 <div className="img-detail-product">

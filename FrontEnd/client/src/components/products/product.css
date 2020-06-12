@@ -1,7 +1,7 @@
 /* room */
 .product {
     
-    width: 250px;
+    border-radius: 5px;
     box-shadow: var(--lightShadow);
     border: 1px solid #cfcfcf;
     transition: var(--mainTransition);
@@ -24,7 +24,7 @@
     top: 0;
     left: 0;
     width: 40px;
-    background: rgba(0, 0, 0, 0.8);
+    background: #ff4d4f;
     color: var(--mainWhite);
     padding: 0.2rem 0.1rem 0.3rem;
     border-bottom-right-radius: 1rem;
@@ -66,6 +66,9 @@
     
     font-weight: 500;
     letter-spacing: var(--mainSpacing);
+  }
+  .product-info p{
+    margin-bottom: 0.5em;
   }
   .product-name{
     white-space: nowrap;

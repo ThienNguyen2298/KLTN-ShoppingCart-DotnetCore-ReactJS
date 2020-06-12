@@ -1,0 +1,16 @@
+// trigger in evaluation
+// lấy dữ liệu evalutions
+
+export const FETCH_LOADING = 'FETCH_LOADING';
+export const FETCH_SUCCESS = 'FETCH_SUCCESS';
+export const FETCH_ERROR = 'FETCH_ERROR';
+//thêm đánh giá
+
+export const CREATE_EVALUATION_LOADING = 'CREATE_EVALUATION_LOADING';
+export const CREATE_EVALUATION_SUCCESS = 'CREATE_EVALUATION_SUCCESS';
+export const CREATE_EVALUATION_ERROR = 'CREATE_EVALUATION_ERROR';
+//thêm phản hồi của đánh giá
+
+export const CREATE_FEEDBACK_LOADING = 'CREATE_FEEDBACK_LOADING';
+export const CREATE_FEEDBACK_SUCCESS = 'CREATE_FEEDBACK_SUCCESS';
+export const CREATE_FEEDBACK_ERROR = 'CREATE_FEEDBACK_ERROR';

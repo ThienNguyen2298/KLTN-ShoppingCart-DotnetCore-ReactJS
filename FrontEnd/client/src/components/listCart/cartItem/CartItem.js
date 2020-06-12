@@ -23,7 +23,7 @@ class CartItem extends Component {
     }
     render() {
         const {item} = this.props;
-        console.log(item);
+        
         
         return (
             <div className="container-cart-item">

@@ -16,6 +16,12 @@
   --lightShadow: 2px 5px 3px 0px rgba(0, 0, 0, 0.5);
   --darkShadow: 4px 10px 5px 0px rgba(0, 0, 0, 0.5);
 }
+.ant-tabs .ant-tabs-top-content > .ant-tabs-tabpane, .ant-tabs .ant-tabs-bottom-content > .ant-tabs-tabpane {
+  outline: none;
+}
+.ant-modal-header{
+  text-align: center;
+}
 /* globals */
 body {
   
@@ -61,7 +67,7 @@ h6 {
   letter-spacing: var(--mainSpacing);
   color: var(--mainBlack);
   background: var(--primaryColor);
-  padding: 0.2rem 0.5rem;
+  padding: 0.2rem 0.3rem;
   border: 3px solid var(--primaryColor);
   transition: var(--mainTransition);
   text-transform: uppercase;

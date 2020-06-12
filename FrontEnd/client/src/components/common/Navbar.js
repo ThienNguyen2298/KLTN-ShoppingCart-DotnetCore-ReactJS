@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import logo from '../../images/logodoan.png';
 //import logo from '../images/logo.svg';
-import {FaAlignRight, FaUserAlt, FaShoppingCart, FaBell, FaAngleDown, FaSignOutAlt} from 'react-icons/fa';
-import {Link, Redirect} from 'react-router-dom';
+import {FaAlignRight, FaUserAlt, FaShoppingCart, FaBell,  FaSignOutAlt} from 'react-icons/fa';
+import {Link, withRouter, Redirect} from 'react-router-dom';
 //test.css
 import "./userInfomation.css";
 import ModalUI from '../AuthModal/ModalUI';
@@ -105,9 +105,21 @@ const searchResult = query =>
     handleLogout(){
         localStorage.removeItem("access_token");
         this.props.logout();
+        this.props.history.push("/");
+    }
+    handleViewInfoUser(){
+        console.log(window.location.pathname);
+        
+        if(window.location.pathname === `/Persional/${this.props.userId}`)
+        {
+            window.location.reload()
+        }
+        else{
+            this.props.history.push(`Persional/${this.props.userId}`)
+        }
+        
     }
     render() {
-        
         
         return (
             <>
@@ -161,7 +173,8 @@ const searchResult = query =>
                                 
                                 <div className="dropdown">
                                     <ul>
-                                        <li><Link to="/hihi"><FaUserAlt style={{fontSize: '12px'}}></FaUserAlt> <span>Thông tin Cá nhân</span></Link></li>
+                                        <li><Link onClick={this.handleViewInfoUser.bind(this)} 
+                                        to="#"><FaUserAlt style={{fontSize: '12px'}}></FaUserAlt> <span>Thông tin Cá nhân</span></Link></li>
                                         <li><Link to="#" onClick={this.handleLogout.bind(this)}>
                                             <FaSignOutAlt style={{fontSize: '12px'}}></FaSignOutAlt> <span>Đăng xuất</span>
                                             </Link></li>
@@ -185,7 +198,9 @@ const searchResult = query =>
 }
 const mapStateToProps = (state) => {
     return{
+        userId: state.auth.userId,
         nameUser: state.auth.nameUser,
+        role: state.auth.role,
         avatar: state.auth.avatar,
         isVisible: state.auth.isVisible,
         isAuthenticated: state.auth.isAuthenticated,
@@ -198,4 +213,4 @@ const mapDispatchToProps = (dispatch) => {
         logout: () => {dispatch(logout())},
     }
 }
-export default connect(mapStateToProps,mapDispatchToProps)(Navbar);
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(Navbar));

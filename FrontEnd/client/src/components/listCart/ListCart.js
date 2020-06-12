@@ -17,7 +17,7 @@ import {removeItem, addQuantity, subtractQuantity} from '../../action/cartsActio
         //render list cart
         
         const listItem = (
-            this.props.carts.length ? this.props.carts.map(item=>{
+            this.props.carts.map(item=>{
                 return <CartItem key={item.id} item={item}
                 removeItem={this.handleRomoveItem.bind(this)}
                 addQuantity={this.handleAddQuantity.bind(this)}
@@ -25,7 +25,7 @@ import {removeItem, addQuantity, subtractQuantity} from '../../action/cartsActio
                 >
                 </CartItem>
             })
-            : <h2>Bạn chưa thêm giỏ hàng</h2>
+            
         )
             
         
@@ -40,11 +40,7 @@ import {removeItem, addQuantity, subtractQuantity} from '../../action/cartsActio
         )
     }
 }
-const mapStateToProps = (state) =>{
-    return {
-        carts: state.carts.carts
-    }
-}
+
 const mapDispatchToProps = (dispatch) => {
     return{
         removeItem: (id) => {dispatch(removeItem(id))},
@@ -52,4 +48,4 @@ const mapDispatchToProps = (dispatch) => {
         subtractQuantity: (id) => {dispatch(subtractQuantity(id))}
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(ListCart);
+export default connect(null, mapDispatchToProps)(ListCart);
