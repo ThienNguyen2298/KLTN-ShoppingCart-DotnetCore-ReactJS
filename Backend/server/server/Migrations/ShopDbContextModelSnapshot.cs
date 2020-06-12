@@ -150,7 +150,7 @@ namespace server.Migrations
                         new
                         {
                             Id = new Guid("078269d8-1a12-4592-b92e-7ff1a876a5f2"),
-                            ConcurrencyStamp = "cac89798-327a-4d8a-9796-0cb01c2b0997",
+                            ConcurrencyStamp = "9cf62207-419e-4eff-98e4-8d303b588b3c",
                             CreationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Administrator role",
                             Name = "Admin",
@@ -159,7 +159,7 @@ namespace server.Migrations
                         new
                         {
                             Id = new Guid("6d9186ba-2cd6-4b6c-b729-4e605de1019f"),
-                            ConcurrencyStamp = "7433c5c2-ffe8-4feb-99fe-ee34138420c6",
+                            ConcurrencyStamp = "d7d8e943-2eff-4dbc-9c84-60433e164df7",
                             CreationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "User role",
                             Name = "User",
@@ -215,6 +215,9 @@ namespace server.Migrations
                     b.Property<string>("UserName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("address")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("avatar")
                         .HasColumnType("nvarchar(max)");
 
@@ -243,13 +246,13 @@ namespace server.Migrations
                         {
                             Id = new Guid("4557893f-1f56-4b6f-bb3b-caefd62c8c49"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a71f9d94-0e38-4f02-b523-a2d3391bcd75",
+                            ConcurrencyStamp = "2b6c9667-2a79-4e5d-8e41-61e9276afc94",
                             Email = "16110472@student.hcmute.deu.vn",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "some-admin-email@nonce.fake",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEGnlJ9PhcqDALx9+MV1K/ir0pjQMjWDSX8p+61tA7xL7W9UpgYJ95RW9tONsvSfRiA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKW526mPknLJCotac7iKgdwEi1OSYvCl/7X5zwgl5r6W+1SytpRqQcSIka2/Bi/hxA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -381,19 +384,34 @@ namespace server.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("address")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("createDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("guess")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("note")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("phone")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("status")
                         .HasColumnType("int");
 
+                    b.Property<string>("street")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("total")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("userId")
+                    b.Property<Guid?>("userId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("id");
@@ -417,6 +435,9 @@ namespace server.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("quantity")
+                        .HasColumnType("int");
+
+                    b.Property<int>("sale")
                         .HasColumnType("int");
 
                     b.Property<int>("unitPrice")
@@ -681,9 +702,7 @@ namespace server.Migrations
                 {
                     b.HasOne("server.Models.AppUser", "user")
                         .WithMany("Orders")
-                        .HasForeignKey("userId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("userId");
                 });
 
             modelBuilder.Entity("server.Models.OrderDetail", b =>

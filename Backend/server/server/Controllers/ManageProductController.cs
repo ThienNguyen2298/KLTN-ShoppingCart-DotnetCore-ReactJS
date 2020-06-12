@@ -42,7 +42,7 @@ namespace server.Controllers
             return Ok(product);
         }
         [HttpPost]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         
         public async Task<IActionResult> create([FromForm]ProductCreateRequest request)
         {

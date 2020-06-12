@@ -16,3 +16,5 @@ export const LOGIN_BY_FB = 'LOGIN_BY_FB';
 export const LOGIN_BY_GG = 'LOGIN_BY_GG';
 //trạng thái button
 export const CHANGE_VISIBLE_BUTTON = 'CHANGE_VISIBLE_BUTTON';
+// update avatar
+export const UPDATE_USER = 'UPDATE_USER';

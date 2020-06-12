@@ -49,5 +49,23 @@ namespace server.Controllers
             }
             return Ok("Đăng ký tài khoản thành công!");
         }
+        [HttpGet("get-user-by-id/{userId}")]
+        public async Task<IActionResult> getUserById(Guid userId)
+        {
+            var user = await _userService.getUserById(userId);
+            return Ok(user);
+        }
+        [HttpPut]
+        public async Task<IActionResult> Update([FromForm]UserUpdateRequest request)
+        {
+            var userId = await _userService.Update(request);
+            if (userId == null)
+            {
+                return BadRequest();
+
+            }
+            var user = await _userService.getUserById(userId);
+            return Ok(new { message = "Cập nhập user thành công!", user = user });
+        }
     }
 }

@@ -10,7 +10,10 @@ import ProductDetail from './pages/ProductDetail';
 import Cart from './pages/Cart';
 import Persional from './pages/Persional';
 import { BackTop } from 'antd';
-import {ArrowUpOutlined} from '@ant-design/icons'
+import {ArrowUpOutlined} from '@ant-design/icons';
+// Set the locale for every react-moment instance to French.
+
+import 'moment-timezone';
 
 const style = {
   height: 40,

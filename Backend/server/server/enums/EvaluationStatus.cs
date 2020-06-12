@@ -8,6 +8,7 @@ namespace server.enums
     public enum EvaluationStatus
     {
         Confirm,
-        Decline
+        Decline,
+        Deleted
     }
 }

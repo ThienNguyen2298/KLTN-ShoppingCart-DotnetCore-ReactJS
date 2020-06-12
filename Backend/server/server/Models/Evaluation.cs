@@ -17,7 +17,7 @@ namespace server.Models
         public int rating { get; set; }
         public string title { get; set; }
         public string content { get; set; }
-        [DefaultValue(EvaluationStatus.Decline)]
+        [DefaultValue(EvaluationStatus.Confirm)]
         public EvaluationStatus status { get; set; }
         public DateTime createDate { get; set; }
         //foreign key

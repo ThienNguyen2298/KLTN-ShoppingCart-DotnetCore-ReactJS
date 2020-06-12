@@ -115,7 +115,8 @@ namespace server.Services
                     price = ele.price,
                     provider = ele.provider,
                     providerId = ele.providerId,
-                    rating = ele.rating,
+                    //
+                    rating = Convert.ToInt32(ele.Evaluations.Where(e => e.status == EvaluationStatus.Confirm).Average(ave => ave.rating)),
                     sale = ele.sale,
                     size = ele.size,
                     status = ele.status,
@@ -161,7 +162,7 @@ namespace server.Services
             if(all == false)
             {
                 var data = await _context.products.Where(x => x.status == ActionStatus.Display)
-                    .OrderByDescending(x => x.viewCount).Take(4)
+                    .OrderByDescending(x => x.viewCount).Take(5)
                 .Select(rs => new ProductViewModel
                 {
                     id = rs.id,

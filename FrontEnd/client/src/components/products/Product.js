@@ -21,7 +21,7 @@ export default class Product extends Component {
                 <article className="product">
                     <div className="img-container">
                         <img src={product.images[0] ? product.images[0].urlImage : empty}
-                        alt="single product" height='250'/>
+                        alt="single product" height='200'/>
                         <div className="price-top">
                             <h6>{product.sale}%</h6>
                             <p>sale</p>
@@ -35,7 +35,7 @@ export default class Product extends Component {
                         <p><span style={{color: '#f5222d', marginRight: '10px'}}>{parsePriceForSale.parsePriceSale(product.price, product.sale) || 0} <b>đ</b>
                          </span><span style={{textDecoration: 'line-through', color: '#af9a7d'}}>{parsePriceForSale.parsePrice(product.price) || 0}
                           <b>đ</b> </span></p>
-                        <div>{product.provider.name || ""}</div>
+                        <div style={{fontSize: '12px'}}>{product.provider.name || ""}</div>
                         <span>
                             <Rate disabled tooltips={descriptionRating} value={product.rating || 5} />
                         </span>

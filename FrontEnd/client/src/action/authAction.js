@@ -1,4 +1,5 @@
-import {REGISTER_LOADING, REGISTER_SUCCESS, REGISTER_ERROR, LOGIN_ERROR, LOGIN_LOADING, LOGIN_SUCCESS, LOGOUT, CHANGE_VISIBLE_BUTTON} from './action-types/auth-action';
+import {REGISTER_LOADING, REGISTER_SUCCESS, REGISTER_ERROR, LOGIN_ERROR, LOGIN_LOADING, LOGIN_SUCCESS, 
+    LOGOUT, CHANGE_VISIBLE_BUTTON, UPDATE_USER} from './action-types/auth-action';
 import * as authApis from '../api/authen.api';
 // Đăng ký 
 export const fetch_register = (value) => {
@@ -32,7 +33,7 @@ export const register_success = (data)=>{
 export const register_error = (err)=>{
     return{
         type: REGISTER_ERROR,
-        payload: err.response.data
+        payload: err.response ? err.response.data :'Server chưa hoạt động!'
     }
 }
 // Đăng nhập
@@ -71,7 +72,7 @@ export const login_error = (err)=>{
     
     return{
         type: LOGIN_ERROR,
-        payload: err.response.data
+        payload: err.response ? err.response.data :'Server chưa hoạt động!'
     }
 }
 export const logout = ()=>{
@@ -83,6 +84,13 @@ export const logout = ()=>{
 export const change_visible_button = (data) => {
     return {
         type: CHANGE_VISIBLE_BUTTON,
+        payload: data,
+    }
+}
+//update user
+export const update_user = (data) => {
+    return {
+        type: UPDATE_USER,
         payload: data,
     }
 }

@@ -26,6 +26,7 @@
     padding: 15px;
 }
 .show-evaluation-container{
+    transition: all 2s linear;
     display: block;
 }
 .send-evaluation-btn{
