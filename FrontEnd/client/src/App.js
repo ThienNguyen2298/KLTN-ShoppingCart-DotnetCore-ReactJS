@@ -4,8 +4,10 @@ import {Route, Switch} from 'react-router-dom';
 import 'antd/dist/antd.css';
 //components
 import Navbar from './components/common/Navbar';
+import Footer from './components/common/Footer'
 import Home from './pages/Home';
 import ProductDetail from './pages/ProductDetail';
+import Search from './pages/Search';
 
 import Cart from './pages/Cart';
 import Persional from './pages/Persional';
@@ -36,7 +38,9 @@ function App() {
         <Route exact path="/product-detail/:productId" component={ProductDetail} />
         <Route exact path="/Cart" component={Cart} />
         <Route exact path="/Persional/:userId" component={Persional} />
+        <Route exact path="/search/" component={Search} />
       </Switch>
+      <Footer></Footer>
       <BackTop>
         <div style={style}><ArrowUpOutlined style={{ fontSize: '16px'}}/></div>
       </BackTop>

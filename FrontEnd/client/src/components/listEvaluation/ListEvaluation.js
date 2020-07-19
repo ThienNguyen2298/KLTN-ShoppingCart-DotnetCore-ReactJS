@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import DisplayEvaluation from '../displayEvaluation/DisplayEvaluation';
 import {connect} from 'react-redux';
 import {fetch_evaluation} from '../../action/evaluationsAction'
@@ -24,7 +24,7 @@ class ListEvaluation extends Component {
                 <Skeleton loading={this.props.isLoading} indicator={antIcon}>
                <h4>CÁC NHẬN XÉT KHÁC</h4>
                {
-                   evaluations ? evaluations: <p>( Chưa có nhận xét )</p>
+                   evaluations ? evaluations: <Fragment><p>( Chưa có nhận xét )</p><br></br></Fragment>
                }
                
                </Skeleton>

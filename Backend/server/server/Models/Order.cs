@@ -20,6 +20,8 @@ namespace server.Models
         public string note { get; set; }
         public string address { get; set; }
         public string street { get; set; }
+        public int feeShip { get; set; }
+        public DateTime deliveryDate { get; set; }
         //guess
         public string guess { get; set; }
         public string phone { get; set; }

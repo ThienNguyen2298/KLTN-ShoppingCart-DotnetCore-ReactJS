@@ -13,5 +13,7 @@ namespace server.Interfaces
         Task<List<ProductViewModel>> GetTopViewCountProduct(bool all = false);
         Task<List<ProductViewModel>> GetAllProduct(int itemCount = 8);
         Task<ProductViewModel> getProductById(int productId);
+        Task<List<ProductViewModel>> SearchProducts(Helper.SearchProductRequest request);
+        Task<List<CategoryViewModel>> getListCategoryByGeneralityName(string generalityName);
     }
 }

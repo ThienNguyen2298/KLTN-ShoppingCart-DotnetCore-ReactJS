@@ -32,7 +32,8 @@ export default class Banner extends Component {
             
             <div style={{position: 'relative'}}>
                 
-                <MdKeyboardArrowLeft style={{cursor: 'pointer',fontSize: '2em',color: 'white',position: 'absolute', top: '46%',left: '2%', zIndex: '1'}} onClick={this.previous}></MdKeyboardArrowLeft>
+                <MdKeyboardArrowLeft style={{cursor: 'pointer',fontSize: '2em',color: 'white',position: 'absolute', top: '46%',
+                left: '2%', zIndex: '1'}} onClick={this.previous}></MdKeyboardArrowLeft>
                 <Carousel ref={node => (this.carousel = node)} {...props}>
                     
                     <div style={{}}>

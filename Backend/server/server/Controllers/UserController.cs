@@ -67,5 +67,6 @@ namespace server.Controllers
             var user = await _userService.getUserById(userId);
             return Ok(new { message = "Cập nhập user thành công!", user = user });
         }
+        
     }
 }

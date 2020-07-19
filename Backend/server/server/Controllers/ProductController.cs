@@ -4,8 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using server.Helper;
 using server.Helper.product;
 using server.Interfaces;
+using server.ViewModel;
 
 namespace server.Controllers
 {
@@ -42,6 +44,23 @@ namespace server.Controllers
         {
             var product = await _productService.getProductById(productId);
             return Ok(product);
+        }
+        [HttpGet("search-products")]
+        public async Task<IActionResult> searchProducts([FromQuery]SearchProductRequest request)
+        {
+            List<ProductViewModel> products = await _productService.SearchProducts(request);
+            List<CategoryViewModel> catetegories = null;
+            if(products != null)
+            {
+                catetegories = await _productService.getListCategoryByGeneralityName(products[0].category.generalityName);
+            }
+            return Ok(new { products = products, categories = catetegories == null ? null : catetegories});
+        }
+        [HttpGet("get-listcategory-by-generalityname/{generalityName}")]
+        public async Task<IActionResult> getListCategoryByGeneralityName(string generalityName)
+        {
+            var listCategory = await _productService.getListCategoryByGeneralityName(generalityName);
+            return Ok(listCategory);
         }
     }
 }

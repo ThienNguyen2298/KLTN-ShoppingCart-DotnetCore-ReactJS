@@ -97,6 +97,20 @@ namespace server.Services
             return data;
         }
 
+        public async Task<List<CategoryViewModel>> getListCategoryByGeneralityName(string generalityName)
+        {
+            var listCategory = await _context.categories.Where(x => x.generalityName.Equals(generalityName))
+                .Select(rs => new CategoryViewModel { 
+                    id = rs.id,
+                    name = rs.name,
+                    status = ActionStatus.Display,
+                    generalityName = rs.generalityName,
+                    
+                })
+                .ToListAsync();
+            return listCategory;
+        }
+
         public async Task<ProductViewModel> getProductById(int productId)
         {
             var temp = await _context.products.Include(eva => eva.Evaluations)
@@ -215,5 +229,51 @@ namespace server.Services
                 return data;
             }
         }
+
+        public async Task<List<ProductViewModel>> SearchProducts(Helper.SearchProductRequest request)
+        {
+            var products = _context.products.AsQueryable();
+            if (!string.IsNullOrEmpty(request.searchKey))
+            {
+                products = products.Where(ele => ele.name.ToLower().Contains(request.searchKey.ToLower()));
+            }
+            if (request.categoryId.HasValue)
+            {
+                products = products.Where(ele => ele.categoryId == request.categoryId.Value);
+            }
+            if(request.toPrice.HasValue)
+            {
+                var toPrice = request.fromPrice.HasValue ? request.fromPrice.Value : 0;
+                products = products.Where(ele => ele.price >= toPrice && ele.price <=
+                request.toPrice.Value);
+            }
+            if (request.rating.HasValue)
+            {
+                products = products.Where(x => x.rating >= request.rating.Value);
+                 
+            }
+            return await products.Where(i => i.status == ActionStatus.Display).Select(rs => new ProductViewModel
+            {
+                id = rs.id,
+                name = rs.name,
+                price = rs.price,
+                importPrice = rs.importPrice,
+                sale = rs.sale,
+                categoryId = rs.categoryId,
+                category = rs.category,
+                color = rs.color,
+                size = rs.size,
+                description = rs.description,
+
+                Images = rs.Images.Where(p => p.status == ActionStatus.Display).ToList(),
+                rating = Convert.ToInt32(rs.Evaluations.Average(ave => ave.rating)),
+                provider = rs.provider,
+                providerId = rs.providerId,
+                status = rs.status
+
+            }).ToListAsync();
+        }
+
+        
     }
 }

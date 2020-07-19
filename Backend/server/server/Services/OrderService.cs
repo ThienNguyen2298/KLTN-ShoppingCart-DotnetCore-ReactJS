@@ -27,6 +27,8 @@ namespace server.Services
                 phone = request.phone,
                 email = request.email,
                 note = request.note,
+                feeShip = request.feeShip,
+                deliveryDate = request.feeShip == 20000 ? DateTime.Now.AddDays(1) : DateTime.Now.AddDays(3),
                 status = enums.OrderStatus.NotConfirm,
                 total = request.total,
                 userId = request.userId,

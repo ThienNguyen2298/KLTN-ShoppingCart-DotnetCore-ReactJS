@@ -1,11 +1,11 @@
 import React from 'react';
 import {Breadcrumb} from 'antd';
-import { HomeOutlined, UserOutlined } from '@ant-design/icons';
+import { HomeOutlined, UserOutlined, RightOutlined } from '@ant-design/icons';
 
 export default function BreadScrumb({title}) {
     return (
         <div style={{background: '#f7f7f7', padding: '.5rem'}}>
-            <Breadcrumb >
+            <Breadcrumb separator={<RightOutlined />}>
                 <Breadcrumb.Item href="/" style={{color: '#1890ff'}}>
                 <HomeOutlined />
                 <span><b>Trang chủ</b></span>

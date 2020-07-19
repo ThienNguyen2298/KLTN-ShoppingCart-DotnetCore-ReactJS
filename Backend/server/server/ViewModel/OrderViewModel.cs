@@ -18,6 +18,8 @@ namespace server.ViewModel
         public string address { get; set; }
         public string street { get; set; }
         public DateTime createDate { get; set; }
+        public int feeShip { get; set; }
+        public DateTime deliveryDate { get; set; }
         //guess
         public string guess { get; set; }
         public string phone { get; set; }
