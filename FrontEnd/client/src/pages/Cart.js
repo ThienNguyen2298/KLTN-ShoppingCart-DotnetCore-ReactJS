@@ -20,7 +20,7 @@ class Cart extends Component {
         if(carts.length === 0)
         {
             return (
-                <div>
+                <div style={{background: '#f7f7f7'}}>
                     <div style={{maxWidth: '75%', margin: '0 auto'}}>
                         <BreadScrumb title="Giỏ hàng"></BreadScrumb>
                     </div>
@@ -34,7 +34,7 @@ class Cart extends Component {
         }
         else{
             return (
-                <div>
+                <div style={{background: '#f7f7f7', minHeight: 450}}>
                     <div style={{maxWidth: '75%', margin: '0 auto'}}>
                         <BreadScrumb title="Giỏ hàng"></BreadScrumb>
                     </div>

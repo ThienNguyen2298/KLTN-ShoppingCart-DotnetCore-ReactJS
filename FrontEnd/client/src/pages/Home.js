@@ -69,7 +69,7 @@ class Home extends Component {
     render(){
         return (
             
-            <div>
+            <div style={{background: '#f7f7f7'}}>
                 <Banner></Banner>
                 
                 <ListProducts title="NHỮNG SẢN PHẨM XEM NHIỀU" onClickViewMore={this.handleClickViewMore.bind(this)} loading={this.state.isLoadingTopViewProduct} products={this.state.topViewProducts}></ListProducts>

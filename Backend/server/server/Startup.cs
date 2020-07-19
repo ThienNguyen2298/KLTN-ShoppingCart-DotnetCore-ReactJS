@@ -19,6 +19,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using server.Data;
+using server.Helper;
 using server.Interfaces;
 using server.Models;
 using server.Services;
@@ -53,7 +54,10 @@ namespace server
                 .AddEntityFrameworkStores<ShopDbContext>()
                 .AddDefaultTokenProviders();
             //
-            
+            var emailConfig = Configuration.GetSection("EmailConfiguration")
+                .Get<EmailConfiguration>();
+            services.AddSingleton(emailConfig);
+            services.AddScoped<IEmailSender, EmailSender>();
             //
             services.AddTransient<IManageProductService, ManageProductService>();
             services.AddTransient<IProductService, ProductService>();
@@ -64,6 +68,7 @@ namespace server
             services.AddTransient<IManageCategoryService, ManageCategoryService>();
             services.AddTransient<IManageProviderService, ManageProviderService>();
             services.AddTransient<IEvaluationService, EvaluationService>();
+            services.AddTransient<IManageOrderService, ManageOrderService>();
             services.AddTransient<IReplyService, ReplyService>();
             services.AddTransient<IOrderService, OrderService>();
             services.AddTransient<IStorageService, StorageService>();
@@ -130,7 +135,7 @@ namespace server
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             
-            app.UseCors(options => options.WithOrigins("http://localhost:3000", "http://localhost:8000").AllowAnyHeader().AllowAnyMethod());
+            app.UseCors(options => options.WithOrigins("https://localhost:3000", "http://localhost:8000").AllowAnyHeader().AllowAnyMethod());
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

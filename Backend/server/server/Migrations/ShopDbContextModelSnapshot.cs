@@ -150,7 +150,7 @@ namespace server.Migrations
                         new
                         {
                             Id = new Guid("078269d8-1a12-4592-b92e-7ff1a876a5f2"),
-                            ConcurrencyStamp = "9cf62207-419e-4eff-98e4-8d303b588b3c",
+                            ConcurrencyStamp = "ef2b5977-d357-4749-8083-a4bbccc4c788",
                             CreationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Administrator role",
                             Name = "Admin",
@@ -159,7 +159,7 @@ namespace server.Migrations
                         new
                         {
                             Id = new Guid("6d9186ba-2cd6-4b6c-b729-4e605de1019f"),
-                            ConcurrencyStamp = "d7d8e943-2eff-4dbc-9c84-60433e164df7",
+                            ConcurrencyStamp = "ff8a5ba7-4ebc-4815-8a74-53b6280ef9ac",
                             CreationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "User role",
                             Name = "User",
@@ -246,13 +246,13 @@ namespace server.Migrations
                         {
                             Id = new Guid("4557893f-1f56-4b6f-bb3b-caefd62c8c49"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2b6c9667-2a79-4e5d-8e41-61e9276afc94",
+                            ConcurrencyStamp = "cee6bbda-d106-4ae0-88d6-021b4bf13f49",
                             Email = "16110472@student.hcmute.deu.vn",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "some-admin-email@nonce.fake",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKW526mPknLJCotac7iKgdwEi1OSYvCl/7X5zwgl5r6W+1SytpRqQcSIka2/Bi/hxA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHZTIa/AhCMJBdFUMZF83UqW3hsFa/Guv46rjKzqyIxNSn+JDtfVXTHPXIdxEw79yA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -390,8 +390,14 @@ namespace server.Migrations
                     b.Property<DateTime>("createDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime>("deliveryDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("email")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("feeShip")
+                        .HasColumnType("int");
 
                     b.Property<string>("guess")
                         .HasColumnType("nvarchar(max)");

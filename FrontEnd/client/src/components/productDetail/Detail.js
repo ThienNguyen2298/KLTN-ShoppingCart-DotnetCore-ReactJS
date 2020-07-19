@@ -28,7 +28,7 @@ class Detail extends Component {
             .then(res => this.setState({
                 product: { ...res.data },
                 isMounted: true,
-                mainImage: res.data.images[0].urlImage,
+                mainImage: res.data.images ? res.data.images[0].urlImage :  empty ,
             }))
 
     }

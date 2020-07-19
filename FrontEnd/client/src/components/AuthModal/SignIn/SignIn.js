@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import {Form, Input, Button, Checkbox, Spin } from 'antd';
+import {Form, Input, Button, Checkbox, Spin, Row, Col, message } from 'antd';
 import FormBuilder from 'antd-form-builder';
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { UserOutlined, LockOutlined, FacebookOutlined } from '@ant-design/icons';
 import {Link} from 'react-router-dom';
 import {FaFacebookF, FaGoogle} from 'react-icons/fa';
 import {connect} from 'react-redux';
+import FacebookLogin from 'react-facebook-login';
 
  class SignIn extends Component {
     constructor(){
@@ -24,7 +25,10 @@ import {connect} from 'react-redux';
         this.formLogin.resetFields();
     };
     
-    
+    responseFacebook(response) {
+        console.log("FB: ", response);
+        message.success(response.accessToken, 10)
+    }
     
     render() {
         
@@ -108,21 +112,34 @@ import {connect} from 'react-redux';
                     </Form.Item>
 
                     <Form.Item>
-                        <Button type="primary" style={{height: '40px', border: '1px solid #fadb14', backgroundColor: '#fadb14'}} htmlType="submit" className="login-form-button">
+                        
+                        <Button type="primary" style={{height: '45px', border: '1px solid #fadb14', backgroundColor: '#fadb14',
+                    textTransform: 'uppercase', fontSize: 16, fontWeight: 'bold'}} htmlType="submit" className="login-form-button">
                             ĐĂNG NHẬP
                         </Button>
                     </Form.Item>
+                    <Row>
+                        <Col span={24}>
                     <div>
+                        {/*
                         <Button type="primary" icon={<FaFacebookF></FaFacebookF>} style={{height: '40px', border: '1px solid #0050b3', backgroundColor: '#0050b3'}} className="login-form-button">
                             &nbsp;ĐĂNG NHẬP BẰNG FACEBOOK
                         </Button>
+                        */}
+                        <FacebookLogin
+                        appId="708823593214755"
+                        autoLoad={false}
+                        fields="name,email,picture"
+                        //onClick={componentClicked}
+                        callback={this.responseFacebook.bind(this)}
+                        cssClass="my-facebook-button-class"
+                        icon={<FaFacebookF style={{marginRight: 5}}/>}
+                        ></FacebookLogin>
                     </div>
+                    </Col>
+                    </Row>
                     <br></br>
-                    <div>
-                        <Button type="primary" icon={<FaGoogle></FaGoogle>} style={{height: '40px', border: '1px solid #f5222d', backgroundColor: '#f5222d'}} className="login-form-button">
-                            &nbsp;ĐĂNG NHẬP BẰNG GOOGLE
-                        </Button>
-                    </div>
+                    
                 </Form>
                 </Spin>
             </>

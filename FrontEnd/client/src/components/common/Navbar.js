@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import logo from '../../images/logodoan.png';
-//import logo from '../images/logo.svg';
 import {FaAlignRight, FaUserAlt, FaShoppingCart, FaBell,  FaSignOutAlt} from 'react-icons/fa';
 import {Link, withRouter, Redirect} from 'react-router-dom';
 //test.css
@@ -12,54 +11,93 @@ import SubNavbar from './SubNavbar';
 //gọi connect
 import {connect} from 'react-redux';
 import {change_visible_button, logout} from '../../action/authAction';
+import {update_search_key} from '../../action/productsAction';
 //
 import {convertNameUser} from '../../helper/convertNameUser';
+import create from '@ant-design/icons/lib/components/IconFont';
+import axiosInstance from '../../utils/axiosInstance';
+//
+import queryString from 'query-string'
 
 
-function getRandomInt(max, min = 0) {
-    return Math.floor(Math.random() * (max - min + 1)) + min; // eslint-disable-line no-mixed-operators
-  }
 
-const searchResult = query =>
-  
-  
-  new Array(getRandomInt(5))
-    .join('.')
-    .split('.')
-    .map((item, idx) => {
-      const category = `${query} ${idx}`;
-      
-      return {
-        value: category,
-        label: (
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-            }}
-          >
-            <span>
-              <Link
-                to={`/product-detail/${query}`}
-                
-                rel="noopener noreferrer"
-              >
-                {category}
-              </Link>
-            </span>
-            
-          </div>
-        ),
-      };
-    });
+const tempArray = [{id: 1, name: 'thiện'}, {id: 2, name: 'long'}, {id: 3, name: 'nam'}]
+
 
  class Navbar extends Component {
-    state = {
-        isOpen: false,
-        //showModal: false,
-        options: [],
-        wordSearch: '',
+    constructor(props){
+        super(props);
+        this.state ={
+            isOpen: false,
+            //showModal: false,
+            options: [],
+            wordSearch: '',
+            position: '',
+            categoryId: null,
+        }
+        //debounce search.
+        this.debounceRef = React.createRef(null);
+    }
+    
+    componentDidMount(){
         
+        this.setState({
+            position: window.location.pathname,
+        })
+        
+    }
+    componentDidUpdate(prevProps, prevState){
+        if(prevState.position !== window.location.pathname){
+            //reset search khi trở lại trang hơn - code ko đc clean :(
+            if( window.location.pathname === '/' && prevState.position.includes('/search')){
+                this.props.update_searchkey('');
+                /*this.setState({
+                    wordSearch: '',
+                });*/
+            }
+            this.setState({
+                position: window.location.pathname,
+            });
+        }
+    }
+    searchResult = async(query) => {
+        const tempArray = await axiosInstance(`Product/search-products?${queryString.stringify({
+            searchKey: query,
+            categoryId: this.state.categoryId,
+        })}`, 'GET')
+        .then(res => res.data.products);
+        return [...tempArray].map((e) => {
+            return {
+                value: e.name,
+                label: (
+                    <Link
+                    to = {{
+                        pathname: "/search/",
+                        search: queryString.stringify({
+                            searchKey: e.name,
+                            categoryId: this.state.categoryId,
+                        }),
+                        hash: "#search-product",
+                        state: { fromDashboard: window.location.pathname === '/' || ''? true : false }
+                      }}
+                    rel="noopener noreferrer"
+                  >
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                    }}
+                  >
+                    <span>
+                      
+                        {e.name}
+                      
+                    </span>
+                    
+                  </div></Link>
+                ),
+              }
+        })
         
     }
     
@@ -85,21 +123,25 @@ const searchResult = query =>
     }
     handleOnCancelAuthModal = () => {
         this.props.change_visible_btn(false);
-        //this.setState({
-        //    showModal: false,
-        //  });
     }
-    handleSearch = (value) => {
-        this.setState({
-            options: value ? searchResult(value) : []
-        })
-    }
-    handleSearchRandom(val, e){
-        if(e.target.type === 'button' && val !==''){
-            this.setState({
-                wordSearch: val
-            })
+    handleSearch = async(value) => {
+        if(this.debounceRef.current){
+            clearTimeout(this.debounceRef.current)
         }
+        this.debounceRef.current = setTimeout(async () => {
+            
+            this.setState({
+                options: value ? await this.searchResult(value) : []
+            })
+        }, 500)
+        
+    }
+    handleSearchRandom(e){
+        this.props.update_searchkey(e.target.value)
+        /*this.setState({
+            wordSearch: e.target.value
+        })*/
+        
         
     }
     handleLogout(){
@@ -115,21 +157,30 @@ const searchResult = query =>
             window.location.reload()
         }
         else{
-            this.props.history.push(`Persional/${this.props.userId}`)
+            this.props.history.push({
+                pathname: `/Persional/${this.props.userId}`,
+                
+            })
+            //this.props.history.push(`Persional/${this.props.userId}`)
         }
         
     }
-    render() {
+    handleOnSelect(value, options){
+        this.props.update_searchkey(value)
+        /*this.setState({
+            wordSearch: value
+        })*/
         
+    }
+    render() {
+        const {searchKey} = this.props;
         return (
             <>
-            {
-                this.state.wordSearch ? <Redirect to={`/Persional/${this.state.wordSearch}`}></Redirect>:''
-            }
+            
             <nav className="navbar">
                 <div className="nav-center">
                     <div className="nav-header">
-                        <Link  to="/"><img src={logo} alt="beach resort"></img></Link>
+                        <Link to="/"><img src={logo} alt="beach resort"></img></Link>
                         <button type="button" className="nav-btn" onClick={this.handleToggle}>
                             <FaAlignRight className="nav-icon"></FaAlignRight>
                         </button>
@@ -144,11 +195,13 @@ const searchResult = query =>
                                     outline: 'none'
                                 }}
                                 options={this.state.options}
-                                onSearch={(value)=>this.handleSearch(value)}
+                                onSearch={this.handleSearch.bind(this)}
+                                value={searchKey}
+                                onSelect={this.handleOnSelect.bind(this)}
+                                
                                 >
-                                    <Input.Search value={this.state.wordSearch} onSearch={(val, e)=>this.handleSearchRandom(val, e)
-                                    } style={{outline: 'none', backgroundColor: 'gray'}} size="large" 
-                                    placeholder="Nhập từ khóa tìm kiếm" enterButton/>
+                                    <Input onChange={(e)=>this.handleSearchRandom(e)}  size="large" 
+                                    placeholder="Nhập từ khóa tìm kiếm" allowClear/> 
                                 </AutoComplete>
                             </div>
                         </li>
@@ -205,12 +258,14 @@ const mapStateToProps = (state) => {
         isVisible: state.auth.isVisible,
         isAuthenticated: state.auth.isAuthenticated,
         count: state.carts.count,
+        searchKey: state.products.searchKey,
     }
 }
 const mapDispatchToProps = (dispatch) => {
     return {
         change_visible_btn: (data) => {dispatch(change_visible_button(data))}, 
         logout: () => {dispatch(logout())},
+        update_searchkey: (searchKey) => {dispatch(update_search_key(searchKey))}
     }
 }
 export default withRouter(connect(mapStateToProps,mapDispatchToProps)(Navbar));
