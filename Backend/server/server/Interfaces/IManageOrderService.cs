@@ -1,4 +1,5 @@
-﻿using server.Helper.order;
+﻿using server.enums;
+using server.Helper.order;
 using server.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -11,12 +12,16 @@ namespace server.Interfaces
     {
         //
         Task<List<OrderViewModel>> GetAllOrderNotConfirm();
+        Task<List<OrderViewModel>> SearchOrder(SearchOrderRequest request);
         Task<List<OrderDetailViewModel>> GetOrderDetailByOrderId(int orderId);
         Task<ResultOrderViewModel> confirmShippingAndSendMailBillOrder(StatusOrderRequest request);
-        Task<bool> CancelOrder(StatusOrderRequest request);
+        Task<OrderViewModel> GetOrderByOrderId(int orderId);
+        Task<bool> CancelOrder(CancelOrderRequest request);
+        Task<bool> confirmSuccessOrder(StatusOrderRequest request);
         //
         Task<List<OrderViewModel>> GetAllOrderSuccess();
-        Task<List<OrderViewModel>> GetAllOrderShipping();
+        Task<List<OrderViewModel>> GetAllOrderDelivering();
         Task<List<OrderViewModel>> GetAllOrderCancelled();
+        Task<bool> SetStatusNotConfirm(int orderId, OrderStatus status);
     }
 }

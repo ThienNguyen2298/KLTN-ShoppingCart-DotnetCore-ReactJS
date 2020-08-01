@@ -47,11 +47,24 @@ namespace server.Services
             emailMessage.From.Add(new MailboxAddress(_emailConfiguration.From));
             emailMessage.To.AddRange(message.To);
             emailMessage.Subject = message.Subject;
-            
-            emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html) { Text = string.Format("<div style='width: 600px;padding: 10px 20px; text-align: center'>"+
+            if(data != null)
+            {
+                emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)
+                {
+                    Text = string.Format("<div style='width: 600px;padding: 10px 20px; text-align: center'>" +
                 "<div><h2 style='color: #1890ff'>Đơn hàng của bạn</h2><table style='width: 600px;border-collapse: collapse'>" +
                 "<tr style='background: #1890ff; color: white'><th style='padding: 5px'>Sản phẩm</th><th>Đơn giá</th><th>Giảm giá (%)</th><th>Số lượng</th>" +
-                "</tr>{0}</table><div><h4>Tổng hóa đơn: {1} (bao gồm phí ship)</h4></div></div></div>", FormatListOrderDetailToHtml(data), FormatCurrencyVND(total))};
+                "</tr>{0}</table><div><h4>Tổng hóa đơn: {1} (bao gồm phí ship)</h4></div></div></div>", FormatListOrderDetailToHtml(data), FormatCurrencyVND(total))
+                };
+            }
+            else
+            {
+                emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Text)
+                {
+                    Text = message.Content
+                };
+            }
+            
             return emailMessage;
         }
         private async Task<bool> Send(MimeMessage mailMessage)
