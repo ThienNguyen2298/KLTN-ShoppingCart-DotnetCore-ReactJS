@@ -1,3 +1,7 @@
 .ant-modal-header{
     text-align: center;
   }
+  thead[class*="ant-table-thead"] th{
+    background-color: #595959 !important;
+    color: white;
+  }

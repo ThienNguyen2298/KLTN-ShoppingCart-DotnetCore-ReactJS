@@ -28,5 +28,7 @@ namespace server.ViewModel
         public Guid userId { get; set; }
         public AppUser user { get; set; }
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+        //
+        public bool? enableOrder { get; set; }
     }
 }

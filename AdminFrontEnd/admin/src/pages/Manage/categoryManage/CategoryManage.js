@@ -214,8 +214,8 @@ export default class CategoryManage extends Component {
                     <Sidebar isActive="4"></Sidebar>
                     <div className="content">
                         <BreadScrumb title="Quản lý danh mục"></BreadScrumb>
-                        {
-                            isLoading ? <Spin size="large" tip="Loading data">
+                        
+                            <Spin size="large" spinning={isLoading} tip="Loading data">
                                 <div style={{ margin: 10 }}>
                                     <Row>
                                         <Col span={12} offset={6}>
@@ -237,37 +237,10 @@ export default class CategoryManage extends Component {
 
                                 </Table>
 
-                        }
+                        
 
-                         </Spin> : <>
-                                    <div style={{ margin: 10 }}>
-                                        <Row>
-                                            <Col span={12} offset={6}>
-                                                <Search
-                                                    placeholder="tìm kiếm..."
-                                                    enterButton="Tìm kiếm"
-
-                                                    size="large"
-                                                    onSearch={value => this.handleSearch(value)}
-                                                />
-                                            </Col>
-                                        </Row>
-                                    </div>
-
-                                    <Table style={{ margin: 10 }} width="100%" columns={columns} dataSource={datas} pagination={{
-                                        position: ["bottomCenter", "bottomCenter"],
-                                        defaultPageSize: 5,
-                                    }}>
-
-                                    </Table>
-
-                                    }
-                                    {
-                                        visible ? <ModalCategory visible={visible} data={item} onSubmitForm={(value) => this.handleSubmit(value)}
-                                            onCancel={() => this.handleCancel()} onChangeInput={(e) => this.handleChangeInput(e)}></ModalCategory> : ''
-                                    }
-                                </>
-                        }
+                         </Spin>
+                        
                     </div>
                 </div>
             </>

@@ -72,6 +72,7 @@ namespace server
             services.AddTransient<IReplyService, ReplyService>();
             services.AddTransient<IOrderService, OrderService>();
             services.AddTransient<IStorageService, StorageService>();
+            services.AddTransient<IStatisticsService, StatisticsService>();
             //
             services.AddSwaggerGen(c =>
             {

@@ -21,7 +21,7 @@ export default class Product extends Component {
                 <article className="product">
                     <div className="img-container">
                         <img src={product.images[0] ? product.images[0].urlImage : empty}
-                        alt="single product" height='200'/>
+                        alt="single product" height='200' width="auto"/>
                         <div className="price-top">
                             <h6>{product.sale}%</h6>
                             <p>sale</p>
