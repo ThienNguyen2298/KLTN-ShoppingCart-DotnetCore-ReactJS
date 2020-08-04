@@ -3,7 +3,7 @@ import {Modal , Tabs, message} from 'antd';
 import SignIn from './SignIn/SignIn';
 import SignUp from './SignUp/SignUp';
 import {connect} from 'react-redux';
-import {fetch_register, fetch_login, login_with_fb, login_fb_success} from '../../action/authAction';
+import {fetch_register, fetch_login, login_fb_error, login_fb_success} from '../../action/authAction';
 import ForgetPassword from './ForgetPassword/ForgetPassword';
 import axiosInstance from '../../utils/axiosInstance';
 
@@ -73,7 +73,12 @@ class ModalUI extends Component {
             if(!!res.data){
                 this.props.login_fb_success(res.data);
             }
-        });
+        })
+        .catch(err => {
+            console.log({...err});
+            message.warning(`${err.response.data}`, 4);
+            this.props.login_fb_error();
+        })
         
         
     }
@@ -129,7 +134,8 @@ const mapDispatchToProps = (dispatch) => {
     return {
         register: (data) => {dispatch(fetch_register(data))},
         login: (data) => {dispatch(fetch_login(data))},
-        login_fb_success: (data) => {dispatch(login_fb_success(data))}
+        login_fb_success: (data) => {dispatch(login_fb_success(data))},
+        login_fb_error: () => {dispatch(login_fb_error())}
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(ModalUI);

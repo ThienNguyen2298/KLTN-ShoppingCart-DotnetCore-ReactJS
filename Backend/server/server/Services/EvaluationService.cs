@@ -60,7 +60,7 @@ namespace server.Services
 
         public async Task<EvaluationViewModel> getEvaluationById(int evaluationId)
         {
-            var evaluation = await _context.evaluations.Where(e => e.status == EvaluationStatus.Confirm)
+            var evaluation = await _context.evaluations
                 .Include(rp => rp.Replies)
                 .Select(rs => new EvaluationViewModel()
                 {

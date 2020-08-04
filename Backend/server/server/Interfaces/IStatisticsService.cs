@@ -11,5 +11,7 @@ namespace server.Interfaces
     public interface IStatisticsService
     {
         IQueryable<RevenueStatisticsViewModel> RevenueStatistics(RevenueStatisticsRequest request);
+        IQueryable<ProductViewModel> ProductStatistics(ProductStatisticsRequest request);
+        List<StatusOrderStatistics> StatusOrderStatistics();
     }
 }

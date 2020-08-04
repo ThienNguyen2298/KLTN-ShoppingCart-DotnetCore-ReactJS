@@ -36,6 +36,7 @@ export const fetch_error = (err) => {
 }
 //thêm evaluation
 export const handle_create_evaluation = (evaluation) => {
+    console.log("eva action: ", evaluation);
     return dispatch => {
         dispatch(create_evaluation_loading());
         evaluationApis.createEvaluation(evaluation)

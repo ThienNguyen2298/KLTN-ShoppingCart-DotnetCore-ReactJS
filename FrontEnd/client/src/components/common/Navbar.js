@@ -63,6 +63,9 @@ const tempArray = [{id: 1, name: 'thiện'}, {id: 2, name: 'long'}, {id: 3, name
         const tempArray = await axiosInstance(`Product/search-products?${queryString.stringify({
             searchKey: query,
             categoryId: this.state.categoryId,
+            //
+            currentPage: 1,
+            pageSize: 3,
         })}`, 'GET')
         .then(res => res.data.products);
         return [...tempArray].map((e) => {
@@ -75,6 +78,9 @@ const tempArray = [{id: 1, name: 'thiện'}, {id: 2, name: 'long'}, {id: 3, name
                         search: queryString.stringify({
                             searchKey: e.name,
                             categoryId: this.state.categoryId,
+                            //
+                            currentPage: 1,
+                            pageSize: 3,
                         }),
                         hash: "#search-product",
                         state: { fromDashboard: window.location.pathname === '/' || ''? true : false }

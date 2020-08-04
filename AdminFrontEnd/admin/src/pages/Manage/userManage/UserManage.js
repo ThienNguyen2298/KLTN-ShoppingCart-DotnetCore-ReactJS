@@ -145,7 +145,7 @@ export default class UserManage extends Component {
                 key: 'status',
                 dataIndex: 'status',
                 
-                render: text => text == 0 ? <Tag color="#87d068">Active</Tag> : <Tag color="error">InActive</Tag>
+                render: text => text === 0 ? <Tag color="#87d068">Active</Tag> : <Tag color="error">InActive</Tag>
             },
             {
                 title: 'NGÀY SINH',
@@ -228,7 +228,7 @@ export default class UserManage extends Component {
                                     dataSource={userList}
                                     pagination={{
                                         position: ["bottomCenter", "bottomCenter"],
-                                        defaultPageSize: 5,
+                                        defaultPageSize: 4,
                                         defaultCurrent: 1
                                     }}
                                     >

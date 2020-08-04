@@ -10,6 +10,7 @@ import UserManage from '../pages/Manage/userManage/UserManage';
 import StatisticsRevenue from '../pages/Manage/statistical/StatisticsRevenue';
 import Header from "../components/common/Header";
 import EvaluationManage from '../pages/Manage/evaluationManage/EvaluationManage';
+import StatisticsProduct from '../pages/Manage/statistical/StatisticsProduct';
 
 //
 
@@ -77,6 +78,13 @@ const AdminRoute = [
            <StatisticsRevenue location={location} {...props} />
         ),
      },
+     {
+      path: "/admin/statistics-product",
+      exact: true,
+      myComponent: (location, props) => (
+         <StatisticsProduct location={location} {...props} />
+      ),
+   },
     
  ];
  export default AdminRoute;

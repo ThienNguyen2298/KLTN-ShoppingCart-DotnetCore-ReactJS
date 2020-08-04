@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import BreadScrumb from '../components/BreadScrumb/BreadScrumb';
-import {Row, Col, Rate, Empty, InputNumber, Button, notification} from 'antd';
+import {Row, Col, Rate, Empty, InputNumber, Button, notification, Pagination} from 'antd';
 import {ArrowRightOutlined, CheckCircleOutlined} from '@ant-design/icons';
 import queryString from 'query-string';
 import axiosInstance from '../utils/axiosInstance';
@@ -18,7 +18,10 @@ class Search extends Component {
             search: '',
             categoryId: 0,
             categories: [],
-            products: []
+            products: [],
+            currentPage: 1,
+            pageSize: 3,
+            
         }
     }
     async componentDidMount(){
@@ -28,6 +31,9 @@ class Search extends Component {
         this.props.searchProduct(queryString.stringify({
             searchKey: obj.searchKey,
             categoryId: obj.categoryId,
+            //
+            pageSize: obj.pageSize,
+            currentPage: obj.currentPage,
         }));
     }
     async componentDidUpdate(prevProps, prevState){
@@ -38,6 +44,9 @@ class Search extends Component {
             this.props.searchProduct(queryString.stringify({
                 searchKey: obj.searchKey,
                 categoryId: obj.categoryId,
+                //
+                pageSize: obj.pageSize,
+                currentPage: obj.currentPage,   
             }));
         }
     }
@@ -77,8 +86,22 @@ class Search extends Component {
             categoryId: categoryId,
         }));
     }
+    //
+    handleChangePage(page, pageSize){
+        const {searchKey, fromPrice, toPrice, rating, categoryId} = this.props;
+        this.props.searchProduct(queryString.stringify({
+            searchKey: searchKey,
+            rating: rating,
+            fromPrice: fromPrice,
+            toPrice: toPrice,
+            categoryId: categoryId,
+            currentPage: page,
+            pageSize: 3,
+        }));
+    }
     render() {
-        const {products, categories} = this.props;
+        const {products, categories, totalColumns, currentPage, pageSize} = this.props;
+        //const {currentPage, pageSize} = this.state;
         
         const listProduct = products.length > 0 ? ( products.map(ele => {
             return <Product addToCart={this.handleAddToCart.bind(this)} key={ele.id} product={{...ele}}></Product>
@@ -121,11 +144,27 @@ class Search extends Component {
                         <Col lg={{span: 18}}>
                             <div style={{background: '#ffffff', padding: 20, minHeight: 400}}>
                                 {
-                                    products.length ? 
+                                    products.length ? <>
                                     <div style={{display: 'grid', gridTemplateColumns: 'repeat(3,1fr)',
                                     gridColumnGap: '1rem', gridRowGap: '2rem'}}>
                                         {listProduct}
-                                    </div> : <Empty></Empty>
+                                       
+                                    </div>
+                                    <br/>
+                                     <Row>
+                                        <Col span={24} style={{textAlign: 'center'}}>
+                                        <Pagination
+                                        defaultCurrent={1}
+                                        total={totalColumns}
+                                        current={currentPage}
+                                        pageSize={pageSize} 
+                                        onChange={this.handleChangePage.bind(this)}
+                                        >
+
+                                        </Pagination>
+                                        </Col>
+                                    </Row></>
+                                    : <Empty></Empty>
                                 }
                             </div>
                         </Col>
@@ -145,6 +184,9 @@ const mapStateToProps = (state) => {
         toPrice: state.products.toPrice,
         provider: state.products.provider,
         categoryId: state.products.categoryId,
+        currentPage: state.products.currentPage,
+        pageSize: state.products.pageSize,
+        totalColumns: state.products.totalColumns,
     }
 }
 const mapDispatchToProps = (dispatch) => {

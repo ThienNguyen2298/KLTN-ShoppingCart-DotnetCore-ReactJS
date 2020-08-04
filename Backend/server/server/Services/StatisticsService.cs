@@ -17,6 +17,40 @@ namespace server.Services
         {
             _context = context;
         }
+
+        public IQueryable<ProductViewModel> ProductStatistics(ProductStatisticsRequest request)
+        {
+            if(request.status == enums.HotStatus.Empty)
+            {
+                var query = (from p in _context.products
+                             where p.amount < 20 && p.status == enums.ActionStatus.Display
+                             orderby p.amount descending
+                             select new ProductViewModel
+                             {
+                                 name = p.name,
+                                 Images = p.Images,
+                                 amount = p.amount,
+                             });
+                query = query.Count() > 20 ? query.Take(20) : query;
+                return query;
+            }
+            else
+            {
+                var query = (from p in _context.products
+                             where p.amount >= 100 && p.status == enums.ActionStatus.Display
+                             orderby p.amount ascending
+                             select new ProductViewModel
+                             {
+                                 name = p.name,
+                                 Images = p.Images,
+                                 amount = p.amount,
+                             });
+                query = query.Count() > 20 ? query.Take(20) : query;
+                return query;
+            }
+            
+        }
+
         public IQueryable<RevenueStatisticsViewModel> RevenueStatistics(RevenueStatisticsRequest request)
         {
             if (request.option == enums.DayOrMonth.DaysInMonth)
@@ -47,6 +81,20 @@ namespace server.Services
                          };
                 return rp;
             }
+        }
+
+        public List<StatusOrderStatistics> StatusOrderStatistics()
+        {
+            var querySuccess = _context.orders.Where(a => a.status == enums.OrderStatus.Success).Count();
+            var queryShipping = _context.orders.Where(a => a.status == enums.OrderStatus.Shipping).Count();
+            var queryNotConfirm = _context.orders.Where(a => a.status == enums.OrderStatus.NotConfirm).Count();
+            var queryCancel = _context.orders.Where(a => a.status == enums.OrderStatus.Cancel).Count();
+            return new List<StatusOrderStatistics>() { 
+                new StatusOrderStatistics(){ status = "Thành công", count = querySuccess},
+                new StatusOrderStatistics(){ status = "Đang vận chuyển", count = queryShipping},
+                new StatusOrderStatistics(){ status = "Chưa duyệt", count = queryNotConfirm},
+                new StatusOrderStatistics(){ status = "Đã hủy", count = queryCancel}
+            };
         }
     }
 }

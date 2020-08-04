@@ -52,7 +52,7 @@ namespace server.Services
         {
             //kiểm trả thằng username có hay chưa
             var user = await _userManager.FindByNameAsync(request.username);
-            if (user == null && user.status == ActionStatus.Deleted)
+            if (user == null || user.status == ActionStatus.Deleted)
             {
                 return null;
             }
@@ -235,7 +235,7 @@ namespace server.Services
             var username  = request.userId + "facebook";
             var checkUserExist = await _userManager.FindByNameAsync(username);
             //
-            if(checkUserExist.status == ActionStatus.Deleted)
+            if(checkUserExist != null && checkUserExist.status == ActionStatus.Deleted)
             {
                 return "FAILED";
             }
