@@ -3,7 +3,7 @@ import Product from './Product';
 import './listProducts.css';
 import {connect} from 'react-redux';
 import { addToCart} from '../../action/cartsAction';
-import {notification, Button, Skeleton} from 'antd';
+import {notification, Button, Skeleton, Pagination} from 'antd';
 import {CheckCircleOutlined} from '@ant-design/icons';
 
 
@@ -12,7 +12,6 @@ import {CheckCircleOutlined} from '@ant-design/icons';
 
 
 class ListProducts extends Component {
-    
     
     handleAddToCart(item){
         //console.log(item);
@@ -27,15 +26,20 @@ class ListProducts extends Component {
     handleClickViewMore(){
         this.props.onClickViewMore(true)
     }
+    //
+    handleChangePage(page, pageSize){
+        this.props.onChangePage(page, pageSize);
+    }
     render() {
-        const {products, loading} = this.props;
+        const {products, loading, isViewMore, pageCurrent, pageSize, totalPage
+        } = this.props;
         
         return (<>
-            <h3 style={{maxWidth: '75%', margin: '20px auto'}}>{this.props.title}</h3>
+            <h4 style={{maxWidth: '75%', margin: '20px auto'}}>{this.props.title}</h4>
             
             <div className="listProduct">
                 {
-                    <Skeleton style={{border: '1px solid red'}} loading={loading} active>{
+                    <Skeleton style={{ width: '100%', border: '1px solid red'}} loading={loading} active>{
                         products.map((ele) => {
                             return <Product key={ele.id} addToCart={this.handleAddToCart.bind(this)} product={{...ele}}></Product>
                         }) }
@@ -44,7 +48,16 @@ class ListProducts extends Component {
             </div>
                 <br></br>
                 <div style={{textAlign: 'center'}}>
-                    <Button disabled={loading} onClick={this.handleClickViewMore.bind(this)}>Xem thêm</Button>
+                    {
+                        isViewMore ? 
+                        <Pagination current={pageCurrent} 
+                        pageSize={pageSize} 
+                        total={totalPage}
+                        onChange={this.handleChangePage.bind(this)}
+                        ></Pagination>
+                        :
+                        <Button disabled={loading} onClick={this.handleClickViewMore.bind(this)}>Xem thêm</Button>
+                    }
                 </div>
             
             </>

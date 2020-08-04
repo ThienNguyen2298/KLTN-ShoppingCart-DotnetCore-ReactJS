@@ -133,7 +133,7 @@ class Persional extends Component {
                                         }
                                         key="2"
                                     >
-                                        <OrderHistory orders={this.state.user.orders}></OrderHistory>
+                                        <OrderHistory userId={this.state.user.id}></OrderHistory>
                                     </TabPane>
                                 </Tabs>
                             </div>

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using server.Helper.facebook;
 using server.Helper.user;
 using server.Interfaces;
 
@@ -67,6 +68,32 @@ namespace server.Controllers
             var user = await _userService.getUserById(userId);
             return Ok(new { message = "Cập nhập user thành công!", user = user });
         }
+
+        [HttpPost("ForgetPassword")]
+        public async Task<IActionResult> ForgetPassword(ForgotPasswordRequest request)
+        {
+            var check = await _userService.ForgotPassword(request);
+            return Ok(check);
+        }
+        [HttpPost("ResetPassword")]
+        public async Task<IActionResult> ResetPassword(ResetPasswordRequest request)
+        {
+
+            var check = await _userService.ResetPassword(request);
+            return Ok(check);
+        }
+        [HttpPost("LoginWithFacebook")]
+        public async Task<IActionResult> LoginWithFacebook(FacebookLoginRequest request)
+        {
+            var token = await _userService.LoginWithFacebook(request);
+            if(token == "FAILED")
+            {
+                return BadRequest("LOGIN FACEBOOK FAILED");
+            }
+            HttpContext.Response.Headers.Add("Token", $"{token}");
+            return Ok(token);
+        }
         
+
     }
 }

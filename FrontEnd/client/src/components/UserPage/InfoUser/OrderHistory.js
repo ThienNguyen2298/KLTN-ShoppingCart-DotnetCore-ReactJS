@@ -1,10 +1,31 @@
 import React, { Component } from 'react';
 import {Empty} from 'antd';
+import axiosInstance from '../../../utils/axiosInstance';
+import Order from './Order';
 
 export default class OrderHistory extends Component {
+    //
+    constructor(props){
+        super();
+        this.state = {
+            orderList: [],
+        }
+    }
+    //
+    async componentDidMount(){
+        let list = await axiosInstance(`Order/GetOrderListByUserId/${this.props.userId}`, 'GET')
+        .then(res => res.data);
+        let format = list.map(ele => {
+            return {...ele, key: ele.id}
+        })
+        this.setState({
+            orderList: format,
+        })
+    }
     render() {
-        console.log(this.props.orders)
-        if(this.props.orders.length === 0){
+        const {orderList} = this.state;
+        
+        if(orderList.length === 0){
             return (
                 <div style={{height: 300}}>
                     <Empty 
@@ -19,7 +40,7 @@ export default class OrderHistory extends Component {
             )
         }
         else{
-            return null
+            return <Order list={orderList}></Order>
         }
         
     }

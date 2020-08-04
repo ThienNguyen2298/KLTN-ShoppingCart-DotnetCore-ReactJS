@@ -9,6 +9,7 @@ import ProviderManage from '../pages/Manage/providerManage/ProviderManage';
 import UserManage from '../pages/Manage/userManage/UserManage';
 import StatisticsRevenue from '../pages/Manage/statistical/StatisticsRevenue';
 import Header from "../components/common/Header";
+import EvaluationManage from '../pages/Manage/evaluationManage/EvaluationManage';
 
 //
 
@@ -60,6 +61,13 @@ const AdminRoute = [
        exact: true,
        myComponent: (location, props) => (
           <UserManage location={location} {...props} />
+       ),
+    },
+    {
+      path: "/admin/evaluation-manage",
+       exact: true,
+       myComponent: (location, props) => (
+          <EvaluationManage location={location} {...props} />
        ),
     },
     {

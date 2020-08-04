@@ -73,6 +73,8 @@ namespace server
             services.AddTransient<IOrderService, OrderService>();
             services.AddTransient<IStorageService, StorageService>();
             services.AddTransient<IStatisticsService, StatisticsService>();
+            services.AddTransient<IManageEvaluationService, ManageEvaluationService>();
+            services.AddTransient<IManageUserService, ManageUserService>();
             //
             services.AddSwaggerGen(c =>
             {
@@ -129,6 +131,7 @@ namespace server
                     ClockSkew = System.TimeSpan.Zero,
                     IssuerSigningKey = new SymmetricSecurityKey(signingKeyBytes)
                 };
+                
             });
         }
 

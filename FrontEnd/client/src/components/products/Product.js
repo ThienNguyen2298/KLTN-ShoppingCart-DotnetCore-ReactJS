@@ -6,6 +6,18 @@ import {Link} from 'react-router-dom';
 import {Rate, Button} from 'antd';
 import empty from '../../images/empty.jpg'
 
+const displayBlock = {
+    display: 'block',
+}
+const displayNone = {
+    display: 'none',
+}
+const displayPriceSale = {
+    display: 'inline-block',
+    fontSize: 12, 
+    textDecoration: 'line-through', 
+    color: '#af9a7d'
+}
 
 export default class Product extends Component {
     
@@ -21,8 +33,8 @@ export default class Product extends Component {
                 <article className="product">
                     <div className="img-container">
                         <img src={product.images[0] ? product.images[0].urlImage : empty}
-                        alt="single product" height='200' width="auto"/>
-                        <div className="price-top">
+                        alt="single product" height='240' width="auto"/>
+                        <div className="price-top" style={product.sale === 0 ? displayNone : displayBlock}>
                             <h6>{product.sale}%</h6>
                             <p>sale</p>
                         </div>
@@ -31,14 +43,23 @@ export default class Product extends Component {
                         </div>
                     </div>
                     <div className="product-info">
-                        <p className="product-name"><Link to={`/product-detail/${product.id}`}>{product.name}</Link></p>
-                        <p><span style={{color: '#f5222d', marginRight: '10px'}}>{parsePriceForSale.parsePriceSale(product.price, product.sale) || 0} <b>đ</b>
-                         </span><span style={{textDecoration: 'line-through', color: '#af9a7d'}}>{parsePriceForSale.parsePrice(product.price) || 0}
-                          <b>đ</b> </span></p>
-                        <div style={{fontSize: '12px'}}>{product.provider.name || ""}</div>
                         <span>
-                            <Rate disabled tooltips={descriptionRating} value={product.rating || 5} />
+                            <Rate style={{fontSize: 16}} disabled tooltips={descriptionRating} value={product.rating || 5} /> ({product.rating || 5})
                         </span>
+                        <p className="product-name"><Link to={`/product-detail/${product.id}`}>{product.name}</Link></p>
+                        <div style={{fontSize: '12px'}}>{product.provider.name || ""}</div>
+                        <p>
+                            <span style={product.sale === 0 ? displayNone : displayPriceSale}>
+                            {parsePriceForSale.parsePrice(product.price) || 0}
+                            <b>đ</b> 
+                            </span>
+                            <span style={{color: '#f5222d', marginLeft: '10px'}}>
+                            {parsePriceForSale.parsePriceSale(product.price, product.sale) || 0} <b>đ</b>
+                         </span>
+                         
+                          </p>
+                        
+                        
                     </div>
                 </article>
             </>

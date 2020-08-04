@@ -8,8 +8,11 @@ namespace server.Helper.facebook
 {
     public class FacebookLoginRequest
     {
-        [Required]
-        [StringLength(255)]
-        public string facebookToken { get; set; }
+        
+        
+        public string email { get; set; }
+        public string avatar { get; set; }
+        public string userId { get; set; }
+        public string name { get; set; }
     }
 }

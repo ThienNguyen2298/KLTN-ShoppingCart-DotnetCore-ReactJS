@@ -20,5 +20,7 @@ namespace server.ViewModel
         public ActionStatus status { get; set; }
         //relative n - 1
         public virtual ICollection<Order> Orders { get; set; }
+        //
+        public string userType { get; set; }
     }
 }

@@ -29,5 +29,11 @@ namespace server.Controllers
             }
             return Ok("Đặt hàng thành công! Admin sẽ thông báo đến bạn thông qua số điện thoại hoặc gmail! Trân trọng!");
         }
+        [HttpGet("GetOrderListByUserId/{userId}")]
+        public async Task<IActionResult> GetOrderListByUserId(Guid userId)
+        {
+            var list = await _orderService.GetOrderListByUserId(userId);
+            return Ok(list);
+        }
     }
 }

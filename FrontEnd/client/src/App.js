@@ -13,6 +13,7 @@ import Cart from './pages/Cart';
 import Persional from './pages/Persional';
 import { BackTop } from 'antd';
 import {ArrowUpOutlined} from '@ant-design/icons';
+import ResetPassword  from './components/AuthModal/ResetPassword/ResetPassword';
 // Set the locale for every react-moment instance to French.
 
 import 'moment-timezone';
@@ -28,9 +29,16 @@ const style = {
   color: '#fff',
   
 };
+const displayBlock={
+  display: 'inline-block',
+}
+const displayNone={
+  display: 'none',
+}
 function App() {
   return (
     <>
+      <div style={window.location.pathname.includes('ResetPassword') ? displayNone : null}>
       <Navbar></Navbar>
       
       <Switch>
@@ -44,6 +52,8 @@ function App() {
       <BackTop>
         <div style={style}><ArrowUpOutlined style={{ fontSize: '16px'}}/></div>
       </BackTop>
+      </div>
+      <Route exact path="/ResetPassword/" component={ResetPassword} />
     </>
       
     

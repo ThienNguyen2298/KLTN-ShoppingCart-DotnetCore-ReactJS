@@ -1,7 +1,7 @@
-import React, { Component, createRef } from 'react';
+import React, { Component} from 'react';
 import logo from '../../images/logodoan.png';
 import {FaAlignRight, FaUserAlt, FaShoppingCart, FaBell,  FaSignOutAlt} from 'react-icons/fa';
-import {Link, withRouter, Redirect} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 //test.css
 import "./userInfomation.css";
 import ModalUI from '../AuthModal/ModalUI';
@@ -14,7 +14,6 @@ import {change_visible_button, logout} from '../../action/authAction';
 import {update_search_key} from '../../action/productsAction';
 //
 import {convertNameUser} from '../../helper/convertNameUser';
-import create from '@ant-design/icons/lib/components/IconFont';
 import axiosInstance from '../../utils/axiosInstance';
 //
 import queryString from 'query-string'
@@ -150,9 +149,12 @@ const tempArray = [{id: 1, name: 'thiện'}, {id: 2, name: 'long'}, {id: 3, name
         this.props.history.push("/");
     }
     handleViewInfoUser(){
-        console.log(window.location.pathname);
-        
-        if(window.location.pathname === `/Persional/${this.props.userId}`)
+        //console.log(window.location.pathname);
+        this.props.history.push({
+            pathname: `/Persional/${this.props.userId}`,
+            
+        })
+        /*if(window.location.pathname === `/Persional/${this.props.userId}`)
         {
             window.location.reload()
         }
@@ -161,8 +163,8 @@ const tempArray = [{id: 1, name: 'thiện'}, {id: 2, name: 'long'}, {id: 3, name
                 pathname: `/Persional/${this.props.userId}`,
                 
             })
-            //this.props.history.push(`Persional/${this.props.userId}`)
-        }
+            
+        }*/
         
     }
     handleOnSelect(value, options){

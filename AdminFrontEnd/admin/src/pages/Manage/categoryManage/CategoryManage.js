@@ -236,7 +236,12 @@ export default class CategoryManage extends Component {
                                 }}>
 
                                 </Table>
-
+                                {
+                                    visible?<ModalCategory onChangeInput={this.handleChangeInput.bind(this)} 
+                                    visible={visible} data={item}
+                                    onSubmitForm={this.handleSubmit.bind(this)}
+                                    ></ModalCategory>:null
+                                }
                         
 
                          </Spin>

@@ -90,7 +90,7 @@ export default class ProductManage extends Component {
       providerId: values.providerId,
       size: values.size,
       color: values.color,
-      description: values.description,
+      description: values.description.split('\n').join(';'),
       amount: values.amount,
       viewCount: values.viewCount,
     }

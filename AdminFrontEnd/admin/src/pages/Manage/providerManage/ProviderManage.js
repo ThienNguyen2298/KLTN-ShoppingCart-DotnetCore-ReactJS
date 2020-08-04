@@ -166,7 +166,7 @@ export default class ProviderManage extends Component {
             {
                 title: 'Trạng thái',
                 dataIndex: 'status',
-                width: '40%',
+                width: '30%',
                 key: 'status',
                 render: status => (<span>{
                     <Tag color="green">Hiển thị</Tag>
@@ -177,7 +177,7 @@ export default class ProviderManage extends Component {
             {
                 title: (<Button icon={<ImportOutlined />} onClick={() => this.handleClickBtn()}
                     style={{ background: "#389e0d", borderColor: "#389e0d", color: 'white' }}>Add provider</Button>),
-                width: '20%',
+                width: '30%',
                 key: 'action',
                 render: (text, record, index) => (
 
@@ -229,7 +229,7 @@ export default class ProviderManage extends Component {
 
                                 </Table>
 
-                        }
+                        
 
                          </Spin> : <>
                                     <div style={{ margin: 10 }}>
@@ -253,7 +253,7 @@ export default class ProviderManage extends Component {
 
                                     </Table>
 
-                                    }
+                                    
                                     {
                                         visible ? <ModalProvider visible={visible} data={item} onSubmitForm={(value) => this.handleSubmit(value)}
                                             onCancel={() => this.handleCancel()} onChangeInput={(e) => 

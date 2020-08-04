@@ -39,6 +39,9 @@ export default class OrderedManage extends Component {
             customerItem: '',
             orderId: 0,
             note: null,
+            //
+            keyWord: null,
+            rangePicker: [],
         }
     }
     //load api
@@ -70,6 +73,8 @@ export default class OrderedManage extends Component {
         this.setState({
             orderSuccessList: formatList,
             isLoading: false,
+            keyWord: null,
+            rangePicker: [],
         })
     }
     //
