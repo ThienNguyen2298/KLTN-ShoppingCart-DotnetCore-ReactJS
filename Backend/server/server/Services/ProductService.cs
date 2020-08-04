@@ -283,6 +283,8 @@ namespace server.Services
                 products = products.Where(x => x.rating >= request.rating.Value);
                  
             }
+            IQueryable<Product> list = products.Where(i => i.status == ActionStatus.Display);
+            var total = list.Count();
             return await products.Where(i => i.status == ActionStatus.Display).Select(rs => new ProductViewModel
             {
                 id = rs.id,
@@ -300,9 +302,10 @@ namespace server.Services
                 rating = Convert.ToInt32(rs.Evaluations.Average(ave => ave.rating)),
                 provider = rs.provider,
                 providerId = rs.providerId,
-                status = rs.status
+                status = rs.status,
+                totalColumns = total,
 
-            }).ToListAsync();
+            }).Skip((request.currentPage.Value - 1)*request.pageSize.Value).Take(request.pageSize.Value).ToListAsync();
         }
 
         

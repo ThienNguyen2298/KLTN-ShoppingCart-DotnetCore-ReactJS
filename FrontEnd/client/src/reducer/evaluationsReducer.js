@@ -38,6 +38,7 @@ const evaluationsReducer = (state = initState, action) => {
             }
         }
         case types.CREATE_EVALUATION_SUCCESS: {
+            console.log("eva succes:", action.payload);
             let newEvaluations = [...state.evaluations];
             newEvaluations.push({...action.payload});
             return {

@@ -30,6 +30,9 @@ class SubNavbar extends Component {
       search: queryString.stringify({
         searchKey: this.props.searchKey,
         categoryId: item.key,
+        //
+        currentPage: 1,
+        pageSize: 3,
     }),
       hash: "#search-product",
       state: { fromDashboard: window.location.pathname === '/' || ''? true : false }

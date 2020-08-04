@@ -8,6 +8,7 @@ import Footer from './components/common/Footer'
 import Home from './pages/Home';
 import ProductDetail from './pages/ProductDetail';
 import Search from './pages/Search';
+import MessengerCustomerChat from 'react-messenger-customer-chat';
 
 import Cart from './pages/Cart';
 import Persional from './pages/Persional';
@@ -48,12 +49,14 @@ function App() {
         <Route exact path="/Persional/:userId" component={Persional} />
         <Route exact path="/search/" component={Search} />
       </Switch>
+      
       <Footer></Footer>
       <BackTop>
         <div style={style}><ArrowUpOutlined style={{ fontSize: '16px'}}/></div>
       </BackTop>
       </div>
       <Route exact path="/ResetPassword/" component={ResetPassword} />
+      
     </>
       
     

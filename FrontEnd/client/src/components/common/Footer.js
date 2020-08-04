@@ -1,5 +1,7 @@
 import React, { Fragment } from 'react';
-import {Row, Col} from 'antd';
+import {Row, Col, Avatar} from 'antd';
+import {FacebookOutlined, YoutubeOutlined} from '@ant-design/icons';
+import {Link} from 'react-router-dom';
 import './Footer.css';
 import img1 from '../../images/footer/img1.PNG';
 import img2 from '../../images/footer/img2.PNG';
@@ -48,6 +50,20 @@ export default function Footer() {
                     <Col span={6}>
                         <article className="article-footer">
                             <h4>KẾT NỐI VỚI CHÚNG TÔI</h4>
+                            <h6>
+                                <Row>
+                                    <Col span={24} style={{textAlign: 'center'}}>
+                                        
+                                    <Avatar shape="square" size={48} style={{color: '#096dd9', 
+                                     background: 'white'
+                                     }} icon={<FacebookOutlined />} />
+                                    
+                                    <Avatar shape="square" size={48} style={{color: '#f5222d',
+                                    background: 'white'}} icon={<YoutubeOutlined />} />
+                                    
+                                    </Col>
+                                </Row>
+                            </h6>
                         </article>
                     </Col>
                 </Row>

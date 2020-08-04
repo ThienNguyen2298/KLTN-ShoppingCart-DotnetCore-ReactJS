@@ -21,7 +21,7 @@ class ListEvaluation extends Component {
     render() {
         const {evaluations, userId} = this.props;
         const evaluationFormat = formatEvaluationList(evaluations, userId);
-        
+        console.log("format", evaluationFormat);
         let evaluationList = (
             evaluationFormat.length > 0 && evaluationFormat.map(ele => {
                 return <DisplayEvaluation key={ele.id} item={ele}></DisplayEvaluation>

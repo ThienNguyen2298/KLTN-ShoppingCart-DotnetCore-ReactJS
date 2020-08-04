@@ -20,5 +20,10 @@ namespace server.Helper
         public int? fromPrice { get; set; }
         [FromQuery] 
         public int? toPrice { get; set; }
+        [FromQuery]
+        public int? currentPage { get; set; }
+        [FromQuery]
+        public int? pageSize { get; set; }
+
     }
 }

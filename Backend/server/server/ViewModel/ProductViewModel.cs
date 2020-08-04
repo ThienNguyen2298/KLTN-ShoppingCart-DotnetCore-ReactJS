@@ -35,5 +35,6 @@ namespace server.ViewModel
         public int? providerId { get; set; }
         public Provider provider { get; set; }
         public virtual ICollection<Evaluation> Evaluations { get; set; }
+        public int totalColumns { get; set; }
     }
 }

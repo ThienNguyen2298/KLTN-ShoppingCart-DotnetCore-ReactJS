@@ -124,8 +124,9 @@ export default class SideBar extends Component {
                                 }
                             >
                                 <Menu.Item key="9"><Link to="/admin/statistics-revenue">Thống kê doanh thu</Link></Menu.Item>
-                                
+                                <Menu.Item key="10"><Link to="/admin/statistics-product">Thống kê Chung</Link></Menu.Item>
                             </SubMenu>
+                            
                         </Menu>
                     </div>
                 </div>

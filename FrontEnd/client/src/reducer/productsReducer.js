@@ -10,7 +10,11 @@ const initState = {
     toPrice: null,
     provider: null,
     products: [],
-    categories: []
+    categories: [],
+    //
+    currentPage: 1,
+    pageSize: 3,
+    totalColumns: 0,
 }
 const productsReducer = (state = initState, action) => {
     switch(action.type){
@@ -26,6 +30,8 @@ const productsReducer = (state = initState, action) => {
                 fromPrice: query.fromPrice,
                 toPrice: query.toPrice,
                 provider: query.provider,
+                currentPage: query.currentPage,
+                pageSize: 3,
             }
         }
         case types.SEARCH_SUCCESS: {
@@ -34,6 +40,7 @@ const productsReducer = (state = initState, action) => {
                 ...state,
                 products: action.payload.products,
                 categories: action.payload.categories,
+                totalColumns: action.payload.products[0].totalColumns,
             }
         }
         case types.SEARCH_ERROR: {

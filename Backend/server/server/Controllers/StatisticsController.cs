@@ -24,5 +24,17 @@ namespace server.Controllers
             var data = _statisticsService.RevenueStatistics(request);
             return Ok(data);
         }
+        [HttpPost("ProductStatistics")]
+        public IActionResult ProductStatistics(ProductStatisticsRequest request)
+        {
+            var data = _statisticsService.ProductStatistics(request);
+            return Ok(data);
+        }
+        [HttpGet("StatusOrderStatistics")]
+        public IActionResult StatusOrderStatistics()
+        {
+            return Ok(_statisticsService.StatusOrderStatistics());
+
+        }
     }
 }

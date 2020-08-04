@@ -25,20 +25,20 @@ class Login extends Component {
         
         const {isLoading} = this.props; 
         if(isLoading)
-            return (<Spin size="large" tip="Đăng nhập..."></Spin>)
+            return (<Spin size="large" tip="LOADING"></Spin>)
         return (
             <div className="wrapper">
                 {
                     this.haveRedirect()
                 }
-                <h1>Sign In</h1>
+                <h1>ĐĂNG NHẬP</h1>
                 <form onSubmit={this.handleSubmit.bind(this)}>
-                    <input type="text" placeholder="Username" name="username"></input>
-                    <input type="password" placeholder="Password" name="password"></input>
-                    <button type="submit">Log in</button>
+                    <input type="text" placeholder="ID" name="username"></input>
+                    <input type="password" placeholder="Mật khẩu" name="password"></input>
+                    <button type="submit">ENTER</button>
                 </form>
                 <div className="bottom-text">
-                    <Link to="#">Forgot password ?</Link>
+                    
                 </div>
             </div>
         )
