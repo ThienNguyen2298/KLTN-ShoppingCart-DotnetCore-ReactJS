@@ -12,8 +12,19 @@ export const LOGIN_ERROR = 'LOGIN_ERROR';
 export const LOGOUT = 'LOGOUT';
 //
 export const FORGET_ACCOUNT = 'FORGET_ACCOUNT';
-export const LOGIN_BY_FB = 'LOGIN_BY_FB';
-export const LOGIN_BY_GG = 'LOGIN_BY_GG';
+//
+export const LOGIN_WITH_FB = 'LOGIN_WITH_FB';
+export const LOGIN_FB_LOADING = 'LOGIN_FB_LOADING';
+export const LOGIN_FB_SUCCESS = 'LOGIN_FB_SUCCESS';
+export const LOGIN_FB_ERROR = 'LOGIN_FB_ERROR';
+//
+
+
+
+export const LOGIN_WITH_GG = 'LOGIN_WITH_GG';
+
+
+
 //trạng thái button
 export const CHANGE_VISIBLE_BUTTON = 'CHANGE_VISIBLE_BUTTON';
 // update avatar

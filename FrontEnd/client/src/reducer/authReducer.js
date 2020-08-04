@@ -103,6 +103,42 @@ const authReducer = (state = initState, action) => {
                 isLoadingRegister: false,
             }
         }
+        case types.LOGIN_FB_LOADING : {
+            return {
+                ...state,
+                isLoadingLogin: true
+            }
+        }
+        case types.LOGIN_FB_SUCCESS : {
+            let token = action.payload;
+            console.log("token fb: ", token);
+            let userInfo = jwtDecode(token);
+            const item = {
+                value: token,
+                expire:  userInfo.exp*1000,
+            }
+            localStorage.setItem("access_token", JSON.stringify(item));
+            message.success(`Đăng nhập thành công!`, 3)
+            
+                return {
+                    ...state,
+                    userId: userInfo.userId,
+                    nameUser: userInfo.fullname,
+                    role: userInfo.role,
+                    avatar: userInfo.avatar,
+                    isVisible: false,
+                    isAuthenticated: true,
+                    isLoadingLogin: false,
+                }
+        }
+        case types.LOGIN_FB_ERROR : {
+            console.log(action.payload);
+            //message.warning(`${action.payload}`, 3);
+            return {
+                ...state,
+                isLoadingLogin: false,
+            }
+        }
         case types.LOGIN_LOADING: {
             return {
                 ...state,

@@ -1,7 +1,10 @@
-﻿using server.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using server.Data;
+using server.enums;
 using server.Helper.order;
 using server.Interfaces;
 using server.Models;
+using server.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,6 +40,30 @@ namespace server.Services
             _context.orders.Add(order);
             await _context.SaveChangesAsync();
             return order.id;
+        }
+
+        public async Task<List<OrderViewModel>> GetOrderListByUserId(Guid userId)
+        {
+            var data = await _context.orders.Where(x => x.userId == userId && x.status != OrderStatus.Cancel)
+            .Select(y => new OrderViewModel
+            {
+                id = y.id,
+                address = y.address,
+                createDate = y.createDate,
+                deliveryDate = y.deliveryDate,
+                email = y.email,
+                guess = y.guess,
+                note = y.note,
+                feeShip = y.feeShip,
+                OrderDetails = y.OrderDetails,
+                phone = y.phone,
+                status = y.status,
+                street = y.street,
+                total = y.total,
+                user = y.user,
+                userId = y.userId.Value,
+            }).ToListAsync();
+            return data;
         }
     }
 }

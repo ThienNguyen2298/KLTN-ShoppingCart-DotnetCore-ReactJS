@@ -58,6 +58,7 @@ class ModalCheckout extends Component {
         const orderDetail = carts.map((ele) => {
             return {quantity: ele.quantity, unitPrice: ele.price, sale: ele.sale, productId: ele.id}
         })
+        //console.log(values.note.split('\n'));
         if(this.props.userId){
             this.props.onCreateOrder({
                 userId: this.props.userId,
@@ -67,7 +68,7 @@ class ModalCheckout extends Component {
                 feeShip: values.feeShip,
                 address: values.address,
                 street: values.street,
-                note: values.note,
+                note: values.note.split('\n').join(';'),
                 OrderDetails: orderDetail
             })
         }
@@ -80,7 +81,7 @@ class ModalCheckout extends Component {
                 feeShip: values.feeShip,
                 address: values.address,
                 street: values.street,
-                note: values.note,
+                note: values.note.split('\n').join(';'),
                 OrderDetails: orderDetail
             })
         }

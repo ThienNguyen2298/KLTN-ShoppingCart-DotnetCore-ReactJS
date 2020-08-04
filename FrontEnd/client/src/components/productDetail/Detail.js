@@ -171,17 +171,20 @@ class Detail extends Component {
                 </div>
             </article>
                     <Descriptions title="Thông tin sản phẩm" layout="vertical" bordered>
-                        <Descriptions.Item label="Sản phẩm">{product.name}</Descriptions.Item>
-                        <Descriptions.Item label="Nhà sản xuất">{product.provider.name}</Descriptions.Item>
-                        <Descriptions.Item label="Danh mục">{product.category.generalityName}</Descriptions.Item>
+                        <Descriptions.Item className="bold-text" label="Sản phẩm">{product.name}</Descriptions.Item>
+                        <Descriptions.Item className="bold-text" label="Nhà sản xuất">{product.provider.name}</Descriptions.Item>
+                        <Descriptions.Item className="bold-text" label="Danh mục">{product.category.generalityName}</Descriptions.Item>
                         
-                        <Descriptions.Item label="Mô tả" span={2}>
+                        <Descriptions.Item className="bold-text" label="Mô tả" span={2}>
                         <ul style={{marginLeft: '10px'}}>
-                            <li>Ngon</li>
-                            <li>đã</li>
+                            {
+                                product.description.split(';').map((ele, id) => {
+                                    return <li key={id}>{ele}</li>
+                                })
+                            }
                         </ul>
                         </Descriptions.Item>
-                        <Descriptions.Item label="Trạng thái"><Badge status="processing" text="Còn hàng" /></Descriptions.Item>
+                        <Descriptions.Item className="bold-text" label="Trạng thái"><Badge status="processing" text="Còn hàng" /></Descriptions.Item>
                     </Descriptions>
                     <br></br>
             </>

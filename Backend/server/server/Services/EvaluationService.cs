@@ -22,19 +22,40 @@ namespace server.Services
 
         public async Task<int> Create(EvaluationCreateRequest request)
         {
-            var evaluation = new Evaluation()
+            var isAdmin = await _context.Users.Where(x => x.Id == request.userId).FirstOrDefaultAsync();
+            if(isAdmin.displayname == "Admin")
             {
-                rating = request.rating,
-                title = request.title,
-                content = request.content,
-                status = EvaluationStatus.Confirm,
-                productId = request.productId,
-                createDate = DateTime.Now,
-                userId = request.userId,
-            };
-            _context.evaluations.Add(evaluation);
-            await _context.SaveChangesAsync();
-            return evaluation.id;
+                var evaluation = new Evaluation()
+                {
+                    rating = request.rating,
+                    title = request.title,
+                    content = request.content,
+                    status = EvaluationStatus.Confirm,
+                    productId = request.productId,
+                    createDate = DateTime.Now,
+                    userId = request.userId,
+                };
+                _context.evaluations.Add(evaluation);
+                await _context.SaveChangesAsync();
+                return evaluation.id;
+            }
+            else
+            {
+                var evaluation = new Evaluation()
+                {
+                    rating = request.rating,
+                    title = request.title,
+                    content = request.content,
+                    status = EvaluationStatus.Decline,
+                    productId = request.productId,
+                    createDate = DateTime.Now,
+                    userId = request.userId,
+                };
+                _context.evaluations.Add(evaluation);
+                await _context.SaveChangesAsync();
+                return evaluation.id;
+            }
+            
         }
 
         public async Task<EvaluationViewModel> getEvaluationById(int evaluationId)

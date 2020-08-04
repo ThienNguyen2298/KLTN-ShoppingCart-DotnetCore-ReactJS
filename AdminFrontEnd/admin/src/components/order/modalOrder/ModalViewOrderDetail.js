@@ -85,7 +85,7 @@ export default class ModalViewOrderDetail extends Component {
                                         <strong>Ghi Chú: </strong>
                                     </Col>
                                     <Col span={20}>
-                                    <TextArea rows={2} style={{color: 'black'}} disabled="disabled" value={!!note ? note : 'Không có ghi chú'}></TextArea>
+                                    <TextArea rows={2} style={{color: 'black'}} disabled="disabled" value={!!note ? note.split(';').join('\n') : 'Không có ghi chú'}></TextArea>
                                     </Col>
                                 </Row>
                                 

@@ -3,7 +3,12 @@
   padding: 0;
   box-sizing: border-box;
 }
-
+.bold-text{
+  font-weight: bold;
+}
+.opacity-50{
+  opacity: 0.5;
+}
 :root {
   --primaryColor: #af9a7d;
   --mainWhite: #fff;

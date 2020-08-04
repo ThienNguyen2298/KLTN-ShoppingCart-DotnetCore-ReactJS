@@ -176,7 +176,7 @@ namespace server.Services
         //Hàm chuyển trạng thái và lấy thông tin
         private async Task<ResultOrderViewModel> MoveOrderStatus(StatusOrderRequest request)
         {
-            var order = await _context.orders.Where(x => x.id == request.orderId).FirstOrDefaultAsync();
+            var order = await _context.orders.Where(x => x.id == request.orderId).Include(u => u.user).FirstOrDefaultAsync();
             if (order == null)
             {
                 return new ResultOrderViewModel { total = 0, customer = string.Empty, email = string.Empty, success = false }; ;

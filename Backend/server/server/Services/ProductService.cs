@@ -69,7 +69,7 @@ namespace server.Services
             return pagedResult;
         }
 
-        public async Task<List<ProductViewModel>> GetAllProduct(int itemCount = 8)
+        public async Task<TotalProductViewModel> GetAllProduct(int itemCount = 8)
         {
             var data = await _context.products.Where(x => x.status == ActionStatus.Display)
                 .Select(rs => new ProductViewModel
@@ -93,8 +93,9 @@ namespace server.Services
                     providerId = rs.providerId,
                     status = rs.status
 
-                }).Take(itemCount).ToListAsync();
-            return data;
+                }).ToListAsync();
+            var total = data.Count;
+            return new TotalProductViewModel { products = data.Take(itemCount).ToList(), totalColumns = total};
         }
 
         public async Task<List<CategoryViewModel>> getListCategoryByGeneralityName(string generalityName)
@@ -176,7 +177,7 @@ namespace server.Services
             if(all == false)
             {
                 var data = await _context.products.Where(x => x.status == ActionStatus.Display)
-                    .OrderByDescending(x => x.viewCount).Take(5)
+                    .OrderByDescending(x => x.viewCount).Take(4)
                 .Select(rs => new ProductViewModel
                 {
                     id = rs.id,
@@ -204,7 +205,7 @@ namespace server.Services
             else
             {
                 var data = await _context.products.Where(x => x.status == ActionStatus.Display)
-                    .OrderByDescending(x => x.viewCount).Take(16)
+                    .OrderByDescending(x => x.viewCount).Take(8)
                 .Select(rs => new ProductViewModel
                 {
                     id = rs.id,
@@ -229,6 +230,36 @@ namespace server.Services
                 return data;
             }
         }
+
+        public async Task<List<ProductViewModel>> Paging(ProductPagingRequest request)
+        {
+            var data = await _context.products.Where(x => x.status == ActionStatus.Display)
+                .Select(rs => new ProductViewModel
+                {
+                    id = rs.id,
+                    name = rs.name,
+                    price = rs.price,
+                    importPrice = rs.importPrice,
+                    sale = rs.sale,
+                    categoryId = rs.categoryId,
+                    category = rs.category,
+                    color = rs.color,
+                    size = rs.size,
+                    amount = rs.amount,
+                    viewCount = rs.viewCount,
+                    description = rs.description,
+                    Evaluations = rs.Evaluations,
+                    Images = rs.Images.Where(p => p.status == ActionStatus.Display).ToList(),
+                    rating = Convert.ToInt32(rs.Evaluations.Average(ave => ave.rating)),
+                    provider = rs.provider,
+                    providerId = rs.providerId,
+                    status = rs.status
+
+                }).Skip((request.pageCurrent - 1)*request.pageSize).Take(request.pageSize).ToListAsync();
+            return data;
+        }
+
+        
 
         public async Task<List<ProductViewModel>> SearchProducts(Helper.SearchProductRequest request)
         {

@@ -142,7 +142,7 @@ export default class ModalProduct extends Component {
                             size: data.size,
                             categoryId: data.categoryId,
                             providerId: data.providerId,
-                            description: data.description,
+                            description: !!data.description ? data.description.split(';').join('\n') : null,
                             amount: data.amount,
                             viewCount: data.viewCount,
                         }

@@ -31,7 +31,7 @@ namespace server.Controllers
         public async Task<IActionResult> getAllProduct(int itemCount)
         {
             var products = await _productService.GetAllProduct(itemCount);
-            return Ok(products);
+            return Ok(new { data = products.products, totalColumns = products.totalColumns });
         }
         [HttpGet("products-top-view-count/{all}")]
         public async Task<IActionResult> getTopViewCountProduct(bool all = false)
@@ -61,6 +61,12 @@ namespace server.Controllers
         {
             var listCategory = await _productService.getListCategoryByGeneralityName(generalityName);
             return Ok(listCategory);
+        }
+        [HttpPost("Paging")]
+        public async Task<IActionResult> Paging(ProductPagingRequest request)
+        {
+            var data = await _productService.Paging(request);
+            return Ok(data);
         }
     }
 }

@@ -1,5 +1,5 @@
 import {REGISTER_LOADING, REGISTER_SUCCESS, REGISTER_ERROR, LOGIN_ERROR, LOGIN_LOADING, LOGIN_SUCCESS, 
-    LOGOUT, CHANGE_VISIBLE_BUTTON, UPDATE_USER} from './action-types/auth-action';
+    LOGOUT, CHANGE_VISIBLE_BUTTON, UPDATE_USER, LOGIN_FB_LOADING, LOGIN_FB_SUCCESS, LOGIN_FB_ERROR} from './action-types/auth-action';
 import * as authApis from '../api/authen.api';
 // Đăng ký 
 export const fetch_register = (value) => {
@@ -92,5 +92,36 @@ export const update_user = (data) => {
     return {
         type: UPDATE_USER,
         payload: data,
+    }
+}
+//login with fb
+export const login_with_fb = (data) => {
+    return dispatch => {
+        dispatch(login_fb_loading());
+        authApis.loginWithFb(data)
+        .then(res => {
+            const {token} = res.data;
+            dispatch(login_fb_success(token))
+        })
+        .catch(err => {
+            dispatch(login_fb_error(err));
+        })
+    }
+}
+export const login_fb_loading = () => {
+    return {
+        type: LOGIN_FB_LOADING
+    }
+}
+export const login_fb_success = (token) => {
+    return {
+        type: LOGIN_FB_SUCCESS,
+        payload: token,
+    }
+}
+export const login_fb_error = (err) => {
+    return {
+        type: LOGIN_FB_ERROR,
+        payload: err,
     }
 }

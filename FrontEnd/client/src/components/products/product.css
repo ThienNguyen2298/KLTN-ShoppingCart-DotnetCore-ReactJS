@@ -2,9 +2,10 @@
 .product {
     
     border-radius: 5px;
-    box-shadow: var(--lightShadow);
+    /*box-shadow: var(--lightShadow);*/
     border: 1px solid #cfcfcf;
     transition: var(--mainTransition);
+    background-color: white;
   }
   .room:hover {
     box-shadow: var(--darkShadow);
@@ -62,13 +63,15 @@
   .product-info {
     background: #f7f7f7;
     text-align: center;
-    padding: 0.5rem;
+    padding: 1rem;
     
     font-weight: 500;
     letter-spacing: var(--mainSpacing);
   }
   .product-info p{
     margin-bottom: 0.5em;
+    max-width: 240px;
+    
   }
   .product-name{
     white-space: nowrap;

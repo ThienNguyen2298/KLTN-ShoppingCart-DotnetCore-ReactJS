@@ -152,7 +152,7 @@ export default class StatisticsRevenue extends Component {
             <>
             <Header></Header>   
                 <div className="main_container">
-                    <Sidebar isActive="8"></Sidebar>
+                    <Sidebar isActive="9"></Sidebar>
                     <div className="content">
                         <BreadScrumb title="Thống kê doanh thu"></BreadScrumb>
                         <Chart

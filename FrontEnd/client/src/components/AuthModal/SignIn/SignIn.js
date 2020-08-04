@@ -7,6 +7,11 @@ import {FaFacebookF, FaGoogle} from 'react-icons/fa';
 import {connect} from 'react-redux';
 import FacebookLogin from 'react-facebook-login';
 
+function getBase64(img, callback) {
+    const reader = new FileReader();
+    reader.addEventListener('load', () => callback(reader.result));
+    reader.readAsDataURL(img);
+  }
  class SignIn extends Component {
     constructor(){
         super();
@@ -24,12 +29,24 @@ import FacebookLogin from 'react-facebook-login';
         this.props.onSignIn(values);
         this.formLogin.resetFields();
     };
-    
     responseFacebook(response) {
         console.log("FB: ", response);
-        message.success(response.accessToken, 10)
+        if(!!response.status){
+            message.warning('LOGIN FACEBOOK FAILED');
+        }
+        else{
+            
+            const body = {
+                
+                name: response.name,
+                email: response.email,
+                avatar: !!response.picture ? response.picture.data.url : null,
+                userId: response.id,
+            }
+            this.props.loginFb(body);
+        }
+        //this.props.loginFb();
     }
-    
     render() {
         
         return (
@@ -127,10 +144,10 @@ import FacebookLogin from 'react-facebook-login';
                         </Button>
                         */}
                         <FacebookLogin
-                        appId="708823593214755"
-                        autoLoad={false}
-                        fields="name,email,picture"
+                        appId={646768039528160}
+                        autoLoad={true}
                         //onClick={componentClicked}
+                        fields="name,email,picture"
                         callback={this.responseFacebook.bind(this)}
                         cssClass="my-facebook-button-class"
                         icon={<FaFacebookF style={{marginRight: 5}}/>}
