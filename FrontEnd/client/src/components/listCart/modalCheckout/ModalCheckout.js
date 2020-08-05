@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
-import {Modal, Row, Col, Form, Input, Select, Button, Spin} from 'antd';
+import {Modal, Row, Col, Form, Input, Select, Button, Spin, Timeline} from 'antd';
+import {ShoppingOutlined, CarOutlined, DollarCircleOutlined} from '@ant-design/icons';
 import {StripeProvider, Elements} from 'react-stripe-elements';
 import FormStripe from '../formStripe/FormStripe';
 import * as ParsePrice from '../../../helper/parsePriceForSale';
@@ -128,19 +129,19 @@ class ModalCheckout extends Component {
             >       
                     <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
                         <Col className="gutter-row" span={12}>
-                            <Form.Item name="displayname" label="Họ tên" {...formItemLayout} labelAlign="left">
+                            <Form.Item required name="displayname" label="Họ tên" {...formItemLayout} labelAlign="left">
                                 <Input type="text" placeholder="Họ tên"></Input>
                             </Form.Item>
-                            <Form.Item name="email" label="Email" {...formItemLayout} labelAlign="left">
+                            <Form.Item required name="email" label="Email" {...formItemLayout} labelAlign="left">
                                 <Input type="text" placeholder="Email"></Input>
                             </Form.Item>
-                            <Form.Item name="phone" label="SĐT" {...formItemLayout} labelAlign="left">
+                            <Form.Item required name="phone" label="SĐT" {...formItemLayout} labelAlign="left">
                                 <Input type="text" placeholder="Số điện thoại"></Input>
                             </Form.Item>
-                            <Form.Item name="address" label="Địa chỉ" {...formItemLayout} labelAlign="left">
+                            <Form.Item required name="address" label="Địa chỉ" {...formItemLayout} labelAlign="left">
                                 <Input type="text" placeholder="Địa chỉ"></Input>
                             </Form.Item>
-                            <Form.Item name="street" label="Đường" {...formItemLayout} labelAlign="left">
+                            <Form.Item required name="street" label="Đường" {...formItemLayout} labelAlign="left">
                                 <Input type="text" placeholder="Đường"></Input>
                             </Form.Item>
                             <Form.Item name="note" label="Ghi chú" {...formItemLayout} labelAlign="left">
@@ -148,13 +149,13 @@ class ModalCheckout extends Component {
                             </Form.Item>
                         </Col>
                         <Col className="gutter-row" span={12}>
-                            <Form.Item name="payment" label="Thanh toán" labelAlign="left" {...formItemLayout}>
+                            <Form.Item required name="payment" label="Thanh toán" labelAlign="left" {...formItemLayout}>
                                 <Select onChange={this.handleChangePayment.bind(this)}>
                                     <Option value={1}>Thanh toán khi nhận hàng</Option>
                                     <Option value={2}>Thanh toán online</Option>
                                 </Select>
                             </Form.Item>
-                            <Form.Item name="feeShip" label="Vận chuyển" labelAlign="left" {...formItemLayout}>
+                            <Form.Item required name="feeShip" label="Vận chuyển" labelAlign="left" {...formItemLayout}>
                                 <Select onChange={this.handleChangeFeeShip.bind(this)}>
                                     <Option value={40000}>Trong ngày mai (40.000 đ)</Option>
                                     <Option value={20000}>Sau ngày mai (20.000 đ)</Option>
@@ -170,11 +171,38 @@ class ModalCheckout extends Component {
                             ):(<Fragment>
                                 <Row>
                                     <Col span={20} offset={2}>
+                                        <Timeline>
+                                            <Timeline.Item dot={<ShoppingOutlined 
+                                            
+                                            style={f_size_25}/>}>
+                                                <h4><Row>
+                                                    <Col span={10}>Tiền mua: </Col>
+                                                    <Col span={14}>{ParsePrice.parsePrice(this.props.total)} - VND</Col></Row></h4>
+                                                </Timeline.Item>
+                                            <Timeline.Item dot={<CarOutlined style={f_size_25}/>}>
+                                                <h4><Row>
+                                                    <Col span={10}>
+                                                    Vận chuyển: </Col>
+                                                    <Col span={14}>{ParsePrice.parsePrice(this.state.feeShip)} - VND</Col>
+                                                    </Row></h4>
+                                                </Timeline.Item>
+                                            <br></br>
+                                            <Timeline.Item dot={<DollarCircleOutlined style={f_size_25}/>}>
+                                                <h3><Row>
+                                                    <Col span={10}>
+                                                    Tổng tiền: </Col>
+                                                    <Col span={14}>{ParsePrice.parsePrice(this.props.total + this.state.feeShip)} - VND
+                                                    </Col>
+                                                    </Row>
+                                                    </h3>
+                                                </Timeline.Item>
+                                        </Timeline>
+                                        {/*
                                         <h4>Tiền mua: {ParsePrice.parsePrice(this.props.total)} - VND</h4>
                                         <h4>Vận chuyển: {ParsePrice.parsePrice(this.state.feeShip)} - VND</h4>
                                         <br></br>
                                         <h3>Tổng tiền: {ParsePrice.parsePrice(this.props.total + this.state.feeShip)} - VND</h3>
-                                        
+                                        */}
                                     </Col>
                                 </Row>
                                 
@@ -208,6 +236,10 @@ class ModalCheckout extends Component {
         }
         
     }
+}
+const f_size_25 = {
+    fontSize: 22,
+    color: '#237804'
 }
 const mapStateToProps = (state) => {
     return {
