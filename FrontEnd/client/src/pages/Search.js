@@ -51,7 +51,7 @@ class Search extends Component {
         }
     }
     handleClickRate(value){
-        const {searchKey, fromPrice, toPrice, categoryId} = this.props;
+        const {searchKey, fromPrice, toPrice, categoryId, currentPage} = this.props;
         console.log("click rate! ",value);
         this.props.searchProduct(queryString.stringify({
             searchKey: searchKey,
@@ -59,6 +59,8 @@ class Search extends Component {
             fromPrice: fromPrice,
             toPrice: toPrice,
             categoryId: categoryId,
+            currentPage: 1,
+            pageSize: 3,
         }));
         
     }
@@ -77,13 +79,15 @@ class Search extends Component {
     handleSearchByPrice(e){
         e.preventDefault();
         console.log(e.target.fromPrice.value, e.target.toPrice.value);
-        const {searchKey, rating, categoryId} = this.props;
+        const {searchKey, rating, categoryId, pageSize, currentPage} = this.props;
         this.props.searchProduct(queryString.stringify({
             searchKey: searchKey,
             rating: rating,
             fromPrice: e.target.fromPrice.value,
             toPrice: e.target.toPrice.value,
             categoryId: categoryId,
+            pageSize: 3,
+            currentPage: 1,
         }));
     }
     //

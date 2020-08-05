@@ -3,8 +3,9 @@ import './product.css'
 import * as parsePriceForSale from '../../helper/parsePriceForSale';
 import {descriptionRating} from '../../helper/descriptionRating'
 import {Link} from 'react-router-dom';
-import {Rate, Button} from 'antd';
-import empty from '../../images/empty.jpg'
+import {Rate, Button, Tag} from 'antd';
+import empty from '../../images/empty.jpg';
+import {EyeOutlined} from '@ant-design/icons';
 
 const displayBlock = {
     display: 'block',
@@ -44,7 +45,11 @@ export default class Product extends Component {
                     </div>
                     <div className="product-info">
                         <span>
-                            <Rate style={{fontSize: 16}} disabled tooltips={descriptionRating} value={product.rating || 5} /> ({product.rating || 5})
+                            <Rate style={{fontSize: 16}} disabled tooltips={descriptionRating} value={product.rating || 5} />
+                            { product.viewCount >= 10 ? <>
+                            <EyeOutlined style={{marginLeft: 10}} title="Lượt xem"/> (<b>{product.viewCount}</b>)</>
+                            : <Tag style={{marginLeft: 10}} color="#389e0d">new</Tag>
+                        }
                         </span>
                         <p className="product-name"><Link to={`/product-detail/${product.id}`}>{product.name}</Link></p>
                         <div style={{fontSize: '12px'}}>{product.provider.name || ""}</div>

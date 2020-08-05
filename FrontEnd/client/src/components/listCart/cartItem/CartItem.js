@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {Rate, Button, Tag} from 'antd';
+import {Link} from 'react-router-dom';
 import * as ParsePrice from '../../../helper/parsePriceForSale';
 import {MinusOutlined, PlusOutlined} from '@ant-design/icons';
 import './cartItem.css';
@@ -32,14 +33,14 @@ class CartItem extends Component {
                 </div>
                 <div className="info-cart-item">
                     <div style={{width: '60%'}}>
-                        <h3>{item.name}</h3>
+                        <Link to={`/product-detail/${item.id}`}><h3>{item.name}</h3></Link>
                         <p><span>Trạng thái: <Tag color="#87d068">còn hàng</Tag></span> | <span>Danh mục: </span><b>Quần áo</b></p>
                         <Rate disabled value={item.rating || 5}></Rate>
                         
                     </div>
                     <div>
                         <strong className="price-info-cart-item">{ParsePrice.parsePriceSale(item.price,item.sale)} đ</strong>
-                        <span style={{fontWeight: 'bold',textDecoration: 'line-through'}}>{ParsePrice.parsePrice(item.price)} đ</span> | <b>- {item.sale} %</b>
+                        <span hidden={item.sale<=0 ? true: false}><span style={{fontWeight: 'bold',textDecoration: 'line-through'}}>{ParsePrice.parsePrice(item.price)} đ</span> | <b >- {item.sale} %</b></span>
                     </div>
                     <div className="remove-inc-dec-cart-item">
                         <div className="inc-dec-cart-item" >
