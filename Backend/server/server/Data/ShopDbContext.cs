@@ -24,6 +24,7 @@ namespace server.Data
         public DbSet<OrderDetail> orderDetails { get; set; }
         public DbSet<Evaluation> evaluations { get; set; }
         public DbSet<Reply> replies { get; set; }
+        public DbSet<Chat> chats { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<IdentityUserClaim<Guid>>().ToTable("AppUserClaims");

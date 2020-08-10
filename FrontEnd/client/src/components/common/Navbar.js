@@ -18,9 +18,7 @@ import axiosInstance from '../../utils/axiosInstance';
 //
 import queryString from 'query-string'
 
-
-
-const tempArray = [{id: 1, name: 'thiện'}, {id: 2, name: 'long'}, {id: 3, name: 'nam'}]
+import Notify from './Notify';
 
 
  class Navbar extends Component {
@@ -33,6 +31,9 @@ const tempArray = [{id: 1, name: 'thiện'}, {id: 2, name: 'long'}, {id: 3, name
             wordSearch: '',
             position: '',
             categoryId: null,
+            //
+            visible: false,
+            notifyList: [],
         }
         //debounce search.
         this.debounceRef = React.createRef(null);
@@ -180,8 +181,15 @@ const tempArray = [{id: 1, name: 'thiện'}, {id: 2, name: 'long'}, {id: 3, name
         })*/
         
     }
+    //
+    handleOpenModal(){
+        this.setState({
+            visible: true,
+        })
+    }
     render() {
         const {searchKey} = this.props;
+        const {visible} = this.state;
         return (
             <>
             
@@ -214,7 +222,7 @@ const tempArray = [{id: 1, name: 'thiện'}, {id: 2, name: 'long'}, {id: 3, name
                             </div>
                         </li>
                         <li className="li-item">
-                            <Link to="/Persional/1"><FaBell style={{color: 'red'}}></FaBell> Thông báo</Link>
+                            <Notify></Notify>
                         </li>
                         <li className="li-item" style={{display: this.props.isAuthenticated?'none':'block'}}>
                             <Link to="#" onClick={this.handleShowAuthModal}><FaUserAlt ></FaUserAlt> Đăng nhập</Link>

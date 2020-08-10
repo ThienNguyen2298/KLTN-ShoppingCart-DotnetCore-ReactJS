@@ -20,6 +20,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using server.Data;
 using server.Helper;
+using server.Hubs;
 using server.Interfaces;
 using server.Models;
 using server.Services;
@@ -42,7 +43,14 @@ namespace server
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddDbContext<ShopDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DevConnection")));
-            services.AddCors();
+            services.AddCors(
+                options => options.AddPolicy("CorsPolicy",
+            builder =>
+            {
+                builder.AllowAnyMethod().AllowAnyHeader()
+                       .WithOrigins("https://localhost:3000", "http://localhost:8000")
+                       .AllowCredentials();
+            }));
             //
             services.AddIdentity<AppUser, AppRole>(options => {
                 options.Password.RequireDigit = false;
@@ -53,6 +61,9 @@ namespace server
             })
                 .AddEntityFrameworkStores<ShopDbContext>()
                 .AddDefaultTokenProviders();
+            //
+            services.AddSignalR();
+            
             //
             var emailConfig = Configuration.GetSection("EmailConfiguration")
                 .Get<EmailConfiguration>();
@@ -75,6 +86,7 @@ namespace server
             services.AddTransient<IStatisticsService, StatisticsService>();
             services.AddTransient<IManageEvaluationService, ManageEvaluationService>();
             services.AddTransient<IManageUserService, ManageUserService>();
+            services.AddTransient<IChatService, ChatService>();
             //
             services.AddSwaggerGen(c =>
             {
@@ -118,6 +130,23 @@ namespace server
 
             })
             .AddJwtBearer(options => {
+                options.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        var accessToken = context.Request.Query["access_token"];
+
+                        // If the request is for our hub...
+                        var path = context.HttpContext.Request.Path;
+                        if (!string.IsNullOrEmpty(accessToken) &&
+                            (path.StartsWithSegments("/chatHub")))
+                        {
+                            // Read the token out of the query string
+                            context.Token = accessToken;
+                        }
+                        return Task.CompletedTask;
+                    }
+                };
                 options.RequireHttpsMetadata = false;
                 options.SaveToken = true;
                 options.TokenValidationParameters = new TokenValidationParameters()
@@ -139,7 +168,8 @@ namespace server
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             
-            app.UseCors(options => options.WithOrigins("https://localhost:3000", "http://localhost:8000").AllowAnyHeader().AllowAnyMethod());
+            //app.UseCors(options => options.WithOrigins("https://localhost:3000", "http://localhost:8000").AllowAnyHeader().AllowAnyMethod());
+            app.UseCors("CorsPolicy");
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -172,8 +202,11 @@ namespace server
 
             app.UseEndpoints(endpoints =>
             {
+                
                 endpoints.MapControllers();
+                endpoints.MapHub<ChatHub>("/chatHub");
             });
+            
         }
     }
 }

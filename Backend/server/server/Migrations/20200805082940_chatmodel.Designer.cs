@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using server.Data;
 
 namespace server.Migrations
 {
     [DbContext(typeof(ShopDbContext))]
-    partial class ShopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200805082940_chatmodel")]
+    partial class chatmodel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -150,7 +152,7 @@ namespace server.Migrations
                         new
                         {
                             Id = new Guid("078269d8-1a12-4592-b92e-7ff1a876a5f2"),
-                            ConcurrencyStamp = "52fe2ac6-b077-4210-94ce-5bbdfdae7e12",
+                            ConcurrencyStamp = "1feaf8a9-c65c-475f-9977-61577978a894",
                             CreationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Administrator role",
                             Name = "Admin",
@@ -159,7 +161,7 @@ namespace server.Migrations
                         new
                         {
                             Id = new Guid("6d9186ba-2cd6-4b6c-b729-4e605de1019f"),
-                            ConcurrencyStamp = "f1a2f1ed-f19f-4d67-af95-5c52c7a07908",
+                            ConcurrencyStamp = "83060375-57f1-42d3-815c-b8b8fdf50f5f",
                             CreationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "User role",
                             Name = "User",
@@ -246,13 +248,13 @@ namespace server.Migrations
                         {
                             Id = new Guid("4557893f-1f56-4b6f-bb3b-caefd62c8c49"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d07007c5-f9ba-493a-87a9-0b98b10cca36",
+                            ConcurrencyStamp = "082fa714-4723-4d8a-8be9-1e00b919893a",
                             Email = "16110472@student.hcmute.deu.vn",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "some-admin-email@nonce.fake",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEOHiWkjUQ1IIadi3Xcgl8GnfXmmRkb6D4jUdAibRPrkBDDmah6YZUwTaWuJuCaR1WA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEDa/aSvJ6d5P9BTQZ5dhBr5U/lMz30Mq6sj1GVvwz5YAP8D3owbl+EANy+Olk4EnA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -315,34 +317,6 @@ namespace server.Migrations
                             name = "Quần kaki",
                             status = 0
                         });
-                });
-
-            modelBuilder.Entity("server.Models.Chat", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("content")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("createDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("receiverId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("senderId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("receiverId");
-
-                    b.HasIndex("senderId");
-
-                    b.ToTable("chats");
                 });
 
             modelBuilder.Entity("server.Models.Evaluation", b =>
@@ -708,21 +682,6 @@ namespace server.Migrations
                     b.HasIndex("userId");
 
                     b.ToTable("replies");
-                });
-
-            modelBuilder.Entity("server.Models.Chat", b =>
-                {
-                    b.HasOne("server.Models.AppUser", "receiver")
-                        .WithMany()
-                        .HasForeignKey("receiverId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("server.Models.AppUser", "sender")
-                        .WithMany()
-                        .HasForeignKey("senderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("server.Models.Evaluation", b =>

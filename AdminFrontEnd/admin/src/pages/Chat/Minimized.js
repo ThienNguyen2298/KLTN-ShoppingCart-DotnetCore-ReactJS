@@ -9,7 +9,7 @@ class Minimized extends Component {
 			this.props.maximize();
 		}
 		else{
-			message.warning("Vui lòng Đăng nhập để Chat với Admin!", 4);
+			message.warning("Vui lòng Đăng nhập để Chat!", 4);
 		}
 	}
 	componentDidUpdate(){
@@ -37,7 +37,7 @@ class Minimized extends Component {
 			<IconButton color="#fff">
 				<ChatIcon />
 			</IconButton>
-			</div>
+		</div>
         )
     }
 }

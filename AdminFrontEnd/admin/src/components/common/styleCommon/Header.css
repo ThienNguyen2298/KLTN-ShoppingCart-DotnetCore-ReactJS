@@ -47,6 +47,8 @@
 .top_navbar .menu .profile_wrap{
 	padding-left: 25px;
 	border-left: 1px solid #f5f5f5;
+	display: flex;
+	align-items: center;
 }
 
 .top_navbar .menu .profile img{

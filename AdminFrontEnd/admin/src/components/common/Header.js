@@ -5,6 +5,7 @@ import { Menu, Dropdown,Avatar, message } from 'antd';
 import {Link, withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {logout} from '../../actions/authAction'
+import NotifyMenu from './NotifyMenu/NotifyMenu';
 
 
 
@@ -46,7 +47,12 @@ class Header extends Component {
                     <div className="hamburger">
                         <BarsOutlined />
                     </div>
+                    <div style={{display: 'flex'}}>
+                    <div>
+                        <NotifyMenu></NotifyMenu>
+                    </div>
                     <div className="profile_wrap">
+                        
                         <div className="profile">
                         <Dropdown overlay={menu}>
                             <Link className="ant-dropdown-link" to="#" onClick={e => e.preventDefault()}>
@@ -55,6 +61,7 @@ class Header extends Component {
                             </Link>
                         </Dropdown>
                         </div>
+                    </div>
                     </div>
                 </div>
             </div>
