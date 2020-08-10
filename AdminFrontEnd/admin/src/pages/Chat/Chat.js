@@ -3,16 +3,8 @@ import Maximized from './Maximized'
 import Minimized from './Minimized'
 import { ThemeProvider, FixedWrapper, darkTheme, elegantTheme, purpleTheme, defaultTheme } from '@livechat/ui-kit';
 
-
-export default class chat extends Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            openMaximize: false,
-        }
-    }
+export default class Chat extends Component {
     render() {
-        
         return (
             <div>
                 <FixedWrapper.Root maximizedOnInit={false}>
@@ -29,4 +21,3 @@ export default class chat extends Component {
         )
     }
 }
-

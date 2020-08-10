@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import 'antd/dist/antd.css';
 import './App.css';
+import Chat from './pages/Chat/Chat';
 import {
   Switch,
   Route,
@@ -10,9 +11,16 @@ import AdminRoute from './route/AdminRoute';
 import LoginRoute from './route/LoginRoute';
 import {connect} from 'react-redux';
 import PrivateRoute from './route/privateRoute';
+import { ThemeProvider } from '@livechat/ui-kit'
 
 
-
+const defaultTheme = {
+   FixedWrapperMaximized: {
+       css: {
+           boxShadow: '0 0 1em rgba(0, 0, 0, 0.1)',
+       }
+   }
+ }
 
 class App extends Component {
   
@@ -46,9 +54,14 @@ class App extends Component {
        });
     }
     return (
+       <>
+       <ThemeProvider theme={defaultTheme}>
        <Switch>
           {resultPagePrivate} {resultPage}
        </Switch>
+       <Chat></Chat>
+       </ThemeProvider>
+       </>
     );
  };
   

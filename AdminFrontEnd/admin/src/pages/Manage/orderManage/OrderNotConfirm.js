@@ -47,7 +47,7 @@ export default class OrderNotConfirm extends Component {
             orderNotConfirm: [],
             orderDetailList: [],
             pageDefault: 1,
-            pageSize: 5,
+            pageSize: 4,
             visible: false,
             visibleCancel: false,
             isLoading: true,

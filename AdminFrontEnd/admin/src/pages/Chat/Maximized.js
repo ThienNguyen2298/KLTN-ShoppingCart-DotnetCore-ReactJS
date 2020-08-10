@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import {TitleBar, AgentBar, Row, Column, Title, Subtitle, Avatar, 
-IconButton, RateGoodIcon, RateBadIcon, CloseIcon, MessageList,
-MessageGroup, Message, Bubble,  MessageText,MessageButtons,
-TextComposer, Fill, TextInput, SendButton, Fit} from '@livechat/ui-kit';
+    IconButton, RateGoodIcon, RateBadIcon, CloseIcon, MessageList,
+    MessageGroup, Message, Bubble,  MessageText,MessageButtons,
+    TextComposer, Fill, TextInput, SendButton, Fit} from '@livechat/ui-kit';
 import * as signalR from '@microsoft/signalr';
 import axiosInstance from '../../utils/axiosInstance';
 import moment from 'moment';
 import { message, Badge } from 'antd';
 import {connect} from 'react-redux';
-
-
+import {update_open_maximize} from '../../actions/chatAction';
 
 class Maximized extends Component {
     constructor(props){
@@ -19,6 +18,21 @@ class Maximized extends Component {
             list: [],
             connectionId: null,
             receiverId: null,
+        }
+    }
+    componentDidMount(){
+        this.connectServerHub();
+        if(this.props.receiverId != null){
+            axiosInstance('Chat/GetMessages', 'POST', {senderId: this.props.userId,
+                receiverId: this.props.receiverId,
+            }).then(res => {
+                if(res.data.length > 0){
+                    this.setState({
+                        receiverId: this.props.receiverId,
+                        list: res.data,
+                    })
+                }
+            })
         }
     }
     connectServerHub(){
@@ -53,31 +67,31 @@ class Maximized extends Component {
             }).catch(() => console.log("fail"));
         })
     }
-    
-    componentDidMount(){
-
-        if(!!this.props.userId){
-            axiosInstance('Chat/GetMessages', 'POST', {senderId: this.props.userId,
-                receiverId: this.state.receiverId,
-            }).then(res => {
-                if(res.data.length > 0){
-                    this.setState({
-                        list: res.data,
-                    })
-                }
-            })
-            this.connectServerHub();
-        }
-        else {
-            message.warning("Vui lòng Đăng nhập để Chat với Admin!", 4);
-            this.props.minimize();
-        }
+    callApi(senderId, receiverId){
+        axiosInstance('Chat/GetMessages', 'POST', {senderId: senderId,
+            receiverId: receiverId,
+        }).then(res => {
+            if(res.data.length > 0){
+                this.setState({
+                    receiverId: receiverId,
+                    list: res.data,
+                })
+            }
+            else {
+                this.setState({
+                    receiverId: receiverId,
+                    list: [],
+                })
+            }
+        })
     }
-    
     componentDidUpdate(prevProps){
-        if(this.props.userId === null || this.props.userId === ''){
-            
+        if(this.props.userId === null || this.props.userId === ''){ 
             this.props.minimize();
+        }
+        if(this.props.receiverId !== prevProps.receiverId && this.props.receiverId !== null){
+            this.callApi(this.props.userId, this.props.receiverId);
+            
         }
     }
     componentWillUnmount(){
@@ -86,11 +100,18 @@ class Maximized extends Component {
         })
         
     }
+    setNewValue(message){
+        const newList = [...this.state.list, message];
+                    this.setState({
+                        list: newList,
+                    })
+    }
     onMessageSend(value){
         
         if(!!this.props.userId){
             //let receiverId = null;
-            if(this.props.role === 'Admin' && this.state.receiverId === null){
+            if((this.props.role === 'Admin' && this.state.receiverId === null) 
+            || this.props.userId === this.state.receiverId){
                 message.warning("Vui lòng chọn đối tượng để chat!", 4);
                 return ;
             }
@@ -111,24 +132,23 @@ class Maximized extends Component {
         }
         
     }
-    setNewValue(message){
-        const newList = [...this.state.list, message];
-                    this.setState({
-                        list: newList,
-                    })
-    }
     clickReplyUser(user){
         //console.log(user.id);
-        this.setState({
-            receiverId: user.id,
-        });
+        this.callApi(this.props.userId, user.id);
+        //this.setState({
+        //    receiverId: user.id,
+        //});
+    }
+    handleMinimize(){
+        this.props.update_open_maximize(false);
+        this.props.minimize();
     }
     render() {
+        //
         const {list} = this.state;
         const {userId} = this.props;
         console.log(list, userId);
-        
-
+        //
         const renderMessageList = ( list.length <= 0 ? null :
             ( list.map((ele) => {
                 //if(ele.senderId === userId || ele.receiverId === userId)
@@ -168,7 +188,6 @@ class Maximized extends Component {
             })
             )
         )
-        
         return (
             <div style={{
 				display: 'flex',
@@ -187,7 +206,7 @@ class Maximized extends Component {
                     }
                     rightIcons={[
                         
-                        <IconButton key="close" onClick={this.props.minimize}>
+                        <IconButton key="close" onClick={this.handleMinimize.bind(this)}>
                             <CloseIcon />
                         </IconButton>,
                     ]}
@@ -253,6 +272,12 @@ const mapStateToProps = (state) => {
     return {
         userId: state.auth.userId,
         role: state.auth.role,
+        receiverId: state.chat.receiverId
     }
 }
-export default connect(mapStateToProps, null) (Maximized)
+const mapDispatchToProps = (dispatch) => {
+    return {
+        update_open_maximize: (data) => {dispatch(update_open_maximize(data))},
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps) (Maximized)
