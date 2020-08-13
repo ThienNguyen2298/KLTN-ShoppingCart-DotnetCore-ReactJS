@@ -13,6 +13,7 @@ import EvaluationManage from '../pages/Manage/evaluationManage/EvaluationManage'
 import StatisticsProduct from '../pages/Manage/statistical/StatisticsProduct';
 import StatisticsGeneral from "../pages/Manage/statistical/StatisticsGeneral";
 import OrderCanceled from "../pages/Manage/orderManage/OrderCanceled";
+import MainScreen from "../pages/Manage/orderManage/MainScreen";
 
 //
 
@@ -22,8 +23,14 @@ const AdminRoute = [
        path: "/admin",
        exact: true,
        myComponent: (location, props) => 
-       <OrderedManage location={location} {...props} />,
+       <MainScreen location={location} {...props} />,
     },
+    {
+      path: "/admin/order-manage/order-success",
+      exact: true,
+      myComponent: (location, props) => 
+      <OrderedManage location={location} {...props} />,
+   },
     {
        path: "/admin/category-manage",
        exact: true,

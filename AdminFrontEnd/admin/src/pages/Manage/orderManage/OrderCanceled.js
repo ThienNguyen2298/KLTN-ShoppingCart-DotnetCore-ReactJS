@@ -247,7 +247,7 @@ export default class OrderCanceled extends Component {
                 <div className="main_container">
                     <Sidebar isActive="12"></Sidebar>
                     <div className="content">
-                        <BreadScrumb title="Đơn hàng thành công"></BreadScrumb>
+                        <BreadScrumb title="Đơn hàng Đã hủy"></BreadScrumb>
                         <br></br>
                         <Row style={{marginTop: 10}}>
                             
