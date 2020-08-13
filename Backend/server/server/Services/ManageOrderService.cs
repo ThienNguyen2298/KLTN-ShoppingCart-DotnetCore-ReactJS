@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using server.Data;
 using server.enums;
+using server.Exceptions;
 using server.Helper.order;
+using server.Helper.orderDetail;
 using server.Interfaces;
 using server.Models;
 using server.ViewModel;
@@ -20,9 +22,28 @@ namespace server.Services
         {
             _context = context;
         }
-        public Task<List<OrderViewModel>> GetAllOrderCancelled()
+        public async Task<List<OrderViewModel>> GetAllOrderCancelled()
         {
-            throw new NotImplementedException();
+            var list = await _context.orders.Where(x => x.status == enums.OrderStatus.Cancel).Include(e => e.OrderDetails)
+                .Select(y => new OrderViewModel
+                {
+                    id = y.id,
+                    address = y.address,
+                    createDate = y.createDate,
+                    deliveryDate = y.deliveryDate,
+                    email = y.email,
+                    guess = y.guess,
+                    note = y.note,
+                    feeShip = y.feeShip,
+                    OrderDetails = y.OrderDetails,
+                    phone = y.phone,
+                    status = y.status,
+                    street = y.street,
+                    total = y.total,
+                    user = y.user,
+                    userId = y.userId.Value,
+                }).ToListAsync();
+            return list;
         }
         //
         private bool checkEnableOrder(int orderId)
@@ -102,7 +123,7 @@ namespace server.Services
         }
         public async Task<List<OrderDetailViewModel>> GetOrderDetailByOrderId(int orderId)
         {
-            var orderDetail = await _context.orderDetails.Where(x => x.orderId == orderId)
+            var orderDetail = await _context.orderDetails.Where(x => x.orderId == orderId && x.status == ActionStatus.Display)
                 .Select(y => new OrderDetailViewModel
                 {
                     id = y.id,
@@ -111,6 +132,7 @@ namespace server.Services
                     productId = y.productId,
                     //_context.replies.Where(r => r.status == ActionStatus.Display && r.evaluationId == rs.id).ToList(),
                     product = _context.products.Include(i => i.Images).Where(z => z.id == y.productId).ToList(),
+                    status = y.status,
                     //product = y.product
                     quantity = y.quantity,
                     sale = y.sale,
@@ -184,6 +206,7 @@ namespace server.Services
             var total = order.total;
             var customer = string.IsNullOrEmpty(order.guess) ? order.user.displayname : order.guess;
             order.status = request.status;
+            order.note = "Admin cancelled";
             _context.Entry(order).State = EntityState.Modified;
             var rs = await _context.SaveChangesAsync() > 0;
             return new ResultOrderViewModel { total = total, customer = customer, email= order.email, success = rs };
@@ -357,6 +380,144 @@ namespace server.Services
                 userId = r.userId.Value,
             }
             ).ToListAsync();
+        }
+
+        public async Task<UpdateOrderDetailViewModel> UpdateOrderDetail(OrderDetailUpdateRequest request)
+        {
+            var orderDetailId = 0;
+            var total = 0;
+            var isSuccess = false;
+            using (var transaction = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    var orderDetail = new OrderDetail()
+                    {
+                        id = request.id,
+                        orderId = request.orderId,
+                        productId = request.productId,
+                        quantity = request.quantity,
+                        sale = request.sale,
+                        status = request.status,
+                        unitPrice = request.unitPrice,
+                    };
+                    _context.Entry(orderDetail).State = EntityState.Modified;
+                    var check = await _context.SaveChangesAsync() > 0;
+                    if (check)
+                    {
+                        var order = await _context.orders.Where(x => x.id == request.orderId).FirstOrDefaultAsync();
+                        var orderDetailOfOrder = await _context.orderDetails
+                            .Where(y => y.orderId == request.orderId && y.status == ActionStatus.Display).ToListAsync();
+                        total = order.feeShip;
+                        foreach (var item in orderDetailOfOrder)
+                        {
+                            total += item.quantity * item.unitPrice * (100 - item.sale) / 100;
+                        }
+                        order.total = total;
+                        _context.Entry(order).State = EntityState.Modified;
+                        var check2 = await _context.SaveChangesAsync() > 0;
+                        if (check2)
+                        {
+                            orderDetailId = orderDetail.id;
+                            isSuccess = true;
+                        }
+                        else
+                        {
+                            orderDetailId = 0;
+                            isSuccess = false;
+                        }
+                    }
+                    else
+                    {
+                        orderDetailId = 0;
+                        isSuccess = false;
+                    }
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                }
+            }
+            return new UpdateOrderDetailViewModel() {
+                orderDetailId = orderDetailId,
+                isSuccess = isSuccess,
+                total = total
+            };
+        }
+
+
+
+        public async Task<DeleteOrderDetailViewModel> DeleteOrderDetail(int id)
+        {
+            var orderDetailId = 0;
+            var total = 0;
+            var isSuccess = false;
+            using(var transaction = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    var orderDetail = await _context.orderDetails.FindAsync(id);
+                    if (orderDetail == null)
+                    {
+                        return new DeleteOrderDetailViewModel() { isSuccess = false, orderDetailId = 0, total = 0 };
+                    }
+                    //đổi cờ ko xóa
+                    orderDetail.status = ActionStatus.Deleted;
+                    _context.Entry(orderDetail).State = EntityState.Modified;
+                    var check = await _context.SaveChangesAsync() > 0;
+                    if (check)
+                    {
+                        var order = await _context.orders.Where(x => x.id == orderDetail.orderId).FirstOrDefaultAsync();
+                        var orderDetailOfOrder = await _context.orderDetails
+                            .Where(y => y.orderId == orderDetail.orderId && y.status == ActionStatus.Display).ToListAsync();
+                        total = order.feeShip;
+                        foreach (var item in orderDetailOfOrder)
+                        {
+                            total += item.quantity * item.unitPrice * (100 - item.sale) / 100;
+                        }
+                        order.total = total;
+                        _context.Entry(order).State = EntityState.Modified;
+                        var check2 = await _context.SaveChangesAsync() > 0;
+                        if (check2)
+                        {
+                            orderDetailId = orderDetail.id;
+                            isSuccess = true;
+                        }
+                        else
+                        {
+                            orderDetailId = 0;
+                            isSuccess = false;
+                        }
+                    }
+                    else
+                    {
+                        orderDetailId = 0;
+                        isSuccess = false;
+                    }
+                    transaction.Commit();
+                }
+                catch(Exception ex)
+                {
+                    transaction.Rollback();
+                }
+            }
+            return new DeleteOrderDetailViewModel() { orderDetailId = orderDetailId, isSuccess = isSuccess, total = total};
+        }
+
+        public async Task<bool> UserCancelOrder(int orderId)
+        {
+            var order = await _context.orders.Where(x => x.id == orderId).Include(u => u.user).FirstOrDefaultAsync();
+            if (order == null)
+            {
+                return false;
+            }
+            
+            order.status = OrderStatus.Cancel;
+            order.note = "User cancelled";
+            _context.Entry(order).State = EntityState.Modified;
+            return await _context.SaveChangesAsync() > 0;
+            
         }
     }
 }

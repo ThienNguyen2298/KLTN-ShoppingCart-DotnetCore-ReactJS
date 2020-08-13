@@ -10,6 +10,7 @@ namespace server.enums
         NotConfirm,
         Cancel,
         Shipping,
-        Success
+        Success,
+        Deleted,
     }
 }

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using server.Data;
 using server.Helper.order;
+using server.Helper.orderDetail;
 using server.Interfaces;
 using server.Models;
 
@@ -40,6 +41,12 @@ namespace server.Controllers
         public async Task<IActionResult> GetAllOrderSuccess()
         {
             var data = await _manageOrderService.GetAllOrderSuccess();
+            return Ok(data);
+        }
+        [HttpGet("GetAllOrderCancelled")]
+        public async Task<IActionResult> GetAllOrderCancelled()
+        {
+            var data = await _manageOrderService.GetAllOrderCancelled();
             return Ok(data);
         }
         [HttpGet("GetOrderDetailByOrderId")]
@@ -99,6 +106,23 @@ namespace server.Controllers
             var data = await _manageOrderService.SearchOrder(request);
             return Ok(data);
         }
-
+        [HttpPut("UpdateOrderDetail")]
+        public async Task<IActionResult> UpdateOrderDetail(OrderDetailUpdateRequest request)
+        {
+            var data = await _manageOrderService.UpdateOrderDetail(request);
+            return Ok(data);
+        }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteOrderDetail(int id)
+        {
+            var data = await _manageOrderService.DeleteOrderDetail(id);
+            return Ok(data);
+        }
+        [HttpDelete("UserCancelOrder/{id}")]
+        public async Task<IActionResult> UserCancelOrder(int id)
+        {
+            var data = await _manageOrderService.UserCancelOrder(id);
+            return Ok(data);
+        }
     }
 }

@@ -15,7 +15,7 @@ export default class StatisticsProduct extends Component {
           //
           isChart: 0,
           //
-          status: 1,
+          status: 0,
           labels: [],
           amountCount: [],
           //
@@ -23,8 +23,8 @@ export default class StatisticsProduct extends Component {
           amountOrder: [],
         };
     }
-    callApi = async() => {
-        const {status} = this.state;
+    callApi = async(status) => {
+        //const {status} = this.state;
         let data = await axiosInstance('Statistics/ProductStatistics', 'POST', {status: status})
         .then(res => {return res.data})
         let labels = data.map(e => e.name);
@@ -34,6 +34,8 @@ export default class StatisticsProduct extends Component {
         this.setState({
           labels: labels, 
           amountCount: countAmount,
+          status: status,
+          isChart: 0,
         })
     }
     callApiOrder = async() => {
@@ -50,14 +52,11 @@ export default class StatisticsProduct extends Component {
         })
     }
     async componentDidMount(){
-        await this.callApi();
+        await this.callApi(this.props.status);
     }
     async handleChange(e){
-        this.setState({
-            status: e,
-            isChart: 0,
-        });
-        await this.callApi();
+      
+        await this.callApi(e);
     }
     //
     async handleClickOrder(){
@@ -158,7 +157,7 @@ export default class StatisticsProduct extends Component {
                     <br/>
                     <Row>
                         <Col span={4} offset={6}>
-                            <Select value={status} onChange={this.handleChange.bind(this)}>
+                            <Select  defaultValue={status} onChange={this.handleChange.bind(this)}>
                                 <Select.Option value={0}>Thống kê Hàng sắp hết</Select.Option>
                                 <Select.Option value={1}>Thống kê Hàng tồn kho</Select.Option>
                             </Select>

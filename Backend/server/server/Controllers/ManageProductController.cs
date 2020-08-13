@@ -69,6 +69,19 @@ namespace server.Controllers
             var product = await _manageProductService.getProductById(productId);
             return Ok(new { message = "Cập nhập sản phẩm thành công!", product});
         }
+        [HttpPut("UpdatePrice")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> UpdatePrice(PriceUpdateRequest request)
+        {
+
+            var productId = await _manageProductService.UpdatePrice(request);
+            if (productId <= 0)
+            {
+                return Ok(false);
+
+            }
+            return Ok(true);
+        }
         [HttpDelete("{productId}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> delete(int productId)

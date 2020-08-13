@@ -1,11 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OfficeOpenXml;
 using server.Data;
 using server.Helper.statistics;
 using server.Interfaces;
+using server.Models;
 using server.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace server.Services
@@ -16,6 +20,101 @@ namespace server.Services
         public StatisticsService(ShopDbContext context)
         {
             _context = context;
+        }
+
+        public Stream GenerateListProduct(ProductStatisticSearchRequest request, Stream stream = null)
+        {
+            var listObj = GetListProduct(request);
+            List<string> headers = new List<string>()
+            {
+                "SẢN PHẨM",
+                "GIÁ BÁN",
+                "GIẢM GIÁ",
+                "SỐ LƯỢNG CÒN",
+            };
+            try
+            {
+                int addressStartContent = 1;
+                using(var excelPackage = new ExcelPackage(stream ?? new MemoryStream()))
+                {
+                    excelPackage.Workbook.Worksheets.Add("Product List");
+                    var worksheet = excelPackage.Workbook.Worksheets[1];
+                    //BuilderHeader(worksheet, headers, "PRODUCT LIST");
+                    for(int i = 0; i < listObj.Count; i++)
+                    {
+                        var item = listObj[i];
+                        worksheet.Cells[addressStartContent, 1].Value = item.name;
+                        worksheet.Cells[addressStartContent, 2].Value = item.price;
+                        worksheet.Cells[addressStartContent, 3].Value = item.sale;
+                        worksheet.Cells[addressStartContent, 4].Value = item.amount;
+                        addressStartContent++;
+                    }
+                    excelPackage.Save();
+                    return excelPackage.Stream;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        private void BuilderHeader(ExcelWorksheet worksheet, List<string> headers, string name)
+        {
+            var headerRow = new List<string[]>()
+            {
+                headers.ToArray()
+            };
+            string headerRange = "A1:" + Char.ConvertFromUtf32(headerRow[0].Length + 64) + "1";
+            // Popular header row data
+            worksheet.Cells[headerRange].LoadFromArrays(headerRow);
+            worksheet.Cells[headerRange].Style.Font.Bold = true;
+            worksheet.Cells[headerRange].Style.Font.Size = 14;
+
+        }
+
+        public List<ProductViewModel> GetListProduct(ProductStatisticSearchRequest request)
+        {
+            var data = _context.products.Where(e => e.status == enums.ActionStatus.Display).AsQueryable();
+            var fromAmount = request.fromAmount.HasValue ? request.fromAmount.Value : 0;
+            if (request.toAmount.HasValue)
+            {
+                data = data.Where(x => x.amount >= fromAmount && x.amount <= request.toAmount.Value);
+            }
+            return data.Select(rs => new ProductViewModel { 
+                id = rs.id,
+                name = rs.name,
+                price = rs.price,
+                sale = rs.sale,
+                amount = rs.amount,
+            }).ToList();
+        }
+
+        public List<ProductStatisticViewModel> GetListProductOrder(ProductStatisticSearchRequest request)
+        {
+            var products = _context.products.Where(e => e.status == enums.ActionStatus.Display).Select(y => new ProductStatisticViewModel
+            {
+                productId = y.id,
+                name = y.name,
+                sale = y.sale,
+                price = y.price,
+                saledAmount = _context.orderDetails.Where(x => x.productId == y.id).Sum(z => z.quantity)
+            });
+            return products.ToList();
+        }
+        private async Task<int> TotalProductInOrder(ProductStatisticSearchRequest request, int productId)
+        {
+            Expression<Func<Order, bool>> expression = x => DateTime.Compare(DateTime.Parse(request.fromDate), x.deliveryDate) <= 0
+                && DateTime.Compare(DateTime.Parse(request.toDate), x.deliveryDate) >= 0;
+            var total = _context.orderDetails.Where(x => x.productId == productId);
+            if(request.toDate != null && request.fromDate != null)
+            {
+                var order = _context.orders.Where(expression).ToList();
+                total = from od in total
+                        join o in order on od.orderId equals o.id
+                        select od;
+
+            }
+            return total.Sum(x => x.quantity);
         }
 
         public IQueryable<ProductViewModel> ProductStatistics(ProductStatisticsRequest request)

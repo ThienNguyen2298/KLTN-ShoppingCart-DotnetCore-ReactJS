@@ -11,6 +11,7 @@ namespace server.Interfaces
 {
     public interface IManageProductService
     {
+        Task<int> UpdatePrice(PriceUpdateRequest request);
         Task<int> Create(ProductCreateRequest product);
         Task<int> Update(ProductUpdateRequest product);
         Task<int> Delete(int productId);

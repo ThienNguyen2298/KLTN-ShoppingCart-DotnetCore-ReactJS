@@ -35,7 +35,7 @@ export default class OrderedManage extends Component {
             visible: false,
             isLoading: true,
             visibleCancel: false,
-            totalItem: 0,
+            feeShip: 0,
             customerItem: '',
             orderId: 0,
             note: null,
@@ -61,6 +61,7 @@ export default class OrderedManage extends Component {
                 contact: [ele.email, ele.phone],
                 //phone: ele.phone,
                 deliveryDate: ele.deliveryDate,
+                feeShip: ele.feeShip,
                 status: ele.status,
                 street: ele.street,
                 total: ele.total,
@@ -106,7 +107,7 @@ export default class OrderedManage extends Component {
         this.setState({
             visible: true,
             orderDetailList: orderDetails,
-            totalItem: record.total,
+            feeShip: record.feeShip,
             customerItem: record.customer,
             note: record.note,
         })
@@ -175,7 +176,7 @@ export default class OrderedManage extends Component {
     render() {
         //
         //
-        const {orderSuccessList, visible, orderDetailList, isLoading, customerItem, totalItem, 
+        const {orderSuccessList, visible, orderDetailList, isLoading, customerItem, feeShip, 
             visibleCancel , orderId , note} = this.state;
         
         //
@@ -305,7 +306,7 @@ export default class OrderedManage extends Component {
                             visible={visible} 
                             onCancel={this.handleCancel.bind(this)}
                             data={orderDetailList}
-                            total={totalItem}
+                            feeShip={feeShip}
                             customer={customerItem}
                             note={note}
                             >
