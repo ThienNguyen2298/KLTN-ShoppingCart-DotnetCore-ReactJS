@@ -49,6 +49,7 @@ class Notify extends Component {
         }
         
     }
+    
     setNotifyList(notify){
         console.log("notify", notify);
         const newList = [notify, ...this.state.notifyList];
