@@ -3,13 +3,13 @@ import Header from '../../../components/common/Header';
 import Sidebar from '../../../components/common/Sidebar';
 import '../../../components/common/styleCommon/Content.css';
 import BreadScrumb from '../../../components/breadScrumb/BreadScrumb';
-import ModalViewOrderDetail from '../../../components/order/modalOrder/ModalViewOrderDetail';
-import ModalCancelOrder from '../../../components/order/modalOrder/ModalCancelOrder';
-import axiosInstance from '../../../utils/axiosInstance';
 import {Row, Col, Table, Button, Popconfirm, Spin, message, DatePicker, Input} from 'antd';
 import {EditOutlined, RotateLeftOutlined, DeleteOutlined, SearchOutlined, SyncOutlined} from '@ant-design/icons';
-import queryString from 'querystring';
 import moment from 'moment';
+import axiosInstance from '../../../utils/axiosInstance';
+import queryString from 'querystring';
+import ModalViewOrderDetail from '../../../components/order/modalOrder/ModalViewOrderDetail';
+import TextArea from 'antd/lib/input/TextArea';
 
 const { RangePicker } = DatePicker;
 
@@ -24,11 +24,11 @@ function formatMomentArray(arrayMoment) {
     return result;
 }
 
-export default class OrderDelivering extends Component {
+export default class OrderCanceled extends Component {
     constructor(props){
         super(props);
         this.state = {
-            orderDelivering: [],
+            orderCanceledList: [],
             orderDetailList: [],
             pageDefault: 1,
             pageSize: 5,
@@ -40,9 +40,8 @@ export default class OrderDelivering extends Component {
             orderId: 0,
             note: null,
             //
-            //
-            rangePicker: [],
             keyWord: null,
+            rangePicker: [],
         }
     }
     //load api
@@ -50,7 +49,7 @@ export default class OrderDelivering extends Component {
         this.setState({
             isLoading: true
         })
-        let order = await axiosInstance(`ManageOrder/GetAllOrderDelivering`, 'GET')
+        let order = await axiosInstance(`ManageOrder/GetAllOrderCancelled`, 'GET')
         .then(res => res.data);
         const formatList = [...order].map((ele) => {
             return {id: ele.id,
@@ -62,8 +61,8 @@ export default class OrderDelivering extends Component {
                 contact: [ele.email, ele.phone],
                 //phone: ele.phone,
                 deliveryDate: ele.deliveryDate,
-                status: ele.status,
                 feeShip: ele.feeShip,
+                status: ele.status,
                 street: ele.street,
                 total: ele.total,
                 userId: ele.userId,
@@ -73,15 +72,16 @@ export default class OrderDelivering extends Component {
         })
        
         this.setState({
-            orderDelivering: formatList,
+            orderCanceledList: formatList,
             isLoading: false,
+            keyWord: null,
+            rangePicker: [],
         })
     }
     //
     async componentDidMount(){
         await this.callApi();
     }
-    //
     //xem chi tiết
     handleViewDetail = async(record) => {
         console.log(record.note);
@@ -112,68 +112,12 @@ export default class OrderDelivering extends Component {
             note: record.note,
         })
     }
-    //hide modal
+    //hide modal detail
     handleCancel(value){
         this.setState({
             visible: value,
         })
     }
-    //
-    async confirmSuccess(record){
-        this.setState({
-            isLoading: true,
-        });
-        let list = await axiosInstance(`ManageOrder/ConfirmSuccessOrder`,'POST', {orderId: record.id, status: 3})
-        .then(res => res.data);
-        if(list === true){
-            message.success('Đã chuyển sang trạng thái Giao hàng Thành công!', 4)
-            this.callApi();
-        }else{
-            message.warning('Chuyển trạng thái Thành công thất bại!', 4)
-            this.setState({
-                isLoading: false,
-            })
-        }
-    }
-    //hủy đơn hàng
-    confirmCancelOrder = (record) => {
-        
-        this.setState({
-            isLoading: true,
-            visibleCancel: true,
-            orderId: record.id,
-        })
-    }
-    //
-    //hide modal cancel
-    handleCancelModal(){
-        this.setState({
-            visibleCancel: false,
-            isLoading: false,
-        })
-    }
-    //handle cancel order
-    async handleCancelOrder(note, orderId){
-        this.setState({
-            isLoading: true,
-            visibleCancel: false,
-        })
-        let list = await axiosInstance(`ManageOrder/CancelOrder`,'POST', 
-        {orderId: orderId, status: 1, statusRollBack: 2, note: note})
-        .then(res => res.data);
-        if(list === true){
-            message.success('Đã hủy Đơn hàng thành công!', 4)
-            this.callApi();
-        }else{
-            message.warning('Hủy Đơn hàng thất bại!', 4);
-            this.setState({
-                
-                isLoading: false,
-            })
-        }
-        
-    }
-    //
     //
     handleChangePicker(momentDate, stringDate){
         this.setState({
@@ -198,7 +142,7 @@ export default class OrderDelivering extends Component {
         const {keyWord, rangePicker} = this.state;
         const dates = formatMomentArray(rangePicker);
         let list = await axiosInstance('ManageOrder/SearchProduct', 'POST', 
-        {keyWord: keyWord, startDate: dates[0], endDate: dates[1], status: 2})
+        {keyWord: keyWord, startDate: dates[0], endDate: dates[1], status: 3})
         .then(res => res.data).catch(err => {
             message.error('Tìm kiếm thất bại!', 4);
             this.setState({
@@ -225,15 +169,16 @@ export default class OrderDelivering extends Component {
         })
         
         this.setState({
-            orderDelivering: formatList,
+            orderCanceledList: formatList,
             isLoading: false,
         })
     }
-    
     render() {
         //
-        const {orderDelivering, visible, orderDetailList, isLoading, customerItem, feeShip, 
+        //
+        const {orderCanceledList, visible, orderDetailList, isLoading, customerItem, feeShip, 
             visibleCancel , orderId , note} = this.state;
+        
         //
         const columns = [
             {
@@ -273,43 +218,36 @@ export default class OrderDelivering extends Component {
                 render: text => <span >{moment(text).format('DD/MM/YYYY')}</span>
             },
             {
-                title: 'NGÀY GIAO',
-                width: '12%',
-                key: 'deliveryDate',
-                dataIndex: 'deliveryDate',
-                render: text => <span >{moment(text).format('DD/MM/YYYY')}</span>
+                title: 'NGUYÊN NHÂN',
+                
+                key: 'note',
+                dataIndex: 'note',
+                render: text => <span>{text}</span>
             },
             
             {
                 title: 'TÙY CHỌN',
                 key: 'action',
                 align: 'center',
-                width: '28%',
+                
                 render: (text, record, index) => (
                   <span>
         
                     <Button type="primary" icon={<EditOutlined />}
                       onClick={() => this.handleViewDetail(record)}>Chi tiết</Button>
-                    <Popconfirm disabled={record.enableOrder ? null : 'disabled'} placement="left" title={OK} 
-                    onConfirm={() => this.confirmSuccess(record)} okText="Yes" 
-                    cancelText="No">
-                      <Button disabled={record.enableOrder ? null : 'disabled'} icon={<RotateLeftOutlined />} 
-                      style={{ background: "#389e0d", borderColor: "#389e0d", color: 'white', margin: '5px 10px' }}>Duyệt</Button>
-                    </Popconfirm>
-                    <Button onClick={() => this.confirmCancelOrder(record)} icon={<DeleteOutlined />} 
-                      type="danger">Hủy</Button>
+                    
                   </span>
                 ),
               },
         ];
+        
         return (
             <>
             <Header></Header>   
                 <div className="main_container">
-                    <Sidebar isActive="2"></Sidebar>
+                    <Sidebar isActive="12"></Sidebar>
                     <div className="content">
-                        <Spin spinning={isLoading} tip="LOADING...">
-                        <BreadScrumb title="Đơn hàng đang vận chuyển"></BreadScrumb>
+                        <BreadScrumb title="Đơn hàng thành công"></BreadScrumb>
                         <br></br>
                         <Row style={{marginTop: 10}}>
                             
@@ -327,7 +265,7 @@ export default class OrderDelivering extends Component {
                             </Col>
                             <Col span={7}>
                                 
-                                <RangePicker
+                                <RangePicker 
                                 value={this.state.rangePicker}
                                 onChange={this.handleChangePicker.bind(this)}/>
                             </Col>
@@ -349,17 +287,20 @@ export default class OrderDelivering extends Component {
                         <br></br>
                         <Row>
                             <Col span={24}>
-                            <Table style={{ margin: '10px' }} columns={columns} dataSource={orderDelivering}
-                            pagination={{
-                                position: ["bottomCenter", "bottomCenter"],
-                                defaultPageSize: this.state.pageSize,
-                                defaultCurrent: this.state.pageDefault
-                            }}
-                            >
+                                <Table style={{ margin: '10px' }} 
+                                columns={columns}
+                                dataSource={orderCanceledList}
+                                pagination={{
+                                    position: ["bottomCenter", "bottomCenter"],
+                                    defaultPageSize: this.state.pageSize,
+                                    defaultCurrent: this.state.pageDefault
+                                }}
+                                >
 
-                            </Table>
+                                </Table>
                             </Col>
-                            {
+                            {/*Modal Detail */}
+                        {
                             visible ?
                             <ModalViewOrderDetail 
                             visible={visible} 
@@ -369,22 +310,9 @@ export default class OrderDelivering extends Component {
                             customer={customerItem}
                             note={note}
                             >
-
-                            </ModalViewOrderDetail> : ''
-                            }
-                            {/*Modal Cancel */}
-                            {
-                                visibleCancel ?
-                                <ModalCancelOrder 
-                                visible={visibleCancel}
-                                onOk={this.handleCancelOrder.bind(this)}
-                                onCancel={this.handleCancelModal.bind(this)}
-                                orderId={orderId}
-                                >
-                                </ModalCancelOrder> : null
-                            }
+                            </ModalViewOrderDetail> : null
+                        }
                         </Row>
-                        </Spin>
                     </div>
                 </div>
             </>

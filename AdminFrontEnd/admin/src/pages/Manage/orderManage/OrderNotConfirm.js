@@ -20,7 +20,14 @@ const { RangePicker } = DatePicker;
 
 const OK = "Xác nhận chuyển trạng thái Đang Vận Chuyển cho đơn hàng này!";
 const Cancel = "Xác nhận Hủy Đơn Hàng!";
-
+//
+function getPictureDetail(array){
+    const temp = array.filter((ele) => ele.status === 0);
+    if(temp.length <= 0){
+        return null;
+    }
+    return temp[0].urlImage;
+}
 //expect: two > one.
 function compareDates(one, two) {
     
@@ -51,7 +58,7 @@ export default class OrderNotConfirm extends Component {
             visible: false,
             visibleCancel: false,
             isLoading: true,
-            totalItem: 0,
+            feeShip: 0,
             customerItem: '',
             orderId: 0,
             note: null,
@@ -80,6 +87,7 @@ export default class OrderNotConfirm extends Component {
                 status: ele.status,
                 street: ele.street,
                 total: ele.total,
+                feeShip: ele.feeShip,
                 userId: ele.userId,
                 enableOrder: ele.enableOrder,
                 key: ele.id
@@ -123,8 +131,6 @@ export default class OrderNotConfirm extends Component {
     }
     //xem chi tiết
     handleViewDetail = async(record) => {
-        
-        console.log(record)
         let list = await axiosInstance(`ManageOrder/GetOrderDetailByOrderId?${queryString.stringify({
             orderId: record.id
         })}`,'GET')
@@ -137,17 +143,18 @@ export default class OrderNotConfirm extends Component {
                 quantity: ele.quantity,
                 productId: ele.productId,
                 product: !!ele.product ? ele.product[0].name : null,
-                picture: !!ele.product ? ele.product[0].images[0].urlImage : null,
+                picture: !!ele.product ? getPictureDetail(ele.product[0].images) : null,
                 sale: ele.sale,
                 unitPrice: ele.unitPrice,
                 amount: !!ele.product ? ele.product[0].amount : 0,
+                updated: false,
                 key: ele.id,
             }
         });
         this.setState({
             visible: true,
             orderDetailList: orderDetails,
-            totalItem: record.total,
+            feeShip: record.feeShip,
             customerItem: record.customer,
             note: record.note,
         })
@@ -166,6 +173,7 @@ export default class OrderNotConfirm extends Component {
         this.setState({
             visible: value,
         })
+        this.callApi();
     }
     //hide modal cancel
     handleCancelModal(){
@@ -253,7 +261,7 @@ export default class OrderNotConfirm extends Component {
     render() {
         //
         const {orderNotConfirm, isLoading, visible, visibleCancel, orderDetailList, customerItem, 
-            note ,totalItem, orderId} = this.state;
+            note ,feeShip, orderId} = this.state;
         
         //headers
         const columns = [
@@ -397,9 +405,10 @@ export default class OrderNotConfirm extends Component {
                             visible={visible} 
                             onCancel={this.handleCancel.bind(this)}
                             data={orderDetailList}
-                            total={totalItem}
+                            feeShip={feeShip}
                             customer={customerItem}
                             note={note}
+                            status={0}
                             >
                             </ModalViewOrderDetail> : null
                         }

@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 
 import {Link} from 'react-router-dom';
-import {Badge} from 'antd';
+import {Badge, notification} from 'antd';
 import '../NotifyItem/NotifyItem.css';
 import * as signalR from '@microsoft/signalr';
 import MenuDropdown from './MenuDropdown';
 import {connect} from 'react-redux';
 import { withRouter} from 'react-router-dom';
 import {updateReceiverId} from '../../../actions/chatAction';
+import {NotificationOutlined} from '@ant-design/icons'
 
 class ItemNotify extends Component {
     constructor(props){
@@ -33,6 +34,12 @@ class ItemNotify extends Component {
             hub.on("ReceiveNotify", notify => {
                 console.log("notify", notify);
                 if(notify.receiverId === this.props.userId){
+                    notification.open({
+                        message: `${notify.notify}`,
+                        duration: 1,
+                        icon: <NotificationOutlined style={{ color: '#5cb85c' }} />,
+                        placement: 'topLeft'
+                    })
                     this.setNotifyList(notify)
                 }
             })

@@ -14,3 +14,7 @@
     --border-radius: 8px;
     --speed: 500ms;
   }
+  .ant-tabs-nav-scroll{
+    text-align: center;
+  }
+  

@@ -7,7 +7,7 @@ import BreadScrumb from '../../../components/breadScrumb/BreadScrumb';
 import { Table, Tag, Button, Spin, message, Popconfirm, Input, Row, Col, Select } from 'antd';
 import { colors } from '../../../utils/colors';
 import { sizes } from '../../../utils/sizes';
-import { EditOutlined, DeleteOutlined, EyeOutlined, ImportOutlined } from '@ant-design/icons';
+import { EditOutlined, DeleteOutlined, EyeOutlined, ImportOutlined, SaveOutlined } from '@ant-design/icons';
 import ModalProduct from '../../../components/product/modalProduct/ModalProduct';
 
 const { Search } = Input;
@@ -36,7 +36,7 @@ export default class ProductManage extends Component {
       item: { ...record }
     })
   }
-  async componentDidMount() {
+  callApi = async () => {
     let providers = await axiosInstance(`ManageProvider`, "GET")
       .then(res => {
         return res.data;
@@ -61,7 +61,10 @@ export default class ProductManage extends Component {
       isLoading: false
     }
     )
-
+  }
+  async componentDidMount() {
+    
+    await this.callApi();
   }
 
   handleOk(value) {
@@ -207,6 +210,35 @@ export default class ProductManage extends Component {
       providerId: 0,
     })
   }
+  //
+  handleChangePrice(e, id){
+    const temp = [...this.state.data];
+        temp.map((ele) => {
+            if(ele.id === id){
+                ele[e.target.name] = e.target.value;
+            }
+            return ele;
+        })
+        this.setState({
+            data: temp, 
+        })
+  }
+  //
+  handleSaveItem(record){
+    const body = {
+      id: record.id,
+      newPrice: +record.price,
+    }
+    axiosInstance('ManageProduct/UpdatePrice', 'PUT', body)
+    .then(res => {
+      if(res){
+        message.success('Update Price Success!', 4);
+      }
+      else{
+        message.warning('Update Price Failed!', 4);
+      }
+    })
+  }
   render() {
     const { data, visible, item, isLoading, providers, categories } = this.state;
     const columns = [
@@ -226,7 +258,13 @@ export default class ProductManage extends Component {
         title: 'Giá bán ( vnđ )',
         dataIndex: 'price',
         key: 'price',
-        render: text => <span style={{ color: 'green' }}>{text}</span>
+        width: '230px',
+        render: (text, record) => <><div style={{display: 'inline-block', color: 'green', width: 100 }}>{text}</div> 
+        <Input name="price"
+        style={{width: 60}} onChange={(e) => this.handleChangePrice(e, record.id)}>
+          </Input> <Button style={{color: 'white', borderColor: 'green', background: 'green'}}
+          onClick={() => this.handleSaveItem(record)} icon={<SaveOutlined></SaveOutlined>}>
+            </Button></>
       },
       {
         title: 'Màu sắc',

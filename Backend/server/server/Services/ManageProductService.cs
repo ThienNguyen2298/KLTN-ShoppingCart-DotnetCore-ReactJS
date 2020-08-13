@@ -315,5 +315,14 @@ namespace server.Services
 
             }).ToListAsync();
         }
+
+        public async Task<int> UpdatePrice(PriceUpdateRequest request)
+        {
+            var product = await _context.products.Where(x => x.id == request.id).FirstOrDefaultAsync();
+            product.price = request.newPrice;
+            _context.Entry(product).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return product.id;
+        }
     }
 }

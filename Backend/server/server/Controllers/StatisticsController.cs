@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using server.Helper;
 using server.Helper.statistics;
 using server.Interfaces;
 
@@ -36,5 +38,18 @@ namespace server.Controllers
             return Ok(_statisticsService.StatusOrderStatistics());
 
         }
+        [HttpPost("GetListProductStatistic")]
+        public IActionResult GetListProductStatistic(ProductStatisticSearchRequest request)
+        {
+            var data = _statisticsService.GetListProduct(request);
+            return Ok(data);
+        }
+        [HttpPost("GetListProductOrderStatistic")]
+        public IActionResult GetListProductOrderStatistic(ProductStatisticSearchRequest request)
+        {
+            var data = _statisticsService.GetListProductOrder(request);
+            return Ok(data);
+        }
+
     }
 }

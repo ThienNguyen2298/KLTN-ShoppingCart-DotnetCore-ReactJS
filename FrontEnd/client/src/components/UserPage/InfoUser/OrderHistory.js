@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Empty} from 'antd';
+import {Empty, message} from 'antd';
 import axiosInstance from '../../../utils/axiosInstance';
 import Order from './Order';
 
@@ -12,7 +12,7 @@ export default class OrderHistory extends Component {
         }
     }
     //
-    async componentDidMount(){
+    callApi = async () => {
         let list = await axiosInstance(`Order/GetOrderListByUserId/${this.props.userId}`, 'GET')
         .then(res => res.data);
         let format = list.map(ele => {
@@ -20,6 +20,25 @@ export default class OrderHistory extends Component {
         })
         this.setState({
             orderList: format,
+        })
+    }
+    async componentDidMount(){
+        await this.callApi();
+    }
+    //
+    handleCancelOrder(orderId){
+        axiosInstance(`ManageOrder/UserCancelOrder/${orderId}`, 'DELETE')
+        .then(res => {
+            if(res.data){
+                const newList = this.state.orderList.filter(e => e.id !== orderId);
+                message.success('Hủy đơn hàng thành công!', 4)
+                this.setState({
+                    orderList: newList,
+                })
+            }
+            else{
+                message.warning('Hủy đơn hàng thất bại!', 4)
+            }
         })
     }
     render() {
@@ -40,7 +59,7 @@ export default class OrderHistory extends Component {
             )
         }
         else{
-            return <Order list={orderList}></Order>
+            return <Order list={orderList} onCancel={this.handleCancelOrder.bind(this)}></Order>
         }
         
     }

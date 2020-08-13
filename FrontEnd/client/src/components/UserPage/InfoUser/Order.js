@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Row, Col, Button, Table, Tag} from 'antd';
-import {EyeOutlined, MinusCircleOutlined, SyncOutlined, CheckCircleOutlined} from '@ant-design/icons';
+import {StopOutlined, MinusCircleOutlined, SyncOutlined, CheckCircleOutlined} from '@ant-design/icons';
 import moment from 'moment';
 
 
@@ -9,7 +9,9 @@ import moment from 'moment';
 export default class Order extends Component {
     
     //
-    
+    CancelOrder(record){
+        this.props.onCancel(record.id);
+    }
     
     render() {
         const {list} = this.props;
@@ -38,10 +40,11 @@ export default class Order extends Component {
                 render: status => (
                     
                     
-                    <Tag icon={status === 2 ? <SyncOutlined spin/>: status === 3 ? <CheckCircleOutlined/> : <MinusCircleOutlined></MinusCircleOutlined> } 
+                    <Tag style={{width: 100}} icon={status === 2 ? <SyncOutlined spin/>: status === 3 ? <CheckCircleOutlined/> : <MinusCircleOutlined></MinusCircleOutlined> } 
                     color={status === 2 ? '#2db7f5': status === 3 ? '#87d068' : '#f50'}>
                         {status === 2 ? 'Shipping': status === 3 ? 'received' : 'Not Confirm'}
                     </Tag>
+                    
                     
                     
                 ),
@@ -63,6 +66,10 @@ export default class Order extends Component {
                 key: 'total',
                 render: total => <strong style={{color: '#87d068'}}>{(total).toLocaleString('vi-VN')} đ</strong>
             },
+            {
+                render: (record) => <Button disabled={record.status === 3 ? 'disabled':null} 
+                icon={<StopOutlined />} onClick={() => this.CancelOrder(record)} danger>Cancel</Button>
+            }
         
         ];
         return (

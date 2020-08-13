@@ -55,6 +55,7 @@ export default class SideBar extends Component {
                                 <Menu.Item key="1"><Link to="/admin">Đơn hàng thành công</Link></Menu.Item>
                                 <Menu.Item key="2"><Link to="/admin/order-manage/order-delivering">Đơn hàng đang chuyển</Link></Menu.Item>
                                 <Menu.Item key="3"><Link to="/admin/order-manage/order-not-confirm">Đơn hàng chưa duyệt</Link></Menu.Item>
+                                <Menu.Item key="12"><Link to="/admin/order-manage/order-canceled">Đơn hàng Đã hủy</Link></Menu.Item>
                             </SubMenu>
                             <SubMenu
                                 key="sub2"
@@ -125,6 +126,7 @@ export default class SideBar extends Component {
                             >
                                 <Menu.Item key="9"><Link to="/admin/statistics-revenue">Thống kê doanh thu</Link></Menu.Item>
                                 <Menu.Item key="10"><Link to="/admin/statistics-product">Thống kê Chung</Link></Menu.Item>
+                                <Menu.Item key="11"><Link to="/admin/statistics-general">Thống kê Sản phẩm</Link></Menu.Item>
                             </SubMenu>
                             
                         </Menu>

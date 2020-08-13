@@ -11,6 +11,8 @@ import StatisticsRevenue from '../pages/Manage/statistical/StatisticsRevenue';
 import Header from "../components/common/Header";
 import EvaluationManage from '../pages/Manage/evaluationManage/EvaluationManage';
 import StatisticsProduct from '../pages/Manage/statistical/StatisticsProduct';
+import StatisticsGeneral from "../pages/Manage/statistical/StatisticsGeneral";
+import OrderCanceled from "../pages/Manage/orderManage/OrderCanceled";
 
 //
 
@@ -35,7 +37,13 @@ const AdminRoute = [
           <OrderDelivering location={location} {...props} />
        )
       },
-
+      {
+         path: "/admin/order-manage/order-canceled",
+         exact: true,
+         myComponent: (location, props) => (
+            <OrderCanceled location={location} {...props} />
+         ),
+      },
     {
         path: "/admin/order-manage/order-not-confirm",
        exact: true,
@@ -85,6 +93,14 @@ const AdminRoute = [
          <StatisticsProduct location={location} {...props} />
       ),
    },
+   {
+      path: "/admin/statistics-general",
+      exact: true,
+      myComponent: (location, props) => (
+         <StatisticsGeneral location={location} {...props} />
+      ),
+   },
+   
     
  ];
  export default AdminRoute;

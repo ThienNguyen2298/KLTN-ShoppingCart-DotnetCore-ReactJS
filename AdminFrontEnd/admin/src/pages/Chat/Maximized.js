@@ -17,7 +17,7 @@ class Maximized extends Component {
             hub: null,
             list: [],
             connectionId: null,
-            receiverId: null,
+            receiverId: this.props.receiverId ? this.props.receiverId : null,
         }
     }
     componentDidMount(){

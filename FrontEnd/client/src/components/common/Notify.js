@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import {Link, withRouter} from 'react-router-dom';
 import {FaBell } from 'react-icons/fa';
-import {Badge} from 'antd';
-import {BellOutlined} from '@ant-design/icons';
+import {Badge, notification} from 'antd';
+import {NotificationOutlined} from '@ant-design/icons';
 import NotifyModal from './NotifyModal';
 import * as signalR from '@microsoft/signalr';
 import {connect} from 'react-redux';
@@ -34,6 +34,12 @@ class Notify extends Component {
                     if(notify.status === 0 && notify.receiverId === this.props.userId){
                         console.log("notify", notify);
                         console.log("userID", this.props.userId);
+                        notification.open({
+                            message: `${notify.notify}`,
+                            duration: 1,
+                            icon: <NotificationOutlined style={{ color: '#5cb85c' }} />,
+                            placement: 'topLeft'
+                        })
                         this.setNotifyList(notify)
                     }
                 })
@@ -43,6 +49,7 @@ class Notify extends Component {
         }
         
     }
+    
     setNotifyList(notify){
         console.log("notify", notify);
         const newList = [notify, ...this.state.notifyList];
