@@ -3,9 +3,9 @@ KHÓA LUẬN TỐT NGHIỆP: WEBSITE BÁN HÀNG (Quần áo + chat) sử dụng 
 
 Sinh viên thực hiện:          
 
-                              Võ Văn Thiên          -     16110469
+                              Nguyễn Hữu Thiện          -     16110472
                               
-                              Nguyễn Hữu Thiện      -     16110472
+                              Võ Văn Thiên              -     16110469
 1. Cài đặt source code:
 - Server: .NET Core (port: 5001)
 
