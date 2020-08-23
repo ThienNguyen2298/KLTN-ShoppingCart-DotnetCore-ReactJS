@@ -1,5 +1,5 @@
 # KLTN-ShoppingCart-DotnetCore-ReactJS
-KHÓA LUẬN TỐT NGHIỆP: WEBSITE BÁN HÀNG (Quần áo) sử dụng .NET CORE WEB API & REACT JS
+KHÓA LUẬN TỐT NGHIỆP: WEBSITE BÁN HÀNG (Quần áo + chat) sử dụng .NET CORE WEB API & REACT JS & SIGNALR
 
 Sinh viên thực hiện:          
 
